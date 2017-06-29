@@ -1,5 +1,5 @@
 # CompanyPersonel
-AngularJS - Maintain Company Personel
+ReactJS - Maintain Company Personel
 
 Features:
 1. Home Page - Display Companies
