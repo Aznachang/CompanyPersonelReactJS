@@ -21,11 +21,15 @@
     "webpack-hot-middleware": "^2.18.0"
   },
   "devDependencies": {
-    "mongoose": "^4.8.4"
+    "babel-loader": "^7.1.1",
+    "mongoose": "^4.8.4",
+    "webpack": "^3.0.0"
   },
   "scripts": {
     "mongo": "mongod --dbpath data/db",
     "server": "cd server && node server.js",
-    "start": "npm run mongo & sleep 3 & npm run server"
+    "webpack": "webpack",
+    "start": "npm run mongo & sleep 3 & npm run server",
+    "babel": "babel --presets es2015 js/main.js -o build/main.bundle.js"
   }
 }
