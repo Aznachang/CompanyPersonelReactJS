@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import axios from 'axios';
 
 export default class addCompanyForm extends Component {
@@ -14,19 +14,27 @@ export default class addCompanyForm extends Component {
             <h3 className="panel-title">Create New Company</h3>
           </div>
           <div className="panel-body">
-            <form name='newCompanyForm' id='addCompanyForm'>
+            <form className='newCompanyForm' id='addCompanyForm'>
               <div className='field'>
-              <b>Name</b>{'\n'}
-              <input className="col-sm-12 col-md-12" type="textbox" ng-model="company.name" name="companyName" required />{'\n'}
-              {'\n'}<b>Address</b>{'\n'}
-              <input className="col-sm-12 col-md-12" required type="textbox" />{'\n'}
-              {'\n'}<b>Revenue</b>{'\n'}
-              <input className="col-sm-12 col-md-12" required type="textbox" />{'\n'}
-              {'\n'}<b>Phone</b>{'\n'}
-              <input className="col-sm-12 col-md-12" required type="textbox" />{'\n'}{'\n'}
+                <div>
+                  <p><b>Name</b></p>
+                  <input className="col-sm-12 col-md-12" type="textbox"required />
+                </div>
+                <div>
+                  <p><b>Address</b></p>
+                  <input className="col-sm-12 col-md-12" required type="textbox" />
+                </div>
+                <div>
+                  <p><b>Revenue</b></p>
+                  <input className="col-sm-12 col-md-12" required type="textbox" />
+                </div>
+                <div>
+                  <p><b>Phone</b></p>
+                  <input className="col-sm-12 col-md-12" required type="textbox" />
+                </div>
               </div>
               <div>
-              <input type="submit" value="Save" />
+                <p><input type="submit" value="Save" /></p>
               </div>
             </form>
           </div>

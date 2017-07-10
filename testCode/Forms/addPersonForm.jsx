@@ -9,24 +9,33 @@ export default class addPersonForm extends Component {
   render() {
     return (
       <div>
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title">Create New Person</h3>
+        <div className="panel panel-default">
+          <div className="panel-heading">
+            <h3 className="panel-title">Create New Company</h3>
           </div>
-          <div class="panel-body">
-            <form className='newPersonForm' id="addPersonForm">
-              <div class='field'>
-                <b>Name</b>{'\n'}
-                <input class="col-sm-12 col-md-12" type="textbox" /><br>
-                {'\n'}<b>Email</b>{'\n'}
-                <input class="col-sm-12 col-md-12" type="email" /><br>
-                {'\n'}<b>Company </b>
-                <select>
-                  <option>Hello World</option>
-                </select>{'\n'}{'\n'}
+          <div className="panel-body">
+            <form className='newCompanyForm' id='addCompanyForm'>
+
+              <div className='field'>
+                <div>
+                  <p><b>Name</b></p>
+                  <input className="col-sm-12 col-md-12" type="textbox" required />
+                </div>
+                <div>
+                  <p><b>Email</b></p>
+                  <input className="col-sm-12 col-md-12" required type="textbox" />
+                </div>
+                <div>
+                  <p><b>Company </b></p>
+                  <select>
+                    <option>Ohayo</option>
+                  </select>
+                </div>
+
               </div>
+
               <div>
-              <input type="submit" value="Save" />
+                <input type="submit" value="Save" />
               </div>
             </form>
           </div>

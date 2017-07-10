@@ -11026,9 +11026,18 @@ var App = function (_Component) {
           null,
           'SigFig'
         ),
-        this.props.children,
-        _react2.default.createElement(_addCompanyForm2.default, null),
-        _react2.default.createElement(_addPersonForm2.default, null)
+        _react2.default.createElement(
+          'div',
+          { className: 'col-sm-7' },
+          'Kailey is a smexy itch and then some',
+          this.props.children
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'col-sm-5' },
+          _react2.default.createElement(_addCompanyForm2.default, null),
+          _react2.default.createElement(_addPersonForm2.default, null)
+        )
       );
     }
   }]);
@@ -27753,46 +27762,203 @@ var addCompanyForm = function (_Component) {
             { className: 'panel-body' },
             _react2.default.createElement(
               'form',
-              { name: 'newCompanyForm', id: 'addCompanyForm' },
+              { className: 'newCompanyForm', id: 'addCompanyForm' },
               _react2.default.createElement(
                 'div',
                 { className: 'field' },
                 _react2.default.createElement(
-                  'b',
+                  'div',
                   null,
-                  'Name'
+                  _react2.default.createElement(
+                    'p',
+                    null,
+                    _react2.default.createElement(
+                      'b',
+                      null,
+                      'Name'
+                    )
+                  ),
+                  _react2.default.createElement('input', { className: 'col-sm-12 col-md-12', type: 'textbox', required: true })
                 ),
-                '\n',
-                _react2.default.createElement('input', { className: 'col-sm-12 col-md-12', type: 'textbox', 'ng-model': 'company.name', name: 'companyName', required: true }),
-                '\n',
-                '\n',
                 _react2.default.createElement(
-                  'b',
+                  'div',
                   null,
-                  'Address'
+                  _react2.default.createElement(
+                    'p',
+                    null,
+                    _react2.default.createElement(
+                      'b',
+                      null,
+                      'Address'
+                    )
+                  ),
+                  _react2.default.createElement('input', { className: 'col-sm-12 col-md-12', required: true, type: 'textbox' })
                 ),
-                '\n',
-                _react2.default.createElement('input', { className: 'col-sm-12 col-md-12', required: true, type: 'textbox' }),
-                '\n',
-                '\n',
                 _react2.default.createElement(
-                  'b',
+                  'div',
                   null,
-                  'Revenue'
+                  _react2.default.createElement(
+                    'p',
+                    null,
+                    _react2.default.createElement(
+                      'b',
+                      null,
+                      'Revenue'
+                    )
+                  ),
+                  _react2.default.createElement('input', { className: 'col-sm-12 col-md-12', required: true, type: 'textbox' })
                 ),
-                '\n',
-                _react2.default.createElement('input', { className: 'col-sm-12 col-md-12', required: true, type: 'textbox' }),
-                '\n',
-                '\n',
                 _react2.default.createElement(
-                  'b',
+                  'div',
                   null,
-                  'Phone'
+                  _react2.default.createElement(
+                    'p',
+                    null,
+                    _react2.default.createElement(
+                      'b',
+                      null,
+                      'Phone'
+                    )
+                  ),
+                  _react2.default.createElement('input', { className: 'col-sm-12 col-md-12', required: true, type: 'textbox' })
+                )
+              ),
+              _react2.default.createElement(
+                'div',
+                null,
+                _react2.default.createElement(
+                  'p',
+                  null,
+                  _react2.default.createElement('input', { type: 'submit', value: 'Save' })
+                )
+              )
+            )
+          )
+        )
+      );
+    }
+  }]);
+
+  return addCompanyForm;
+}(_react.Component);
+
+exports.default = addCompanyForm;
+
+/***/ }),
+/* 252 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(10);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _axios = __webpack_require__(232);
+
+var _axios2 = _interopRequireDefault(_axios);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var addPersonForm = function (_Component) {
+  _inherits(addPersonForm, _Component);
+
+  function addPersonForm(props) {
+    _classCallCheck(this, addPersonForm);
+
+    return _possibleConstructorReturn(this, (addPersonForm.__proto__ || Object.getPrototypeOf(addPersonForm)).call(this, props));
+  }
+
+  _createClass(addPersonForm, [{
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(
+          'div',
+          { className: 'panel panel-default' },
+          _react2.default.createElement(
+            'div',
+            { className: 'panel-heading' },
+            _react2.default.createElement(
+              'h3',
+              { className: 'panel-title' },
+              'Create New Company'
+            )
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'panel-body' },
+            _react2.default.createElement(
+              'form',
+              { className: 'newCompanyForm', id: 'addCompanyForm' },
+              _react2.default.createElement(
+                'div',
+                { className: 'field' },
+                _react2.default.createElement(
+                  'div',
+                  null,
+                  _react2.default.createElement(
+                    'p',
+                    null,
+                    _react2.default.createElement(
+                      'b',
+                      null,
+                      'Name'
+                    )
+                  ),
+                  _react2.default.createElement('input', { className: 'col-sm-12 col-md-12', type: 'textbox', required: true })
                 ),
-                '\n',
-                _react2.default.createElement('input', { className: 'col-sm-12 col-md-12', required: true, type: 'textbox' }),
-                '\n',
-                '\n'
+                _react2.default.createElement(
+                  'div',
+                  null,
+                  _react2.default.createElement(
+                    'p',
+                    null,
+                    _react2.default.createElement(
+                      'b',
+                      null,
+                      'Email'
+                    )
+                  ),
+                  _react2.default.createElement('input', { className: 'col-sm-12 col-md-12', required: true, type: 'textbox' })
+                ),
+                _react2.default.createElement(
+                  'div',
+                  null,
+                  _react2.default.createElement(
+                    'p',
+                    null,
+                    _react2.default.createElement(
+                      'b',
+                      null,
+                      'Company '
+                    )
+                  ),
+                  _react2.default.createElement(
+                    'select',
+                    null,
+                    _react2.default.createElement(
+                      'option',
+                      null,
+                      'Ohayo'
+                    )
+                  )
+                )
               ),
               _react2.default.createElement(
                 'div',
@@ -27806,16 +27972,10 @@ var addCompanyForm = function (_Component) {
     }
   }]);
 
-  return addCompanyForm;
-}(Component);
+  return addPersonForm;
+}(_react.Component);
 
-exports.default = addCompanyForm;
-
-/***/ }),
-/* 252 */
-/***/ (function(module, exports) {
-
-throw new Error("Module build failed: SyntaxError: Expected corresponding JSX closing tag for <br> (27:14)\n\n\u001b[0m \u001b[90m 25 | \u001b[39m                  \u001b[33m<\u001b[39m\u001b[33moption\u001b[39m\u001b[33m>\u001b[39m\u001b[33mHello\u001b[39m \u001b[33mWorld\u001b[39m\u001b[33m<\u001b[39m\u001b[33m/\u001b[39m\u001b[33moption\u001b[39m\u001b[33m>\u001b[39m\n \u001b[90m 26 | \u001b[39m                \u001b[33m<\u001b[39m\u001b[33m/\u001b[39m\u001b[33mselect\u001b[39m\u001b[33m>\u001b[39m{\u001b[32m'\\n'\u001b[39m}{\u001b[32m'\\n'\u001b[39m}\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 27 | \u001b[39m              \u001b[33m<\u001b[39m\u001b[33m/\u001b[39m\u001b[33mdiv\u001b[39m\u001b[33m>\u001b[39m\n \u001b[90m    | \u001b[39m              \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 28 | \u001b[39m              \u001b[33m<\u001b[39m\u001b[33mdiv\u001b[39m\u001b[33m>\u001b[39m\n \u001b[90m 29 | \u001b[39m              \u001b[33m<\u001b[39m\u001b[33minput\u001b[39m type\u001b[33m=\u001b[39m\u001b[32m\"submit\"\u001b[39m value\u001b[33m=\u001b[39m\u001b[32m\"Save\"\u001b[39m \u001b[33m/\u001b[39m\u001b[33m>\u001b[39m\n \u001b[90m 30 | \u001b[39m              \u001b[33m<\u001b[39m\u001b[33m/\u001b[39m\u001b[33mdiv\u001b[39m\u001b[33m>\u001b[39m\u001b[0m\n");
+exports.default = addPersonForm;
 
 /***/ })
 /******/ ]);
