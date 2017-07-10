@@ -1,10 +1,10 @@
-var path = require('path');
-var webpack = require('webpack');
+const path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
-  entry: './testCode/index.jsx',
+  entry: __dirname + '/testCode/index.jsx',
   output: {
-    path: './testCode/build',
+    path: __dirname + '/testCode/build',
     filename: 'bundle.js'
   },
   module: {
@@ -18,3 +18,19 @@ module.exports = {
     ]
   }
 }
+// module.exports = {
+//  entry: './testCode/index.jsx',
+//  output: { path: './testCode/build', filename: 'bundle.js' },
+
+//  module: {
+//   loaders: [
+//    {
+//     test: /\.jsx?/,
+//     loaders: [
+//       'babel-loader?presets[]=react,presets[]=es2015'
+//     ],
+//     exclude: /node-modules/
+//    }
+//   ]
+//  },
+// };﻿

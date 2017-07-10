@@ -1,17 +1,22 @@
-import React from 'react';
-import ManageComponent from './ManageComponent.jsx';
+import React, {Component} from 'react';
+import axios from 'axios';
+import AddCompanyForm from './Forms/addCompanyForm.jsx';
+import AddPersonForm from './Forms/addPersonForm.jsx';
 
-export default class App extends React.Component {
+class App extends Component {
   constructor(props) {
     super(props);
   }
-
   render() {
     return (
       <div>
-        <NavBar/>
+        <div>SigFig</div>
         {this.props.children}
+        <AddCompanyForm />
+        <AddPersonForm />
       </div>
     )
   }
 }
+
+export default App;
