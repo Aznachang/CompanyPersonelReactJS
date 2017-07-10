@@ -11029,7 +11029,7 @@ var App = function (_Component) {
         _react2.default.createElement(
           'div',
           { className: 'col-sm-7' },
-          'Kailey is a smexy itch and then some',
+          'This app is awesome!',
           this.props.children
         ),
         _react2.default.createElement(

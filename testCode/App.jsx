@@ -11,7 +11,7 @@ class App extends Component {
     return (
       <div>
         <div>SigFig</div>
-        <div className="col-sm-7">Kailey is a smexy itch and then some
+        <div className="col-sm-7">This app is awesome!
           {this.props.children}
         </div>
         <div className="col-sm-5">
