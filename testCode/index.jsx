@@ -1,12 +1,23 @@
 import React from 'react';
 import {render} from 'react-dom';
 import { BrowserRouter, Route } from 'react-router-dom';
-import App from './App.jsx';
+import { Provider } from "react-redux"
+
 import AddCompanyForm from './Forms/addCompanyForm.jsx';
 import AddPersonForm from './Forms/addPersonForm.jsx';
+import App from './App.jsx';
+import store from "./store.js"
+
+const app = document.getElementById('app');
+
+// <BrowserRouter component = {App}>
+//   <Provider store = {store}>
+//     <Route path="/" component={App}/>
+//   </Provider>
+// </BrowserRouter>
 
 render((
-  <BrowserRouter component = {App}>
-    <Route path="/" component={App}/>
-  </BrowserRouter>
-), document.getElementById('app'))
+  <Provider store = {store}>
+    <App />
+  </Provider>
+), app);
