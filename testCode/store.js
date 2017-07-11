@@ -5,7 +5,8 @@ import promise from "redux-promise-middleware";
 // combinedReducers
 import reducer from "./reducers";
 
-const middleware = applyMiddleware(promise(), thunk, logger());
+// const middleware = applyMiddleware(promise, thunk, logger;
+const middleware = applyMiddleware(thunk, logger);
 export default createStore(reducer, middleware);
 
 // const logger = (store) => (next) => (action) => {

@@ -5,7 +5,7 @@ import companyList from "./companyListReducer.js";
 //import person from "./personReducer.js";
 
 export default combineReducers({
-  companyList,
+  companyList//,
  // company,
   //companyPeopleList,
   //person
