@@ -12,7 +12,6 @@ class App extends Component {
   render() {
     return (
       <div>
-        <div>SigFig</div>
         <div className="col-sm-7">
           <Main />
         </div>

@@ -13,6 +13,19 @@ export function fetchCompanyList() {
   }
 }
 
+export function addACompany() {
+  return (dispatch) => {
+    dispatch({type:"ADD_A_COMPANY"});
+    axios.post("/companies")
+      .then((res) => {
+        dispatch({type: "ADD_A_COMPANY_FULFILLED", payload: res.data})
+      })
+      .catch((err) => {
+        dispatch({type: "ADD_A_COMPANY_REJECTED", payload: err})
+      });
+  }
+}
+
   // store.dispatch((dispatch) => {
   //   dispatch({type: "FETCH_COMPANIES"});
   //   axios.get('/companies')
