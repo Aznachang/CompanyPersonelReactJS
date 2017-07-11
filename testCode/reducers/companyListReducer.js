@@ -1,20 +1,24 @@
-const initialState = {
-  fetching: false,
-  fetched: false,
-  companies: [],
-  error: null,
-}
+// const initialState = {
+//   fetching: false,
+//   fetched: false,
+//   companies: [],
+//   error: null,
+// }
 
-export default function reducer(state = initialState, action) => {
+export default function reducer(state={
+    companies: [],
+    fetching: false,
+    fetched: false,
+    error: null,
+  }, action) {
+
   // All Action-Types for companyList!
   switch (action.type) {
     case "FETCH_COMPANIES" : {
       return {...state, fetching: true}
-      break;
     }
     case "FETCH_COMPANIES_REJECTED" : {
       return {...state, fetching: false, error: action.payload}
-      break;
     }
     case "FETCH_COMPANIES_FULFILLED": {
       return {
@@ -24,7 +28,7 @@ export default function reducer(state = initialState, action) => {
         companies: action.payload
       }
     }
-  }
+  } // end of switch
 
   return state;
 }

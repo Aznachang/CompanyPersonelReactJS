@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import axios from 'axios';
 import AddCompanyForm from './Forms/addCompanyForm.jsx';
 import AddPersonForm from './Forms/addPersonForm.jsx';
-import Main from './Main';
+import Main from './Components/Main/Main.jsx';
 
 class App extends Component {
   constructor(props) {

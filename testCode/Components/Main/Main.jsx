@@ -1,31 +1,55 @@
 import React, {Component} from "react";
 import { connect } from "react-redux";
-
+import { bindActionCreators } from "redux";
 import { fetchCompanyList } from "../../actions/companyActions";
 // import { fetchTweets } from "../actions/peopleActions";
 
-@connect((store) => {
-  return {
-    companiesFetched: store.companies
-  };
-})
-export default class Main extends Component {
+// connect((store) => {
+//   return {
+//     companies: store.companies.companies
+//   };
+// });
+
+class Main extends Component {
+  // const { companies } = this.props;
+
+  createCompanyListItems() {
+    return this.props.companies.map(company => {
+        return (
+        <li key={company.id}>
+          Name:
+          {company.name}
+          Address:
+          {company.address}
+          Revenue:
+          {company.revenue}
+          Phone:
+          {company.phone}
+        </li>);
+      });
+  }
+
   componentWillMount() {
-    this.props.dispatch(fetchCompanyList())
+    this.props.dispatch(fetchCompanyList());
   }
 
   render() {
-    const { user, tweets } = this.props;
-
-    if (!tweets.length) {
-      return <button onClick={this.fetchTweets.bind(this)}>load tweets</button>
-    }
-
-    const mappedTweets = tweets.map(tweet => <li key={tweet.id}>{tweet.text}</li>)
-
-    return <div>
-      <h1>{user.name}</h1>
-      <ul>{mappedTweets}</ul>
-    </div>
+    // const { companies } = this.props;
+    console.log(`companies: ${this.props.companies}`);
+    return (
+      <div>
+        <h1>Companies</h1>
+        <ul>{this.createCompanyListItems()}</ul>
+      </div>
+    )
   }
+
 }
+
+function mapStateToProps(state) {
+  return {
+    companies: state.companies
+  };
+}
+
+export default connect(mapStateToProps)(Main);
