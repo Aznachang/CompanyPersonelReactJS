@@ -33465,8 +33465,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
   return {
     //store.name_in_combineReducers.data_property_needed
     companies: store.companyList.companies,
-    fetchCompanies: store.companyList.fetched,
-    importedCompanies: store.importCompanyList.importedCompanies
+    fetchingCompanies: store.companyList.fetching,
+    fetchedCompanies: store.companyList.fetched,
+    importedCompanies: store.importCompanyList.importedCompanies,
+    importingCompanies: store.importCompanyList.fetching,
+    importFufilled: store.importCompanyList.fetched
   };
 });
 
@@ -33566,24 +33569,27 @@ var CompanyList = function (_Component) {
     value: function componentWillMount() {
       this.props.dispatch((0, _companyActions.fetchCompanyList)());
     }
-
-    // if (!fetchCompanies) {
-    //   companies = this.props.dispatch(importedCompanies());
-    // }
-
   }, {
     key: 'render',
     value: function render() {
-      var companies = this.props.companies;
+      var _props = this.props,
+          companies = _props.companies,
+          fetchingCompanies = _props.fetchingCompanies,
+          fetchedCompanies = _props.fetchedCompanies,
+          importedCompanies = _props.importedCompanies,
+          importingCompanies = _props.importingCompanies,
+          importFulfilled = _props.importFulfilled;
+      //console.log(`companies: ${JSON.stringify(companies)}`);
+      // if (!companies.length) {
+      //   return (
+      //     <div>
+      //       Fetching List of Companies...
+      //     </div>
+      //   );
+      // }
 
-      console.log('companies: ' + JSON.stringify(companies));
-      if (!companies.length) {
-        return _react2.default.createElement(
-          'div',
-          null,
-          'Fetching List of Companies...'
-        );
-      }
+      // FETCH COMPANIES
+
       return _react2.default.createElement(
         'div',
         null,
@@ -33593,24 +33599,41 @@ var CompanyList = function (_Component) {
           this.createCompanyListItems()
         )
       );
+
+      //console.log(`props: ${JSON.stringify(this.props)}`);
+      console.log('fetchingCompanies: ' + fetchingCompanies);
+      console.log('fetchedCompanies: ' + fetchedCompanies);
+      console.log('companies length: ' + companies.length);
+      if (!fetchingCompanies && fetchedCompanies && companies.length === 0) {
+        console.log('Running import companies!!!');
+        this.props.dispatch((0, _companyActions.importCompanies)());
+        // if (!importingCompanies && importFufilled) {
+        //    console.log(`importiFulfilled!!!!`);
+        //  });
+        //this.props.dispatch(fetchCompanyList());
+      }
     }
   }]);
 
   return CompanyList;
 }(_react.Component);
 
+; // end of company-list Container
+
 // Get apps state and pass it as props to UserList
 //      > whenever state changes, the UserList will automatically re-render
-
-
 function mapStateToProps(state) {
   return {
     companies: state.companyList.companies,
-    importedCompanies: state.importCompanyList.importedCompanies
+    importedCompanies: state.importCompanyList.importedCompanies,
+    fetchedCompanies: state.companyList.fetched,
+    fetchingCompanies: state.companyList.fetching,
+    importingCompanies: state.importCompanyList.fetching,
+    importFufilled: state.importCompanyList.fetched
   };
 }
 
-// We don't want to return the plain UserList (component) anymore, we want to return the smart Container
+// return the smart Container - CompanyList
 //      > UserList is now aware of state and actions
 exports.default = (0, _reactRedux.connect)(mapStateToProps)(CompanyList);
 
@@ -33805,7 +33828,7 @@ function importCompanies() {
     _axios2.default.get("/importCompanies").then(function (res) {
       dispatch({ type: "IMPORT_COMPANIES_FULFILLED", payload: res.data });
     }).catch(function (err) {
-      dispatch({ type: "FETCH_COMPANIES_REJECTED", payload: err });
+      dispatch({ type: "IMPORT_COMPANIES_REJECTED", payload: err });
     });
   };
 }
