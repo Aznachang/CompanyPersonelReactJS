@@ -21,7 +21,7 @@ export function importCompanies() {
         dispatch({type: "IMPORT_COMPANIES_FULFILLED", payload: res.data})
       })
       .catch((err) => {
-        dispatch({type: "FETCH_COMPANIES_REJECTED", payload: err})
+        dispatch({type: "IMPORT_COMPANIES_REJECTED", payload: err})
       })
   }
 }

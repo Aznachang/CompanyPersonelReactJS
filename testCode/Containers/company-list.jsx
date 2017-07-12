@@ -1,15 +1,18 @@
 import React, {Component} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import {fetchCompanyList, importedCompanies} from '../actions/companyActions.js'
+import {fetchCompanyList, importCompanies} from '../actions/companyActions.js'
 
 connect((store) => {
   console.log(`store is: ${store}`);
   return {
     //store.name_in_combineReducers.data_property_needed
     companies: store.companyList.companies,
-    fetchCompanies: store.companyList.fetched,
-    importedCompanies: store.importCompanyList.importedCompanies
+    fetchingCompanies: store.companyList.fetching,
+    fetchedCompanies: store.companyList.fetched,
+    importedCompanies: store.importCompanyList.importedCompanies,
+    importingCompanies: store.importCompanyList.fetching,
+    importFufilled: store.importCompanyList.fetched
   };
 });
 
@@ -46,21 +49,20 @@ class CompanyList extends Component {
     this.props.dispatch(fetchCompanyList());
   }
 
-  // if (!fetchCompanies) {
-  //   companies = this.props.dispatch(importedCompanies());
-  // }
-
   render() {
-    const { companies } = this.props;
-    console.log(`companies: ${JSON.stringify(companies)}`);
-    if (!companies.length) {
-      return (
-        <div>
-          Fetching List of Companies...
-        </div>
-      );
+    const { companies, fetchingCompanies, fetchedCompanies, importedCompanies,
+      importingCompanies,
+      importFulfilled } = this.props;
+    //console.log(`companies: ${JSON.stringify(companies)}`);
+    // if (!companies.length) {
+    //   return (
+    //     <div>
+    //       Fetching List of Companies...
+    //     </div>
+    //   );
+    // }
 
-    }
+    // FETCH COMPANIES
     return (
       <div>
         <ul>
@@ -68,18 +70,36 @@ class CompanyList extends Component {
         </ul>
       </div>
     );
+
+    //console.log(`props: ${JSON.stringify(this.props)}`);
+    console.log(`fetchingCompanies: ${fetchingCompanies}`);
+    console.log(`fetchedCompanies: ${fetchedCompanies}`);
+    console.log(`companies length: ${companies.length}`);
+    if (!fetchingCompanies && fetchedCompanies && companies.length === 0) {
+      console.log('Running import companies!!!')
+     this.props.dispatch(importCompanies());
+     // if (!importingCompanies && importFufilled) {
+     //    console.log(`importiFulfilled!!!!`);
+     //  });
+       //this.props.dispatch(fetchCompanyList());
+    }
   }
-}
+
+}; // end of company-list Container
 
 // Get apps state and pass it as props to UserList
 //      > whenever state changes, the UserList will automatically re-render
 function mapStateToProps(state) {
   return {
     companies: state.companyList.companies,
-    importedCompanies: state.importCompanyList.importedCompanies
+    importedCompanies: state.importCompanyList.importedCompanies,
+    fetchedCompanies: state.companyList.fetched,
+    fetchingCompanies: state.companyList.fetching,
+    importingCompanies:state.importCompanyList.fetching,
+    importFufilled: state.importCompanyList.fetched
   };
 }
 
-// We don't want to return the plain UserList (component) anymore, we want to return the smart Container
+// return the smart Container - CompanyList
 //      > UserList is now aware of state and actions
 export default connect(mapStateToProps)(CompanyList);

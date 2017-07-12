@@ -1,5 +1,5 @@
 import React from 'react';
-import CompanyList from '../../Containers/company-list.js';
+import CompanyList from '../../Containers/company-list.jsx';
 
 // <div>
 //   <div class="panel panel-default">
