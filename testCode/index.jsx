@@ -1,23 +1,27 @@
 import React from 'react';
-import {render} from 'react-dom';
-import { createBrowserHistory } from 'history';
-import { syncHistoryWithStore } from 'react-router-redux';
-import { Provider } from "react-redux";
-
-import AddCompanyForm from './Forms/addCompanyForm.jsx';
-import AddPersonForm from './Forms/addPersonForm.jsx';
-import App from './App.jsx';
-import store from "./store.js";
-import thunk from 'redux-thunk';
+// import { AppContainer } from 'react-hot-loader';
+import { render } from 'react-dom';
+import { applyMiddleware, createStore } from 'redux';
+import { Provider } from 'react-redux';
+import { Route, Switch } from 'react-router';
+import { ConnectedRouter } from 'connected-react-router';
 import Routes from './routes.jsx';
+import { createBrowserHistory } from 'history';
+import { default as reducers } from './reducers';
+import store from "./store.js";
+import App from './App.jsx';
 
 const app = document.getElementById('app');
 
-// <BrowserRouter component = {App}>
-//   <Provider store = {store}>
-//     <Route path="/" component={App}/>
-//   </Provider>
-// </BrowserRouter>
+ // <Provider store = {store}>
+ //    <ConnectedRouter history={history}>
+ //      <div>
+ //        <Switch>
+ //          <Route exact path="/" component={App} />
+ //        </Switch>
+ //      </div>
+ //    </ConnectedRouter>
+ //  </Provider>
 
 render((
   <Provider store = {store}>

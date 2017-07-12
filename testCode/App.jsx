@@ -15,7 +15,7 @@ class App extends Component {
         <div className="col-sm-7">
           <Main />
         </div>
-        <div className="col-sm-5">
+        <div className="col-sm-4">
           <AddCompanyForm />
           <AddPersonForm />
         </div>

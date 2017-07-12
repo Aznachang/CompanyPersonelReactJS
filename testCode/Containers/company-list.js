@@ -1,20 +1,15 @@
 import React, {Component} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import {fetchCompanyList} from '../actions/companyActions.js'
-
-// connect(
-//   // this provides the dispatch function
-//   (state) => {return {
-//     companies: state.companies
-//   }},
-//   dispatch => bindActionCreators({fetchCompanyList}, dispatch),
-// )
+import {fetchCompanyList, importedCompanies} from '../actions/companyActions.js'
 
 connect((store) => {
   console.log(`store is: ${store}`);
   return {
-    companies: store.companyList.companies
+    //store.name_in_combineReducers.data_property_needed
+    companies: store.companyList.companies,
+    fetchCompanies: store.companyList.fetched,
+    importedCompanies: store.importCompanyList.importedCompanies
   };
 });
 
@@ -51,15 +46,20 @@ class CompanyList extends Component {
     this.props.dispatch(fetchCompanyList());
   }
 
+  // if (!fetchCompanies) {
+  //   companies = this.props.dispatch(importedCompanies());
+  // }
+
   render() {
     const { companies } = this.props;
-    console.log(`companies: ${JSON.stringify(companies)}`);    // console.log(`props: ${JSON.stringify(this.props)}`);
+    console.log(`companies: ${JSON.stringify(companies)}`);
     if (!companies.length) {
       return (
         <div>
           Fetching List of Companies...
         </div>
       );
+
     }
     return (
       <div>
@@ -73,20 +73,12 @@ class CompanyList extends Component {
 
 // Get apps state and pass it as props to UserList
 //      > whenever state changes, the UserList will automatically re-render
-
-
 function mapStateToProps(state) {
   return {
-    companies: state.companyList.companies
+    companies: state.companyList.companies,
+    importedCompanies: state.importCompanyList.importedCompanies
   };
 }
-
-
-// Get actions and pass them as props to to UserList
-//      > now UserList has this.props.selectUser
-// function matchDispatchToProps(dispatch){
-//   return bindActionCreators({fetchCompanyList: fetchCompanyList}, dispatch);
-// }
 
 // We don't want to return the plain UserList (component) anymore, we want to return the smart Container
 //      > UserList is now aware of state and actions
