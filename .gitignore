@@ -2,5 +2,8 @@
 node_modules/
 server/npm-debug.log
 npm-debug.log
-data/
+data/db/diagnostic.data
+data/db/journal
+swagger/
+server/
 build/

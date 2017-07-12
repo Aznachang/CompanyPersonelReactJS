@@ -12,11 +12,10 @@ class App extends Component {
   render() {
     return (
       <div>
-        <div>SigFig</div>
         <div className="col-sm-7">
           <Main />
         </div>
-        <div className="col-sm-5">
+        <div className="col-sm-4">
           <AddCompanyForm />
           <AddPersonForm />
         </div>

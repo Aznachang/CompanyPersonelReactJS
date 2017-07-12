@@ -12,13 +12,13 @@ export default function reducer(state={
   }, action) {
 
     switch (action.type) {
-      case "FETCH_COMPANY": {
+      case "ADD_A_COMPANY": {
         return {...state, fetching: true}
       }
-      case "FETCH_COMPANY_REJECTED": {
+      case "ADD_A_COMPANY_REJECTED": {
         return {...state, fetching: false, error: action.payload}
       }
-      case "FETCH_COMPANY_FULFILLED": {
+      case "ADD_A_COMPANY_FULFILLED": {
         return {
           ...state,
           fetching: false,
@@ -29,7 +29,7 @@ export default function reducer(state={
       case "UPDATE_COMPANY": {
         return {
           ...state,
-          user: {...state.company, name: action.payload},
+          company: {...state, company: action.payload},
         }
       }
     }

@@ -11,7 +11,7 @@ export default class addPersonForm extends Component {
       <div>
         <div className="panel panel-default">
           <div className="panel-heading">
-            <h3 className="panel-title">Create New Company</h3>
+            <h3 className="panel-title">Create New Person</h3>
           </div>
           <div className="panel-body">
             <form className='newCompanyForm' id='addCompanyForm'>
