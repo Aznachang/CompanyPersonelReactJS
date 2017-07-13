@@ -7,6 +7,9 @@ module.exports = {
     path: __dirname + '/testCode/build',
     filename: 'bundle.js'
   },
+  // resolve: {
+  //   extensions: ['', '.js', '.jsx', '.json']
+  // },
   module: {
     loaders: [
       {
@@ -18,19 +21,3 @@ module.exports = {
     ]
   }
 }
-// module.exports = {
-//  entry: './testCode/index.jsx',
-//  output: { path: './testCode/build', filename: 'bundle.js' },
-
-//  module: {
-//   loaders: [
-//    {
-//     test: /\.jsx?/,
-//     loaders: [
-//       'babel-loader?presets[]=react,presets[]=es2015'
-//     ],
-//     exclude: /node-modules/
-//    }
-//   ]
-//  },
-// };﻿

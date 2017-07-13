@@ -46,7 +46,16 @@ class CompanyList extends Component {
   }
 
   componentWillMount() {
+    console.log('componentWillMount');
     this.props.dispatch(fetchCompanyList());
+  }
+
+  componentDidMount() {
+    console.log('componentDidlMount');
+    if (!fetchingCompanies && fetchedCompanies && companies.length === 0) {
+      console.log('Running import companies!!!')
+      this.props.dispatch(importCompanies());
+    }
   }
 
   render() {
@@ -63,6 +72,27 @@ class CompanyList extends Component {
     // }
 
     // FETCH COMPANIES
+    // return (
+    //   <div>
+    //     <ul>
+    //       {this.createCompanyListItems()}
+    //     </ul>
+    //   </div>
+    // );
+
+    //console.log(`props: ${JSON.stringify(this.props)}`);
+    // console.log(`fetchingCompanies: ${fetchingCompanies}`);
+    // console.log(`fetchedCompanies: ${fetchedCompanies}`);
+    // console.log(`companies length: ${companies.length}`);
+    // if (!fetchingCompanies && fetchedCompanies && companies.length === 0) {
+    //   console.log('Running import companies!!!')
+     //this.props.dispatch(importCompanies());
+             // if (!importingCompanies && importFufilled) {
+             //    console.log(`importiFulfilled!!!!`);
+             //  });
+               //this.props.dispatch(fetchCompanyList());
+
+
     return (
       <div>
         <ul>
@@ -70,19 +100,6 @@ class CompanyList extends Component {
         </ul>
       </div>
     );
-
-    //console.log(`props: ${JSON.stringify(this.props)}`);
-    console.log(`fetchingCompanies: ${fetchingCompanies}`);
-    console.log(`fetchedCompanies: ${fetchedCompanies}`);
-    console.log(`companies length: ${companies.length}`);
-    if (!fetchingCompanies && fetchedCompanies && companies.length === 0) {
-      console.log('Running import companies!!!')
-     this.props.dispatch(importCompanies());
-     // if (!importingCompanies && importFufilled) {
-     //    console.log(`importiFulfilled!!!!`);
-     //  });
-       //this.props.dispatch(fetchCompanyList());
-    }
   }
 
 }; // end of company-list Container
