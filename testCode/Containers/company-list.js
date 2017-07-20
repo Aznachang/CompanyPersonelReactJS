@@ -8,7 +8,8 @@ connect((store) => {
   return {
     //store.name_in_combineReducers.data_property_needed
     companies: store.companyList.companies,
-    fetchedCompanies: store.companyList.fetched,
+    // fetchedCompanies: store.companyList.fetched,
+    fetchingCompanies: store.companyList.fetching,
     importFufilled: store.importCompanyList.fetched
   };
 });
@@ -48,7 +49,7 @@ class CompanyList extends Component {
 
   importCompanyData() {
     setTimeout( ()=> {
-      if (this.props.fetchedCompanies && this.props.companies.length === 0) {
+      if (!this.props.fetchingCompanies && this.props.companies.length === 0) {
         this.props.dispatch(importCompanies());
       }
     },1000);
@@ -67,11 +68,18 @@ class CompanyList extends Component {
   render() {
     const {
       companies,
-      fetchedCompanies
+      fetchedCompanies,
+      fetchingCompanies
       } = this.props;
 
     // console.log(`props: ${JSON.stringify(this.props)}`);
-    if (companies.length !== 0) {
+    // if (companies.length !== 0 && !fetchingCompanies)
+    if (!fetchingCompanies) {
+      if (companies.length === 0) {
+        return (
+          <h3>No Companies Found, Importing List of Companies!</h3>
+        )
+      }
       return (
         <div>
           <ul>
@@ -90,7 +98,8 @@ class CompanyList extends Component {
 function mapStateToProps(state) {
   return {
     companies: state.companyList.companies,
-    fetchedCompanies: state.companyList.fetched
+    // fetchedCompanies: state.companyList.fetched,
+    fetchingCompanies: state.companyList.fetching
   };
 }
 

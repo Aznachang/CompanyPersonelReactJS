@@ -1,4 +1,4 @@
-export default function reducer(state={
+export default function companyReducer(state={
     companies: [],
     fetching: false,
     fetched: false,
@@ -8,20 +8,22 @@ export default function reducer(state={
   // All Action-Types for companyList!
   switch (action.type) {
     case "FETCH_COMPANIES" : {
-      return {...state, fetching: true}
+      return Object.assign({}, state, {fetching: true});
     }
     case "FETCH_COMPANIES_REJECTED" : {
-      return {...state, fetching: false, error: action.payload}
+      return Object.assign({}, state, {
+        fetching: false,
+        error: action.payload
+      });
     }
     case "FETCH_COMPANIES_FULFILLED": {
-      return {
-        ...state,
+      return Object.assign({}, state, {
         fetching: false,
         fetched: true,
         companies: action.payload
-      }
+      });
     }
-  } // end of switch
+  } // end of switch cases
 
   return state;
 }

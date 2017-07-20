@@ -2,6 +2,7 @@
 node_modules/
 server/npm-debug.log
 npm-debug.log
+data/db/
 data/db/diagnostic.data
 data/db/journal
 swagger/
