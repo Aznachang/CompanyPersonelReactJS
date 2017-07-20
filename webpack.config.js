@@ -7,9 +7,6 @@ module.exports = {
     path: __dirname + '/testCode/build',
     filename: 'bundle.js'
   },
-  // resolve: {
-  //   extensions: ['', '.js', '.jsx', '.json']
-  // },
   module: {
     loaders: [
       {

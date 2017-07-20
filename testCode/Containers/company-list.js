@@ -8,10 +8,7 @@ connect((store) => {
   return {
     //store.name_in_combineReducers.data_property_needed
     companies: store.companyList.companies,
-    fetchingCompanies: store.companyList.fetching,
     fetchedCompanies: store.companyList.fetched,
-    importedCompanies: store.importCompanyList.importedCompanies,
-    importingCompanies: store.importCompanyList.fetching,
     importFufilled: store.importCompanyList.fetched
   };
 });
@@ -45,63 +42,47 @@ class CompanyList extends Component {
     });
   }
 
-  componentWillMount() {
-    console.log('componentWillMount');
-    this.props.dispatch(fetchCompanyList());
+  getCompanyListAgain() {
+    setTimeout(()=> this.props.dispatch(fetchCompanyList()),1500);
   }
 
-  componentDidMount() {
-    console.log('componentDidlMount');
-    if (!fetchingCompanies && fetchedCompanies && companies.length === 0) {
-      console.log('Running import companies!!!')
-      this.props.dispatch(importCompanies());
-    }
+  importCompanyData() {
+    setTimeout( ()=> {
+      if (this.props.fetchedCompanies && this.props.companies.length === 0) {
+        this.props.dispatch(importCompanies());
+      }
+    },1000);
+  }
+
+  componentWillMount() {
+    // see if CompanyList Database is not empty
+    this.props.dispatch(fetchCompanyList());
+
+    // import Data - if empty
+    this.importCompanyData();
+    // re-fetch CompanyList after 'import'
+    this.getCompanyListAgain();
   }
 
   render() {
-    const { companies, fetchingCompanies, fetchedCompanies, importedCompanies,
-      importingCompanies,
-      importFulfilled } = this.props;
-    //console.log(`companies: ${JSON.stringify(companies)}`);
-    // if (!companies.length) {
-    //   return (
-    //     <div>
-    //       Fetching List of Companies...
-    //     </div>
-    //   );
-    // }
+    const {
+      companies,
+      fetchedCompanies
+      } = this.props;
 
-    // FETCH COMPANIES
-    // return (
-    //   <div>
-    //     <ul>
-    //       {this.createCompanyListItems()}
-    //     </ul>
-    //   </div>
-    // );
+    // console.log(`props: ${JSON.stringify(this.props)}`);
+    if (companies.length !== 0) {
+      return (
+        <div>
+          <ul>
+            {this.createCompanyListItems()}
+          </ul>
+        </div>
+      );
+    }
 
-    //console.log(`props: ${JSON.stringify(this.props)}`);
-    // console.log(`fetchingCompanies: ${fetchingCompanies}`);
-    // console.log(`fetchedCompanies: ${fetchedCompanies}`);
-    // console.log(`companies length: ${companies.length}`);
-    // if (!fetchingCompanies && fetchedCompanies && companies.length === 0) {
-    //   console.log('Running import companies!!!')
-     //this.props.dispatch(importCompanies());
-             // if (!importingCompanies && importFufilled) {
-             //    console.log(`importiFulfilled!!!!`);
-             //  });
-               //this.props.dispatch(fetchCompanyList());
-
-
-    return (
-      <div>
-        <ul>
-          {this.createCompanyListItems()}
-        </ul>
-      </div>
-    );
-  }
-
+    return (<h2>Fetching Data...</h2>);
+  };
 }; // end of company-list Container
 
 // Get apps state and pass it as props to UserList
@@ -109,11 +90,7 @@ class CompanyList extends Component {
 function mapStateToProps(state) {
   return {
     companies: state.companyList.companies,
-    importedCompanies: state.importCompanyList.importedCompanies,
-    fetchedCompanies: state.companyList.fetched,
-    fetchingCompanies: state.companyList.fetching,
-    importingCompanies:state.importCompanyList.fetching,
-    importFufilled: state.importCompanyList.fetched
+    fetchedCompanies: state.companyList.fetched
   };
 }
 
