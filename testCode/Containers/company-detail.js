@@ -14,10 +14,10 @@ connect((store) => {
   };
 });
 
-class CompanyPeople extends Component {
+class CompanyDetail extends Component {
   render() {
-    if (!this.props.company) {
-      return (<div></div>);
+    if (this.props.companyFetching) {
+      return (<h2>Fetching Company Details...</h2>);
     }
     return (
       <div>
@@ -37,4 +37,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(CompanyPeople);
+export default connect(mapStateToProps)(CompanyDetail);

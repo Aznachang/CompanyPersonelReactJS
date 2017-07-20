@@ -33407,18 +33407,6 @@ var _companyList2 = _interopRequireDefault(_companyList);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// <div>
-//   <div class="panel panel-default">
-//     <div class="panel-heading">
-//       <h2 class="panel-title">Companies
-//       </h2>
-//     </div>
-//     <div class="panel-body">
-//       <CompanyList />
-//     </div>
-//   </div>
-// </div>
-
 var App = function App() {
   return _react2.default.createElement(
     'div',
