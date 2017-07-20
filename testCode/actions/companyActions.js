@@ -26,8 +26,23 @@ export function importCompanies() {
   }
 }
 
+/** FETCH ONE COMPANY'S DETAILS **/
+export function fetchACompany() {
+  return (dispatch) => {
+    dispatch({type:"FETCH_COMPANY"});
+    // axios.get("/companies/:id")
+    axios.get("/companies/59712e89ba0e26041b6a36db")
+      .then((res) => {
+        dispatch({type: "FETCH_COMPANY_FULFILLED", payload: res.data})
+      })
+      .catch((err) => {
+        dispatch({type: "FETCH_COMPANY_REJECTED", payload: err})
+      })
+  }
+}
+
 export function addACompany(company) {
-  return (dispatch) => { return
+  return (dispatch) => {
     dispatch({
       type:"ADD_A_COMPANY",
       payload: axios.post("/companies", company)
