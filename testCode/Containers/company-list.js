@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import {fetchCompanyList, importCompanies} from '../actions/companyActions.js'
+import {fetchCompanyList, importCompanies} from '../actions/companyActions.js';
 
 connect((store) => {
   console.log(`store is: ${store}`);

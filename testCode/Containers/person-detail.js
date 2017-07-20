@@ -1,9 +1,18 @@
 import React, {Component} from 'react';
+import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
+// import {} from '../actions/';
 
-/*
- * We need "if(!this.props.user)" because we set state to null by default
- * */
+connect((store) => {
+  console.log(`store is: ${store}`);
+  return {
+    //store.name_in_combineReducers.data_property_needed
+    companies: store.companyList.companies,
+    // fetchedCompanies: store.companyList.fetched,
+    fetchingCompanies: store.companyList.fetching,
+    importFufilled: store.importCompanyList.fetched
+  };
+});
 
 class PersonDetail extends Component {
   render() {
@@ -28,4 +37,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(CompanyDetail);
+export default connect(mapStateToProps)(PersonDetail);

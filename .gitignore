@@ -8,3 +8,4 @@ data/db/journal
 swagger/
 server/
 build/
+data/

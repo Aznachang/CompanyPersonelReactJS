@@ -1,9 +1,9 @@
 import React from 'react';
-import CompanyList from '../../Containers/company-list.js';
+import CompanyDetail from '../../Containers/company-list.js';
 
 const App = () => (
   <div>
-    <CompanyList />
+    <CompanyDetail />
   </div>
 );
 
