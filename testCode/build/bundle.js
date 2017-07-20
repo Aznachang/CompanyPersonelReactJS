@@ -33465,7 +33465,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
   return {
     //store.name_in_combineReducers.data_property_needed
     companies: store.companyList.companies,
-    fetchedCompanies: store.companyList.fetched,
+    // fetchedCompanies: store.companyList.fetched,
+    fetchingCompanies: store.companyList.fetching,
     importFufilled: store.importCompanyList.fetched
   };
 });
@@ -33576,7 +33577,7 @@ var CompanyList = function (_Component) {
       var _this3 = this;
 
       setTimeout(function () {
-        if (_this3.props.fetchedCompanies && _this3.props.companies.length === 0) {
+        if (!_this3.props.fetchingCompanies && _this3.props.companies.length === 0) {
           _this3.props.dispatch((0, _companyActions.importCompanies)());
         }
       }, 1000);
@@ -33597,11 +33598,20 @@ var CompanyList = function (_Component) {
     value: function render() {
       var _props = this.props,
           companies = _props.companies,
-          fetchedCompanies = _props.fetchedCompanies;
+          fetchedCompanies = _props.fetchedCompanies,
+          fetchingCompanies = _props.fetchingCompanies;
 
       // console.log(`props: ${JSON.stringify(this.props)}`);
+      // if (companies.length !== 0 && !fetchingCompanies)
 
-      if (companies.length !== 0) {
+      if (!fetchingCompanies) {
+        if (companies.length === 0) {
+          return _react2.default.createElement(
+            'h3',
+            null,
+            'No Companies Found, Importing List of Companies!'
+          );
+        }
         return _react2.default.createElement(
           'div',
           null,
@@ -33631,7 +33641,8 @@ var CompanyList = function (_Component) {
 function mapStateToProps(state) {
   return {
     companies: state.companyList.companies,
-    fetchedCompanies: state.companyList.fetched
+    // fetchedCompanies: state.companyList.fetched,
+    fetchingCompanies: state.companyList.fetching
   };
 }
 
@@ -33765,11 +33776,8 @@ var app = document.getElementById('app');
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-exports.default = reducer;
-function reducer() {
+exports.default = companyReducer;
+function companyReducer() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
     companies: [],
     fetching: false,
@@ -33783,21 +33791,24 @@ function reducer() {
   switch (action.type) {
     case "FETCH_COMPANIES":
       {
-        return _extends({}, state, { fetching: true });
+        return Object.assign({}, state, { fetching: true });
       }
     case "FETCH_COMPANIES_REJECTED":
       {
-        return _extends({}, state, { fetching: false, error: action.payload });
+        return Object.assign({}, state, {
+          fetching: false,
+          error: action.payload
+        });
       }
     case "FETCH_COMPANIES_FULFILLED":
       {
-        return _extends({}, state, {
+        return Object.assign({}, state, {
           fetching: false,
           fetched: true,
           companies: action.payload
         });
       }
-  } // end of switch
+  } // end of switch cases
 
   return state;
 }
