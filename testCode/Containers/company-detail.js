@@ -1,30 +1,63 @@
 import React, {Component} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-// import {} from '../actions/';
+import {fetchACompany} from '../actions/companyActions.js';
 
 connect((store) => {
   console.log(`store is: ${store}`);
   return {
     //store.name_in_combineReducers.data_property_needed
-    companies: store.companyList.companies,
-    // fetchedCompanies: store.companyList.fetched,
-    fetchingCompanies: store.companyList.fetching,
-    importFufilled: store.importCompanyList.fetched
+    company: store.companyDetail.company,
+    fetchingCompany: store.companyDetail.fetching
   };
 });
 
 class CompanyDetail extends Component {
+
+  showCompanyDetails() {
+    const {company} = this.props;
+    console.log(`Company Detailed INFO: ${JSON.stringify(company)}`);
+    return (
+    <li key={company._id}>
+      <div className="panel panel-default">
+        <div className="panel-heading">
+          <h3 className="panel-title">
+            <a href="#/company/{{company._id}}">{company.name}
+            </a>
+          </h3>
+        </div>
+       <div className="panel-body">
+         <p><b>Address</b></p>
+         <p>{company.address}</p>
+         <p><b>Revenue</b></p>
+         <p>{company.revenue}</p>
+         <p><b>Phone</b></p>
+         <p>{company.phone}</p>
+       </div>
+       <div className="panel-footer">
+         <a href="#/companies/{{company._id}}/people">People who work here</a>
+       </div>
+      </div>
+    </li>);
+  }
+
+  componentWillMount() {
+    // Fetch A Particular Company's Details
+    this.props.dispatch(fetchACompany());
+  }
+
   render() {
-    if (this.props.companyFetching) {
+    const {fetchingCompany, company} = this.props;
+    console.log(`props: ${JSON.stringify(this.props)}`);
+
+    if (!fetchingCompany && company._id === null) {
       return (<h2>Fetching Company Details...</h2>);
     }
     return (
       <div>
-        <img src={this.props.user.thumbnail} />
-        <h2>{this.props.user.first} {this.props.user.last}</h2>
-        <h3>Age: {this.props.user.age}</h3>
-        <h3>Description: {this.props.user.description}</h3>
+        <ul>
+          {this.showCompanyDetails()}
+        </ul>
       </div>
     );
   }
@@ -33,7 +66,8 @@ class CompanyDetail extends Component {
 // "state.activeUser" is set in reducers/index.js
 function mapStateToProps(state) {
   return {
-    user: state.activeUser
+    company: state.companyDetail.company,
+    fetchingCompany: state.companyDetail.fetching
   };
 }
 

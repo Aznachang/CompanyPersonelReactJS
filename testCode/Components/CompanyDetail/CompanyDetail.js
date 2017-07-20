@@ -1,5 +1,5 @@
 import React from 'react';
-import CompanyDetail from '../../Containers/company-list.js';
+import CompanyDetail from '../../Containers/company-detail.js';
 
 const App = () => (
   <div>

@@ -99,7 +99,8 @@ function mapStateToProps(state) {
   return {
     companies: state.companyList.companies,
     // fetchedCompanies: state.companyList.fetched,
-    fetchingCompanies: state.companyList.fetching
+    fetchingCompanies: state.companyList.fetching,
+    importFufilled: state.importCompanyList.fetched
   };
 }
 

@@ -8259,6 +8259,10 @@ var _Main = __webpack_require__(301);
 
 var _Main2 = _interopRequireDefault(_Main);
 
+var _CompanyDetail = __webpack_require__(308);
+
+var _CompanyDetail2 = _interopRequireDefault(_CompanyDetail);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -8266,6 +8270,12 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+/**** FORMS ****/
+
+
+/**** Components ****/
+
 
 var App = function (_Component) {
   _inherits(App, _Component);
@@ -8276,6 +8286,10 @@ var App = function (_Component) {
     return _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
   }
 
+  // <div className="col-sm-7">
+  //   <Main />
+  // </div>
+
   _createClass(App, [{
     key: 'render',
     value: function render() {
@@ -8285,7 +8299,7 @@ var App = function (_Component) {
         _react2.default.createElement(
           'div',
           { className: 'col-sm-7' },
-          _react2.default.createElement(_Main2.default, null)
+          _react2.default.createElement(_CompanyDetail2.default, null)
         ),
         _react2.default.createElement(
           'div',
@@ -8315,6 +8329,8 @@ Object.defineProperty(exports, "__esModule", {
 
 var _redux = __webpack_require__(24);
 
+var _reactRouterRedux = __webpack_require__(268);
+
 var _companyListReducer = __webpack_require__(305);
 
 var _companyListReducer2 = _interopRequireDefault(_companyListReducer);
@@ -8323,7 +8339,9 @@ var _importCompaniesReducer = __webpack_require__(306);
 
 var _importCompaniesReducer2 = _interopRequireDefault(_importCompaniesReducer);
 
-var _reactRouterRedux = __webpack_require__(268);
+var _companyReducer = __webpack_require__(307);
+
+var _companyReducer2 = _interopRequireDefault(_companyReducer);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -8334,11 +8352,14 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = (0, _redux.combineReducers)({
   companyList: _companyListReducer2.default,
   importCompanyList: _importCompaniesReducer2.default,
+  companyDetail: _companyReducer2.default,
   routing: _reactRouterRedux.routerReducer //,
   // company,
   //companyPeopleList,
   //person
 });
+
+/**** Modular Reducers ****/
 
 /***/ }),
 /* 72 */
@@ -33630,7 +33651,8 @@ function mapStateToProps(state) {
   return {
     companies: state.companyList.companies,
     // fetchedCompanies: state.companyList.fetched,
-    fetchingCompanies: state.companyList.fetching
+    fetchingCompanies: state.companyList.fetching,
+    importFufilled: state.importCompanyList.fetched
   };
 }
 
@@ -33650,6 +33672,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.fetchCompanyList = fetchCompanyList;
 exports.importCompanies = importCompanies;
+exports.fetchACompany = fetchACompany;
 exports.addACompany = addACompany;
 
 var _axios = __webpack_require__(31);
@@ -33680,9 +33703,21 @@ function importCompanies() {
   };
 }
 
+/** FETCH ONE COMPANY'S DETAILS **/
+function fetchACompany() {
+  return function (dispatch) {
+    dispatch({ type: "FETCH_COMPANY" });
+    // axios.get("/companies/:id")
+    _axios2.default.get("/companies/59712e89ba0e26041b6a36db").then(function (res) {
+      dispatch({ type: "FETCH_COMPANY_FULFILLED", payload: res.data });
+    }).catch(function (err) {
+      dispatch({ type: "FETCH_COMPANY_REJECTED", payload: err });
+    });
+  };
+}
+
 function addACompany(company) {
   return function (dispatch) {
-    return;
     dispatch({
       type: "ADD_A_COMPANY",
       payload: _axios2.default.post("/companies", company).then(function (res) {
@@ -33847,6 +33882,299 @@ function reducer() {
 
   return state;
 }
+
+/***/ }),
+/* 307 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = companyReducer;
+function companyReducer() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
+    company: {
+      _id: null,
+      name: null,
+      address: null,
+      revenue: null,
+      phone: null
+    },
+    fetching: false,
+    fetched: false,
+    error: null
+  };
+  var action = arguments[1];
+
+
+  switch (action.type) {
+    /**** ADD A COMPANY ****/
+    case "ADD_A_COMPANY":
+      {
+        return Object.assign({}, state, { fetching: true });
+      }
+    case "ADD_A_COMPANY_REJECTED":
+      {
+        return Object.assign({}, state, { fetching: false, error: action.payload });
+      }
+    case "ADD_A_COMPANY_FULFILLED":
+      {
+        return Object.assign({}, state, {
+          fetching: false,
+          fetched: true,
+          company: action.payload
+        });
+      }
+
+    /**** UPDATE A COMPANY'S DETAILS ****/
+    case "UPDATE_COMPANY":
+      {
+        return Object.assign({}, state, { company: action.payload });
+        // return {
+        //   ...state,
+        //   company: {...state, company: action.payload},
+        // }
+      }
+
+    /**** GET A COMPANY'S DETAILS ****/
+    case "FETCH_COMPANY":
+      {
+        return Object.assign({}, state, { fetching: true });
+      }
+    case "FETCH_COMPANY_REJECTED":
+      {
+        return Object.assign({}, state, {
+          fetching: false,
+          error: action.payload
+        });
+      }
+    case "FETCH_COMPANY_FULFILLED":
+      {
+        return Object.assign({}, state, {
+          fetching: false,
+          fetched: true,
+          company: action.payload
+        });
+      }
+  }
+
+  return state;
+}
+
+/***/ }),
+/* 308 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(6);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _companyDetail = __webpack_require__(309);
+
+var _companyDetail2 = _interopRequireDefault(_companyDetail);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var App = function App() {
+  return _react2.default.createElement(
+    'div',
+    null,
+    _react2.default.createElement(_companyDetail2.default, null)
+  );
+};
+
+exports.default = App;
+
+/***/ }),
+/* 309 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(6);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _redux = __webpack_require__(24);
+
+var _reactRedux = __webpack_require__(42);
+
+var _companyActions = __webpack_require__(303);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+(0, _reactRedux.connect)(function (store) {
+  console.log('store is: ' + store);
+  return {
+    //store.name_in_combineReducers.data_property_needed
+    company: store.companyDetail.company,
+    fetchingCompany: store.companyDetail.fetching
+  };
+});
+
+var CompanyDetail = function (_Component) {
+  _inherits(CompanyDetail, _Component);
+
+  function CompanyDetail() {
+    _classCallCheck(this, CompanyDetail);
+
+    return _possibleConstructorReturn(this, (CompanyDetail.__proto__ || Object.getPrototypeOf(CompanyDetail)).apply(this, arguments));
+  }
+
+  _createClass(CompanyDetail, [{
+    key: 'showCompanyDetails',
+    value: function showCompanyDetails() {
+      var company = this.props.company;
+
+      console.log('Company Detailed INFO: ' + JSON.stringify(company));
+      return _react2.default.createElement(
+        'li',
+        { key: company._id },
+        _react2.default.createElement(
+          'div',
+          { className: 'panel panel-default' },
+          _react2.default.createElement(
+            'div',
+            { className: 'panel-heading' },
+            _react2.default.createElement(
+              'h3',
+              { className: 'panel-title' },
+              _react2.default.createElement(
+                'a',
+                { href: '#/company/{{company._id}}' },
+                company.name
+              )
+            )
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'panel-body' },
+            _react2.default.createElement(
+              'p',
+              null,
+              _react2.default.createElement(
+                'b',
+                null,
+                'Address'
+              )
+            ),
+            _react2.default.createElement(
+              'p',
+              null,
+              company.address
+            ),
+            _react2.default.createElement(
+              'p',
+              null,
+              _react2.default.createElement(
+                'b',
+                null,
+                'Revenue'
+              )
+            ),
+            _react2.default.createElement(
+              'p',
+              null,
+              company.revenue
+            ),
+            _react2.default.createElement(
+              'p',
+              null,
+              _react2.default.createElement(
+                'b',
+                null,
+                'Phone'
+              )
+            ),
+            _react2.default.createElement(
+              'p',
+              null,
+              company.phone
+            )
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'panel-footer' },
+            _react2.default.createElement(
+              'a',
+              { href: '#/companies/{{company._id}}/people' },
+              'People who work here'
+            )
+          )
+        )
+      );
+    }
+  }, {
+    key: 'componentWillMount',
+    value: function componentWillMount() {
+      // Fetch A Particular Company's Details
+      this.props.dispatch((0, _companyActions.fetchACompany)());
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _props = this.props,
+          fetchingCompany = _props.fetchingCompany,
+          company = _props.company;
+
+      console.log('props: ' + JSON.stringify(this.props));
+
+      if (!fetchingCompany && company._id === null) {
+        return _react2.default.createElement(
+          'h2',
+          null,
+          'Fetching Company Details...'
+        );
+      }
+      return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(
+          'ul',
+          null,
+          this.showCompanyDetails()
+        )
+      );
+    }
+  }]);
+
+  return CompanyDetail;
+}(_react.Component);
+
+// "state.activeUser" is set in reducers/index.js
+
+
+function mapStateToProps(state) {
+  return {
+    company: state.companyDetail.company,
+    fetchingCompany: state.companyDetail.fetching
+  };
+}
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps)(CompanyDetail);
 
 /***/ })
 /******/ ]);
