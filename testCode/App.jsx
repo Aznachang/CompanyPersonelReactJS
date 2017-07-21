@@ -15,14 +15,14 @@ class App extends Component {
   }
 
   // <div className="col-sm-7">
-  //   <Main />
+  //   <CompanyDetail />
   // </div>
 
   render() {
     return (
       <div>
         <div className="col-sm-7">
-          <CompanyDetail />
+          <Main />
         </div>
         <div className="col-sm-4">
           <AddCompanyForm />

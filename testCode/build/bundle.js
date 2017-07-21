@@ -8287,7 +8287,7 @@ var App = function (_Component) {
   }
 
   // <div className="col-sm-7">
-  //   <Main />
+  //   <CompanyDetail />
   // </div>
 
   _createClass(App, [{
@@ -8299,7 +8299,7 @@ var App = function (_Component) {
         _react2.default.createElement(
           'div',
           { className: 'col-sm-7' },
-          _react2.default.createElement(_CompanyDetail2.default, null)
+          _react2.default.createElement(_Main2.default, null)
         ),
         _react2.default.createElement(
           'div',
@@ -33572,22 +33572,14 @@ var CompanyList = function (_Component) {
       });
     }
   }, {
-    key: 'getCompanyListAgain',
-    value: function getCompanyListAgain() {
+    key: 'importCompanyData',
+    value: function importCompanyData() {
       var _this2 = this;
 
       setTimeout(function () {
-        return _this2.props.dispatch((0, _companyActions.fetchCompanyList)());
-      }, 1500);
-    }
-  }, {
-    key: 'importCompanyData',
-    value: function importCompanyData() {
-      var _this3 = this;
-
-      setTimeout(function () {
-        if (!_this3.props.fetchingCompanies && _this3.props.companies.length === 0) {
-          _this3.props.dispatch((0, _companyActions.importCompanies)());
+        if (!_this2.props.fetchingCompanies && _this2.props.companies.length === 0) {
+          // always fetches after import
+          _this2.props.dispatch((0, _companyActions.importCompanies)());
         }
       }, 1000);
     }
@@ -33599,8 +33591,6 @@ var CompanyList = function (_Component) {
 
       // import Data - if empty
       this.importCompanyData();
-      // re-fetch CompanyList after 'import'
-      this.getCompanyListAgain();
     }
   }, {
     key: 'render',
@@ -33613,7 +33603,14 @@ var CompanyList = function (_Component) {
       // console.log(`props: ${JSON.stringify(this.props)}`);
       // if (companies.length !== 0 && !fetchingCompanies)
 
-      if (!fetchingCompanies) {
+      if (fetchingCompanies && companies.length === 0) {
+        return _react2.default.createElement(
+          'h2',
+          null,
+          'Fetching Data...'
+        );
+      }
+      if (fetchedCompanies) {
         if (companies.length === 0) {
           return _react2.default.createElement(
             'h3',
@@ -33621,21 +33618,15 @@ var CompanyList = function (_Component) {
             'No Companies Found, Importing List of Companies!'
           );
         }
-        return _react2.default.createElement(
-          'div',
-          null,
-          _react2.default.createElement(
-            'ul',
-            null,
-            this.createCompanyListItems()
-          )
-        );
       }
-
       return _react2.default.createElement(
-        'h2',
+        'div',
         null,
-        'Fetching Data...'
+        _react2.default.createElement(
+          'ul',
+          null,
+          this.createCompanyListItems()
+        )
       );
     }
   }]);
@@ -33657,7 +33648,7 @@ function mapStateToProps(state) {
 }
 
 // return the smart Container - CompanyList
-//      > UserList is now aware of state and actions
+//      > CompanyList is now aware of state and actions
 exports.default = (0, _reactRedux.connect)(mapStateToProps)(CompanyList);
 
 /***/ }),
@@ -33697,6 +33688,15 @@ function importCompanies() {
     dispatch({ type: "IMPORT_COMPANIES" });
     _axios2.default.get("/importCompanies").then(function (res) {
       dispatch({ type: "IMPORT_COMPANIES_FULFILLED", payload: res.data });
+    })
+    // call fetch_Companies
+    .then(function () {
+      dispatch({ type: "FETCH_COMPANIES" });
+      _axios2.default.get("/companies").then(function (res) {
+        dispatch({ type: "FETCH_COMPANIES_FULFILLED", payload: res.data });
+      }).catch(function (err) {
+        dispatch({ type: "FETCH_COMPANIES_REJECTED", payload: err });
+      });
     }).catch(function (err) {
       dispatch({ type: "IMPORT_COMPANIES_REJECTED", payload: err });
     });
@@ -33768,9 +33768,12 @@ var _App = __webpack_require__(70);
 
 var _App2 = _interopRequireDefault(_App);
 
+var _CompanyDetail = __webpack_require__(308);
+
+var _CompanyDetail2 = _interopRequireDefault(_CompanyDetail);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// import { AppContainer } from 'react-hot-loader';
 var app = document.getElementById('app');
 
 // <Provider store = {store}>
@@ -33778,11 +33781,17 @@ var app = document.getElementById('app');
 //      <div>
 //        <Switch>
 //          <Route exact path="/" component={App} />
+//          <Route path = "/companies/59712e89ba0e26041b6a36db" component={CompanyDetail} />
 //        </Switch>
 //      </div>
 //    </ConnectedRouter>
 //  </Provider>
 
+// <Provider store = {store}>
+//  <App />
+// </Provider>
+
+// import { AppContainer } from 'react-hot-loader';
 (0, _reactDom.render)(_react2.default.createElement(
   _reactRedux.Provider,
   { store: _store2.default },
