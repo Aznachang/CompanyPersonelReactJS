@@ -10,6 +10,7 @@ import { createBrowserHistory } from 'history';
 import { default as reducers } from './reducers';
 import store from "./store.js";
 import App from './App.jsx';
+import CompanyDetail from './Components/CompanyDetail/CompanyDetail.js';
 
 const app = document.getElementById('app');
 
@@ -18,10 +19,15 @@ const app = document.getElementById('app');
  //      <div>
  //        <Switch>
  //          <Route exact path="/" component={App} />
+ //          <Route path = "/companies/59712e89ba0e26041b6a36db" component={CompanyDetail} />
  //        </Switch>
  //      </div>
  //    </ConnectedRouter>
  //  </Provider>
+
+ // <Provider store = {store}>
+ //  <App />
+ // </Provider>
 
 render((
   <Provider store = {store}>

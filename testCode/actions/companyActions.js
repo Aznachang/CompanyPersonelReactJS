@@ -20,6 +20,17 @@ export function importCompanies() {
       .then((res) => {
         dispatch({type: "IMPORT_COMPANIES_FULFILLED", payload: res.data})
       })
+      // call fetch_Companies
+      .then(() => {
+        dispatch({type:"FETCH_COMPANIES"});
+        axios.get("/companies")
+          .then((res) => {
+            dispatch({type: "FETCH_COMPANIES_FULFILLED", payload: res.data})
+          })
+          .catch((err) => {
+            dispatch({type: "FETCH_COMPANIES_REJECTED", payload: err})
+          })
+      })
       .catch((err) => {
         dispatch({type: "IMPORT_COMPANIES_REJECTED", payload: err})
       })

@@ -43,13 +43,10 @@ class CompanyList extends Component {
     });
   }
 
-  getCompanyListAgain() {
-    setTimeout(()=> this.props.dispatch(fetchCompanyList()),1500);
-  }
-
   importCompanyData() {
     setTimeout( ()=> {
       if (!this.props.fetchingCompanies && this.props.companies.length === 0) {
+        // always fetches after import
         this.props.dispatch(importCompanies());
       }
     },1000);
@@ -61,8 +58,6 @@ class CompanyList extends Component {
 
     // import Data - if empty
     this.importCompanyData();
-    // re-fetch CompanyList after 'import'
-    this.getCompanyListAgain();
   }
 
   render() {
@@ -74,22 +69,23 @@ class CompanyList extends Component {
 
     // console.log(`props: ${JSON.stringify(this.props)}`);
     // if (companies.length !== 0 && !fetchingCompanies)
-    if (!fetchingCompanies) {
+    if(fetchingCompanies && companies.length === 0) {
+      return (<h2>Fetching Data...</h2>);
+    }
+    if (fetchedCompanies) {
       if (companies.length === 0) {
         return (
           <h3>No Companies Found, Importing List of Companies!</h3>
         )
       }
-      return (
-        <div>
-          <ul>
-            {this.createCompanyListItems()}
-          </ul>
-        </div>
-      );
     }
-
-    return (<h2>Fetching Data...</h2>);
+    return (
+      <div>
+        <ul>
+          {this.createCompanyListItems()}
+        </ul>
+      </div>
+    );
   };
 }; // end of company-list Container
 
@@ -105,5 +101,5 @@ function mapStateToProps(state) {
 }
 
 // return the smart Container - CompanyList
-//      > UserList is now aware of state and actions
+//      > CompanyList is now aware of state and actions
 export default connect(mapStateToProps)(CompanyList);
