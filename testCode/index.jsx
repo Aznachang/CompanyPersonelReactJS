@@ -1,36 +1,30 @@
+/** React Modules **/
 import React from 'react';
-// import { AppContainer } from 'react-hot-loader';
 import { render } from 'react-dom';
-import { applyMiddleware, createStore } from 'redux';
 import { Provider } from 'react-redux';
-import { Route, Switch } from 'react-router';
-import { ConnectedRouter } from 'connected-react-router';
-import Routes from './routes.jsx';
-import { createBrowserHistory } from 'history';
+import { ConnectedRouter } from 'react-router-redux';
+import { Route, Switch } from 'react-router-dom';
+// import Routes from './routes.jsx';
+import { createHashHistory } from 'history';
+// Reducers - combined
 import { default as reducers } from './reducers';
+// Store - All Data Bank - Single source of truth
 import store from "./store.js";
+
+// Components
 import App from './App.jsx';
 import CompanyDetail from './Components/CompanyDetail/CompanyDetail.js';
 
 const app = document.getElementById('app');
-
- // <Provider store = {store}>
- //    <ConnectedRouter history={history}>
- //      <div>
- //        <Switch>
- //          <Route exact path="/" component={App} />
- //          <Route path = "/companies/59712e89ba0e26041b6a36db" component={CompanyDetail} />
- //        </Switch>
- //      </div>
- //    </ConnectedRouter>
- //  </Provider>
-
- // <Provider store = {store}>
- //  <App />
- // </Provider>
+const history = createHashHistory();
 
 render((
   <Provider store = {store}>
-    <App />
+    <ConnectedRouter history={history}>
+      <Switch>
+        <Route exact path="/" component={App} />
+        <Route exact path="/companies/:id" component={CompanyDetail} />
+      </Switch>
+    </ConnectedRouter>
   </Provider>
 ), app);

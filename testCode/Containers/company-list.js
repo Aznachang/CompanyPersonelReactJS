@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {fetchCompanyList, importCompanies} from '../actions/companyActions.js';
+// Fix - Uncaught ReferenceError: Link is not defined React
+import { Link } from 'react-router-dom';
 
 connect((store) => {
   console.log(`store is: ${store}`);
@@ -23,8 +25,8 @@ class CompanyList extends Component {
         <div className="panel panel-default">
           <div className="panel-heading">
             <h3 className="panel-title">
-              <a href="#/company/{{company._id}}">{company.name}
-              </a>
+              <Link to="/companies/{company._id}">{company.name}
+              </Link>
             </h3>
           </div>
          <div className="panel-body">
@@ -36,7 +38,7 @@ class CompanyList extends Component {
            <p>{company.phone}</p>
          </div>
          <div className="panel-footer">
-           <a href="#/companies/{{company._id}}/people">People who work here</a>
+           <Link to ="/companies/{company._id}/people">People who work here</Link>
          </div>
         </div>
       </li>);
