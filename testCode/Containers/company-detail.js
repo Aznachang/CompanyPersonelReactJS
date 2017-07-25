@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {fetchACompany} from '../actions/companyActions.js';
+import { Link } from 'react-router-dom';
 
 connect((store) => {
   console.log(`store is: ${store}`);
