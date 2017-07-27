@@ -46,7 +46,8 @@ class CompanyList extends Component {
 
   importCompanyData() {
     setTimeout( ()=> {
-      if (!this.props.fetchingCompanies && this.props.companies.length === 0) {
+      const {fetchingCompanies, companies} = this.props;
+      if (!fetchingCompanies && companies.length === 0) {
         // always fetches after import
         this.props.dispatch(importCompanies());
       }
@@ -91,8 +92,8 @@ class CompanyList extends Component {
   };
 }; // end of company-list Container
 
-// Get apps state and pass it as props to UserList
-//      > whenever state changes, the UserList will automatically re-render
+// Get apps state and pass it as props to CompanyList
+//      > whenever state changes, the CompanyList will automatically re-render
 function mapStateToProps(state) {
   return {
     companies: state.companyList.companies,

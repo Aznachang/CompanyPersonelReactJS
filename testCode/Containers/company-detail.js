@@ -5,7 +5,6 @@ import {fetchACompany} from '../actions/companyActions.js';
 import { Link } from 'react-router-dom';
 
 connect((store) => {
-  console.log(`store is: ${store}`);
   return {
     //store.name_in_combineReducers.data_property_needed
     company: store.companyDetail.company,
@@ -66,8 +65,7 @@ class CompanyDetail extends Component {
   }
 }
 
-// "state.activeUser" is set in reducers/index.js
-const mapStateToProps = (state, ownProps) => {
+function mapStateToProps(state, ownProps) {
   return {
     //companyId: state.companyDetail[props.params._id],
     // companyID: state.companyDetail[this.props.route._id],

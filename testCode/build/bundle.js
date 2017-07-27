@@ -32279,7 +32279,6 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 (0, _reactRedux.connect)(function (store) {
-  console.log('store is: ' + store);
   return {
     //store.name_in_combineReducers.data_property_needed
     company: store.companyDetail.company,
@@ -32417,10 +32416,7 @@ var CompanyDetail = function (_Component) {
   return CompanyDetail;
 }(_react.Component);
 
-// "state.activeUser" is set in reducers/index.js
-
-
-var mapStateToProps = function mapStateToProps(state, ownProps) {
+function mapStateToProps(state, ownProps) {
   return {
     //companyId: state.companyDetail[props.params._id],
     // companyID: state.companyDetail[this.props.route._id],
@@ -32428,7 +32424,7 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
     company: state.companyDetail.company,
     fetchingCompany: state.companyDetail.fetching
   };
-};
+}
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps)(CompanyDetail);
 
@@ -32574,7 +32570,11 @@ var CompanyList = function (_Component) {
       var _this2 = this;
 
       setTimeout(function () {
-        if (!_this2.props.fetchingCompanies && _this2.props.companies.length === 0) {
+        var _props = _this2.props,
+            fetchingCompanies = _props.fetchingCompanies,
+            companies = _props.companies;
+
+        if (!fetchingCompanies && companies.length === 0) {
           // always fetches after import
           _this2.props.dispatch((0, _companyActions.importCompanies)());
         }
@@ -32592,10 +32592,10 @@ var CompanyList = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
-      var _props = this.props,
-          companies = _props.companies,
-          fetchedCompanies = _props.fetchedCompanies,
-          fetchingCompanies = _props.fetchingCompanies;
+      var _props2 = this.props,
+          companies = _props2.companies,
+          fetchedCompanies = _props2.fetchedCompanies,
+          fetchingCompanies = _props2.fetchingCompanies;
 
 
       console.log('props: ' + JSON.stringify(this.props));
@@ -32634,8 +32634,8 @@ var CompanyList = function (_Component) {
 
 ; // end of company-list Container
 
-// Get apps state and pass it as props to UserList
-//      > whenever state changes, the UserList will automatically re-render
+// Get apps state and pass it as props to CompanyList
+//      > whenever state changes, the CompanyList will automatically re-render
 function mapStateToProps(state) {
   return {
     companies: state.companyList.companies,
