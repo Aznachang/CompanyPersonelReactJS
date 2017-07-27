@@ -10,9 +10,8 @@ connect((store) => {
   return {
     //store.name_in_combineReducers.data_property_needed
     companies: store.companyList.companies,
-    // fetchedCompanies: store.companyList.fetched,
+    fetchedCompanies: store.companyList.fetched,
     fetchingCompanies: store.companyList.fetching,
-    importFufilled: store.importCompanyList.fetched
   };
 });
 
@@ -25,7 +24,7 @@ class CompanyList extends Component {
         <div className="panel panel-default">
           <div className="panel-heading">
             <h3 className="panel-title">
-              <Link to="/companies/{company._id}">{company.name}
+              <Link to={`/companies/${company._id}`}>{company.name}
               </Link>
             </h3>
           </div>
@@ -38,7 +37,7 @@ class CompanyList extends Component {
            <p>{company.phone}</p>
          </div>
          <div className="panel-footer">
-           <Link to ="/companies/{company._id}/people">People who work here</Link>
+           <Link to ={`/companies/${company._id}/people`}>People who work here</Link>
          </div>
         </div>
       </li>);
@@ -47,11 +46,12 @@ class CompanyList extends Component {
 
   importCompanyData() {
     setTimeout( ()=> {
-      if (!this.props.fetchingCompanies && this.props.companies.length === 0) {
+      const {fetchingCompanies, companies} = this.props;
+      if (!fetchingCompanies && companies.length === 0) {
         // always fetches after import
         this.props.dispatch(importCompanies());
       }
-    },1000);
+    },100);
   }
 
   componentWillMount() {
@@ -69,7 +69,8 @@ class CompanyList extends Component {
       fetchingCompanies
       } = this.props;
 
-    // console.log(`props: ${JSON.stringify(this.props)}`);
+    console.log(`props: ${JSON.stringify(this.props)}`);
+    // console.log(`params: ${data}`);
     // if (companies.length !== 0 && !fetchingCompanies)
     if(fetchingCompanies && companies.length === 0) {
       return (<h2>Fetching Data...</h2>);
@@ -91,14 +92,14 @@ class CompanyList extends Component {
   };
 }; // end of company-list Container
 
-// Get apps state and pass it as props to UserList
-//      > whenever state changes, the UserList will automatically re-render
+// Get apps state and pass it as props to CompanyList
+//      > whenever state changes, the CompanyList will automatically re-render
 function mapStateToProps(state) {
   return {
     companies: state.companyList.companies,
-    // fetchedCompanies: state.companyList.fetched,
-    fetchingCompanies: state.companyList.fetching,
-    importFufilled: state.importCompanyList.fetched
+    // data: this.props.match.params,
+    fetchedCompanies: state.companyList.fetched,
+    fetchingCompanies: state.companyList.fetching
   };
 }
 

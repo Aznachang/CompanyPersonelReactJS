@@ -5,7 +5,6 @@ import {fetchACompany} from '../actions/companyActions.js';
 import { Link } from 'react-router-dom';
 
 connect((store) => {
-  console.log(`store is: ${store}`);
   return {
     //store.name_in_combineReducers.data_property_needed
     company: store.companyDetail.company,
@@ -23,8 +22,8 @@ class CompanyDetail extends Component {
       <div className="panel panel-default">
         <div className="panel-heading">
           <h3 className="panel-title">
-            <a href="#/company/{{company._id}}">{company.name}
-            </a>
+           <Link to={`/companies/${company._id}`}>{company.name}
+           </Link>
           </h3>
         </div>
        <div className="panel-body">
@@ -36,20 +35,22 @@ class CompanyDetail extends Component {
          <p>{company.phone}</p>
        </div>
        <div className="panel-footer">
-         <a href="#/companies/{{company._id}}/people">People who work here</a>
+        <Link to ={`/companies/${company._id}/people`}>People who work here</Link>
        </div>
       </div>
     </li>);
   }
 
   componentWillMount() {
+    // console.log(`companyID: ${JSON.stringify(this.props.companyID)}`);
+    console.log(`props: ${JSON.stringify(this.props)}`);
     // Fetch A Particular Company's Details
     this.props.dispatch(fetchACompany());
   }
 
   render() {
     const {fetchingCompany, company} = this.props;
-    console.log(`props: ${JSON.stringify(this.props)}`);
+    // console.log(`props: ${JSON.stringify(this.props)}`);
 
     if (!fetchingCompany && company._id === null) {
       return (<h2>Fetching Company Details...</h2>);
@@ -64,9 +65,11 @@ class CompanyDetail extends Component {
   }
 }
 
-// "state.activeUser" is set in reducers/index.js
-function mapStateToProps(state) {
+function mapStateToProps(state, ownProps) {
   return {
+    //companyId: state.companyDetail[props.params._id],
+    // companyID: state.companyDetail[this.props.route._id],
+    companyID: state.companyList[ownProps.match.params._id],
     company: state.companyDetail.company,
     fetchingCompany: state.companyDetail.fetching
   };

@@ -7,7 +7,7 @@ import AddPersonForm from './Forms/addPersonForm.jsx';
 
 /**** Components ****/
 import Main from './Components/Main/Main.js';
-// import CompanyDetail from './Components/CompanyDetail/CompanyDetail.js';
+import CompanyDetail from './Components/CompanyDetail/CompanyDetail.js';
 
 class App extends Component {
   constructor(props) {
@@ -24,6 +24,7 @@ class App extends Component {
       <div>
         <div className="col-sm-7">
           <Main />
+          {this.props.children}
         </div>
         <div className="col-sm-4">
           <AddCompanyForm />

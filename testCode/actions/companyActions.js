@@ -38,11 +38,13 @@ export function importCompanies() {
 }
 
 /** FETCH ONE COMPANY'S DETAILS **/
-export function fetchACompany() {
+export function fetchACompany(id) {
+
   return (dispatch) => {
     dispatch({type:"FETCH_COMPANY"});
+    console.log(`companyId: ${id}`);
     // axios.get("/companies/:id")
-    axios.get("/companies/59712e89ba0e26041b6a36db")
+    axios.get(`/companies/${id}`)
       .then((res) => {
         dispatch({type: "FETCH_COMPANY_FULFILLED", payload: res.data})
       })
