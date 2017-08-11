@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { Route } from 'react-router-dom';
 import axios from 'axios';
 
 /**** FORMS ****/
@@ -14,17 +15,13 @@ class App extends Component {
     super(props);
   }
 
-  // <div className="col-sm-7">
-  //   <Main />
-  //   <CompanyDetail />
-  // </div>
-
   render() {
     return (
       <div>
         <div className="col-sm-7">
-          <Main />
-          {this.props.children}
+          <Route exact path='/testCode' component={Main}/>
+          <Route exact path='/testCode/companies' component={Main}/>
+          <Route exact path='/testCode/companies/:id' component={CompanyDetail}/>
         </div>
         <div className="col-sm-4">
           <AddCompanyForm />

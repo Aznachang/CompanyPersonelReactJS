@@ -1,12 +1,13 @@
-import { applyMiddleware, createStore, compose } from "redux";
+import { applyMiddleware, createStore } from "redux";
 import { browserHistory, hashHistory } from 'react-router';
-import { routerMiddleware, syncHistory } from "react-router-redux";
-
+import { routerMiddleware, routerReducer } from "react-router-redux";
+import createHistory from 'history/createBrowserHistory';
 import logger from "redux-logger";
 import thunk from "redux-thunk";
 // combinedReducers
-import reducer from "./reducers";
+import reducers from "./reducers";
 
-const middleware = applyMiddleware(thunk, logger);
-// const middleware = applyMiddleware(syncHistory(browserHistory));
-export default createStore(reducer, middleware);
+const history = createHistory();
+const middleware = routerMiddleware(history);
+
+export default createStore(reducers, applyMiddleware(middleware, thunk, logger));
