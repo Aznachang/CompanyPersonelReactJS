@@ -20,7 +20,7 @@ export default function employeeListReducer(state={
       return Object.assign({}, state, {
         fetching: false,
         fetched: true,
-        companies: action.payload
+        employees: action.payload
       });
     }
     //@@router/

@@ -12,11 +12,34 @@ export function addAnEmployee(employee) {
     });
   }
 }
+export function importEmployees(id) {
+  return (dispatch) => {
+    dispatch({type:"IMPORT_Employees"});
+    axios.get("/importPeopleForCompany/"+id)
+      .then((res) => {
+        dispatch({type: "IMPORT_COMPANIES_FULFILLED", payload: res.data})
+      })
+      // call fetch_Companies
+      .then(() => {
+        dispatch({type:"FETCH_EMPLOYEES"});
+        axios.get("/companies/"+id+"/people")
+          .then((res) => {
+            dispatch({type: "FETCH_EMPLOYEES_FULFILLED", payload: res.data})
+          })
+          .catch((err) => {
+            dispatch({type: "FETCH_EMPLOYEES_REJECTED", payload: err})
+          })
+      })
+      .catch((err) => {
+        dispatch({type: "IMPORT_EMPLOYEES_REJECTED", payload: err})
+      })
+  }
+}
 
-export function fetchEmployees() {
+export function fetchEmployees(id) {
   return (dispatch) => {
     dispatch({type:"FETCH_EMPLOYEES"});
-    axios.get('/companies/:id/people')
+    axios.get('/companies/'+id+'/people')
       .then((res) => {
         dispatch({type: "FETCH_EMPLOYEES_FULFILLED", payload: res.data})
       })

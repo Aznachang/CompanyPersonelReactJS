@@ -1,7 +1,10 @@
 import React, {Component} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
+/** ACTIONS **/
 import {fetchCompanyList, importCompanies, fetchACompanyLocChange} from '../actions/companyActions.js';
+import {fetchEmployeesLocChange} from '../actions/peopleActions.js';
+
 // Fix - Uncaught ReferenceError: Link is not defined React
   import { Link } from 'react-router-dom';
 
@@ -43,7 +46,7 @@ class CompanyList extends Component {
            <Link to ={`/testCode/companies/${company._id}/people`}
                  onClick={() => {
                 console.log(`link to: ${company._id}`);
-                this.propsfetchACompanyLocChange(company._id);
+                this.props.fetchEmployeesLocChange(company._id);
               }}>People who work here</Link>
          </div>
         </div>
@@ -113,7 +116,7 @@ function mapStateToProps(state, ownProps) {
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   fetchCompanyList, importCompanies,
-  fetchACompanyLocChange
+  fetchACompanyLocChange, fetchEmployeesLocChange
 }, dispatch)
 
 

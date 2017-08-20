@@ -4325,7 +4325,7 @@ function fetchACompany(id) {
 
 function fetchACompanyLocChange(id) {
   return function (dispatch) {
-    dispatch({ type: "LOCATION_CHANGE" });
+    dispatch({ type: "COMPANY_LOCATION_CHANGE" });
     _axios2.default.get('/companies/' + id).then(function (res) {
       dispatch({ type: "FETCH_COMPANY_FULFILLED", payload: res.data });
     }).catch(function (err) {
@@ -13850,6 +13850,8 @@ var _reactRedux = __webpack_require__(23);
 
 var _companyActions = __webpack_require__(34);
 
+var _peopleActions = __webpack_require__(315);
+
 var _reactRouterDom = __webpack_require__(14);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -13859,6 +13861,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+/** ACTIONS **/
+
 
 (0, _reactRedux.connect)(function (store) {
   return {
@@ -13880,6 +13884,8 @@ var CompanyDetail = function (_Component) {
   _createClass(CompanyDetail, [{
     key: 'showCompanyDetails',
     value: function showCompanyDetails() {
+      var _this2 = this;
+
       var _props = this.props,
           company = _props.company,
           companyID = _props.companyID;
@@ -13955,7 +13961,11 @@ var CompanyDetail = function (_Component) {
             { className: 'panel-footer' },
             _react2.default.createElement(
               _reactRouterDom.Link,
-              { to: '/testCode/companies/' + company._id + '/people' },
+              { to: '/testCode/companies/' + company._id + '/people',
+                onClick: function onClick() {
+                  console.log('link to: ' + company._id);
+                  _this2.props.fetchEmployeesLocChange(company._id);
+                } },
               'People who work here'
             )
           )
@@ -14005,7 +14015,7 @@ var CompanyDetail = function (_Component) {
 
 function mapStateToProps(state, ownProps) {
   return {
-    companyID: state.companyDetail[ownProps.id],
+    companyID: state.companyDetail[ownProps.companyId],
     company: state.companyDetail.company,
     fetchingCompany: state.companyDetail.fetching
   };
@@ -14013,7 +14023,8 @@ function mapStateToProps(state, ownProps) {
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return (0, _redux.bindActionCreators)({
-    fetchACompany: _companyActions.fetchACompany, fetchACompanyLocChange: _companyActions.fetchACompanyLocChange
+    fetchACompany: _companyActions.fetchACompany, fetchACompanyLocChange: _companyActions.fetchACompanyLocChange,
+    fetchEmployeesLocChange: _peopleActions.fetchEmployeesLocChange
   }, dispatch);
 };
 
@@ -14110,8 +14121,8 @@ var App = function (_Component) {
             _reactRouterDom.Switch,
             null,
             _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/testCode', component: _Main2.default }),
-            _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/testCode/companies/:id', component: _CompanyDetail2.default }),
-            _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/testCode/companies/company/:id/people', component: _EmployeeList2.default })
+            _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/testCode/companies/:companyId', component: _CompanyDetail2.default }),
+            _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/testCode/companies/:companyId/people', component: _EmployeeList2.default })
           )
         ),
         _react2.default.createElement(
@@ -31690,7 +31701,7 @@ var CompanyEmployeeList = function (_Component) {
                 { className: 'panel-title' },
                 _react2.default.createElement(
                   _reactRouterDom.Link,
-                  { to: '/testCode/companies/company/' + _this2.props.companyID + '/edit', onClick: function onClick() {
+                  { to: '/testCode/companies/' + _this2.props.companyID + '/edit', onClick: function onClick() {
                       console.log('link to: ' + _this2.props.companyID);
                       _this2.props.fetchACompanyLocChange(_this2.props.companyID);
                     } },
@@ -31712,7 +31723,7 @@ var CompanyEmployeeList = function (_Component) {
               { className: 'panel-footer' },
               _react2.default.createElement(
                 _reactRouterDom.Link,
-                { to: '/testCode/companies/' + employee._id + '/people' },
+                { to: '/testCode/companies/' + _this2.props.companyID },
                 'Go Back To Company Details'
               )
             )
@@ -31739,12 +31750,9 @@ var CompanyEmployeeList = function (_Component) {
   }, {
     key: 'componentWillMount',
     value: function componentWillMount() {
-      // see if CompanyList Database is not empty
-      // this.props.dispatch(fetchCompanyList());
-      this.props.fetchEmployees();
-
-      // import Data - if empty
-      this.importEmployees();
+      this.props.fetchEmployees(this.props.companyID);
+      // import Employee Data - if empty
+      this.importEmployees(this.props.companyID);
     }
   }, {
     key: 'render',
@@ -31792,8 +31800,8 @@ var CompanyEmployeeList = function (_Component) {
 
 function mapStateToProps(state) {
   return {
-    companyID: state.companyEmployeeList[ownProps.id],
-    employees: state.companyEmployeeList.companies,
+    companyID: state.companyEmployeeList[ownProps.companyId],
+    employees: state.companyEmployeeList.employees,
     fetchedEmployees: state.companyEmployeeList.fetched,
     fetchingEmployees: state.companyEmployeeList.fetching
   };
@@ -31830,6 +31838,8 @@ var _reactRedux = __webpack_require__(23);
 
 var _companyActions = __webpack_require__(34);
 
+var _peopleActions = __webpack_require__(315);
+
 var _reactRouterDom = __webpack_require__(14);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -31839,6 +31849,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+/** ACTIONS **/
+
+
 // Fix - Uncaught ReferenceError: Link is not defined React
 
 
@@ -31943,7 +31956,7 @@ var CompanyList = function (_Component) {
                 { to: '/testCode/companies/' + company._id + '/people',
                   onClick: function onClick() {
                     console.log('link to: ' + company._id);
-                    _this2.propsfetchACompanyLocChange(company._id);
+                    _this2.props.fetchEmployeesLocChange(company._id);
                   } },
                 'People who work here'
               )
@@ -32037,7 +32050,7 @@ function mapStateToProps(state, ownProps) {
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return (0, _redux.bindActionCreators)({
     fetchCompanyList: _companyActions.fetchCompanyList, importCompanies: _companyActions.importCompanies,
-    fetchACompanyLocChange: _companyActions.fetchACompanyLocChange
+    fetchACompanyLocChange: _companyActions.fetchACompanyLocChange, fetchEmployeesLocChange: _peopleActions.fetchEmployeesLocChange
   }, dispatch);
 };
 
@@ -32397,6 +32410,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = companyReducer;
 function companyReducer() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
+    employees: [],
     companies: [],
     fetching: false,
     fetched: false,
@@ -32470,7 +32484,7 @@ function employeeListReducer() {
         return Object.assign({}, state, {
           fetching: false,
           fetched: true,
-          companies: action.payload
+          employees: action.payload
         });
       }
     //@@router/
@@ -32562,7 +32576,7 @@ function companyReducer() {
       }
 
     //@@router/
-    case "LOCATION_CHANGE":
+    case "COMPANY_LOCATION_CHANGE":
       {
         return Object.assign({}, state, { fetching: true });
       }
@@ -32616,6 +32630,74 @@ function reducer() {
   } // end of switch
 
   return state;
+}
+
+/***/ }),
+/* 315 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.addAnEmployee = addAnEmployee;
+exports.importEmployees = importEmployees;
+exports.fetchEmployees = fetchEmployees;
+exports.fetchEmployeesLocChange = fetchEmployeesLocChange;
+function addAnEmployee(employee) {
+  return function (dispatch) {
+    dispatch({
+      type: "ADD_A_COMPANY",
+      payload: axios.post("/companies", company).then(function (res) {
+        fetchCompanyList();
+      }).catch(function (err) {
+        dispatch({ type: "ADD_A_COMPANY_REJECTED", payload: err });
+      })
+    });
+  };
+}
+function importEmployees(id) {
+  return function (dispatch) {
+    dispatch({ type: "IMPORT_Employees" });
+    axios.get("/importPeopleForCompany/" + id).then(function (res) {
+      dispatch({ type: "IMPORT_COMPANIES_FULFILLED", payload: res.data });
+    })
+    // call fetch_Companies
+    .then(function () {
+      dispatch({ type: "FETCH_EMPLOYEES" });
+      axios.get("/companies/" + id + "/people").then(function (res) {
+        dispatch({ type: "FETCH_EMPLOYEES_FULFILLED", payload: res.data });
+      }).catch(function (err) {
+        dispatch({ type: "FETCH_EMPLOYEES_REJECTED", payload: err });
+      });
+    }).catch(function (err) {
+      dispatch({ type: "IMPORT_EMPLOYEES_REJECTED", payload: err });
+    });
+  };
+}
+
+function fetchEmployees(id) {
+  return function (dispatch) {
+    dispatch({ type: "FETCH_EMPLOYEES" });
+    axios.get('/companies/' + id + '/people').then(function (res) {
+      dispatch({ type: "FETCH_EMPLOYEES_FULFILLED", payload: res.data });
+    }).catch(function (err) {
+      dispatch({ type: "FETCH_EMPLOYEES_REJECTED", payload: err });
+    });
+  };
+}
+
+function fetchEmployeesLocChange(id) {
+  return function (dispatch) {
+    dispatch({ type: "EMPLOYEES_LOCATION_CHANGE" });
+    axios.get('/companies/' + id + '/people').then(function (res) {
+      dispatch({ type: "FETCH_EMPLOYEES_FULFILLED", payload: res.data });
+    }).catch(function (err) {
+      dispatch({ type: "FETCH_EMPLOYEES_REJECTED", payload: err });
+    });
+  };
 }
 
 /***/ })

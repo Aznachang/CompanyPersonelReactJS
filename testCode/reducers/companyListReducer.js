@@ -1,4 +1,5 @@
 export default function companyReducer(state={
+    employees: [],
     companies: [],
     fetching: false,
     fetched: false,

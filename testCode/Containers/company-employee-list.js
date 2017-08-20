@@ -22,7 +22,7 @@ class CompanyEmployeeList extends Component {
         <div className="panel panel-default">
           <div className="panel-heading">
             <h3 className="panel-title">
-              <Link to={`/testCode/companies/company/${this.props.companyID}/edit`} onClick={() => {
+              <Link to={`/testCode/companies/${this.props.companyID}/edit`} onClick={() => {
                 console.log(`link to: ${this.props.companyID}`);
                 this.props.fetchACompanyLocChange(this.props.companyID);
               }}>Company Employees
@@ -33,7 +33,7 @@ class CompanyEmployeeList extends Component {
           <ul>{employee.name}</ul>
          </div>
          <div className="panel-footer">
-           <Link to ={`/testCode/companies/${employee._id}/people`}>Go Back To Company Details</Link>
+           <Link to ={`/testCode/companies/${this.props.companyID}`}>Go Back To Company Details</Link>
          </div>
         </div>
       </li>);
@@ -51,12 +51,9 @@ class CompanyEmployeeList extends Component {
   }
 
   componentWillMount() {
-    // see if CompanyList Database is not empty
-    // this.props.dispatch(fetchCompanyList());
-    this.props.fetchEmployees();
-
-    // import Data - if empty
-    this.importEmployees();
+    this.props.fetchEmployees(this.props.companyID);
+    // import Employee Data - if empty
+    this.importEmployees(this.props.companyID);
   }
 
   render() {
@@ -90,8 +87,8 @@ class CompanyEmployeeList extends Component {
 // "state.activeUser" is set in reducers/index.js
 function mapStateToProps(state) {
   return {
-    companyID: state.companyEmployeeList[ownProps.id],
-    employees: state.companyEmployeeList.companies,
+    companyID: state.companyEmployeeList[ownProps.companyId],
+    employees: state.companyEmployeeList.employees,
     fetchedEmployees: state.companyEmployeeList.fetched,
     fetchingEmployees: state.companyEmployeeList.fetching,
   };

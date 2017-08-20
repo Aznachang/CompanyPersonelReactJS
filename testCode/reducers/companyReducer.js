@@ -55,7 +55,7 @@ export default function companyReducer(state={
     }
 
     //@@router/
-    case "LOCATION_CHANGE": {
+    case "COMPANY_LOCATION_CHANGE": {
       return Object.assign({},state, {fetching: true});
     }
   } // end of switch cases

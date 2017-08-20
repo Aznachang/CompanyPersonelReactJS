@@ -26,8 +26,8 @@ class App extends Component {
         <div className="col-sm-7">
           <Switch>
           <Route exact path='/testCode' component={Main}/>
-          <Route exact path='/testCode/companies/:id' component={CompanyDetail}/>
-          <Route exact path='/testCode/companies/company/:id/people' component={CompanyEmployeeList}/>
+          <Route exact path='/testCode/companies/:companyId' component={CompanyDetail}/>
+          <Route exact path='/testCode/companies/:companyId/people' component={CompanyEmployeeList}/>
           </Switch>
         </div>
         <div className="col-sm-4">

@@ -1,7 +1,11 @@
 import React, {Component} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import {fetchACompany, fetchACompanyLocChange} from '../actions/companyActions.js';
+/** ACTIONS **/
+import {fetchACompany, fetchACompanyLocChange
+} from '../actions/companyActions.js';
+import {fetchEmployeesLocChange} from '../actions/peopleActions.js';
+
 import { Link } from 'react-router-dom';
 
 connect((store) => {
@@ -22,7 +26,8 @@ class CompanyDetail extends Component {
       <div className="panel panel-default">
         <div className="panel-heading">
           <h3 className="panel-title">
-           <Link to={`/testCode/companies/${company._id}/edit`}>{company.name}
+           <Link to={`/testCode/companies/${company._id}/edit`}>
+             {company.name}
            </Link>
           </h3>
         </div>
@@ -35,7 +40,13 @@ class CompanyDetail extends Component {
          <p>{company.phone}</p>
        </div>
        <div className="panel-footer">
-        <Link to ={`/testCode/companies/${company._id}/people`}>People who work here</Link>
+        <Link to ={`/testCode/companies/${company._id}/people`}
+              onClick={() => {
+                console.log(`link to: ${company._id}`);
+                this.props.fetchEmployeesLocChange(company._id);
+              }}>
+          People who work here
+        </Link>
        </div>
       </div>
     </li>);
@@ -69,14 +80,15 @@ class CompanyDetail extends Component {
 
 function mapStateToProps(state, ownProps) {
   return {
-    companyID: state.companyDetail[ownProps.id],
+    companyID: state.companyDetail[ownProps.companyId],
     company: state.companyDetail.company,
     fetchingCompany: state.companyDetail.fetching
   };
 }
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  fetchACompany, fetchACompanyLocChange
+  fetchACompany, fetchACompanyLocChange,
+  fetchEmployeesLocChange
 }, dispatch)
 
 

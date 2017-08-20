@@ -1,6 +1,6 @@
 import * as React from 'react';
-import AddCompanyForm from './Forms/addCompanyForm.jsx';
-import AddPersonForm from './Forms/addPersonForm.jsx';
+// import AddCompanyForm from './Forms/addCompanyForm.jsx';
+// import AddPersonForm from './Forms/addPersonForm.jsx';
 import App from './App.jsx';
 import Main from './Components/Main/Main.js';
 import CompanyDetail from './Components/CompanyDetail/CompanyDetail.js';

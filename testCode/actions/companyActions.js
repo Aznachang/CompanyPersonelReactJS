@@ -55,7 +55,7 @@ export function fetchACompany(id) {
 
 export function fetchACompanyLocChange(id) {
   return (dispatch) => {
-    dispatch({type:"LOCATION_CHANGE"});
+    dispatch({type:"COMPANY_LOCATION_CHANGE"});
     axios.get('/companies/'+id)
       .then((res) => {
         dispatch({type: "FETCH_COMPANY_FULFILLED", payload: res.data})
