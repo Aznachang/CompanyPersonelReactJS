@@ -34,7 +34,7 @@ export default class addCompanyForm extends Component {
                 </div>
               </div>
               <div>
-                <p><input type="submit" value="Save" /></p>
+                <p><input onClick={this.props.addACompany} type="submit" value="Save" /></p>
               </div>
             </form>
           </div>

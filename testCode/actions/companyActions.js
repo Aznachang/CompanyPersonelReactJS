@@ -42,9 +42,21 @@ export function fetchACompany(id) {
 
   return (dispatch) => {
     dispatch({type:"FETCH_COMPANY"});
-    console.log(`companyId: ${id}`);
-    // axios.get("/companies/:id")
-    axios.get(`/companies/${id}`)
+    // console.log(`companyId: ${id}`);
+    axios.get('/companies/'+id)
+      .then((res) => {
+        dispatch({type: "FETCH_COMPANY_FULFILLED", payload: res.data})
+      })
+      .catch((err) => {
+        dispatch({type: "FETCH_COMPANY_REJECTED", payload: err})
+      })
+  }
+}
+
+export function fetchACompanyLocChange(id) {
+  return (dispatch) => {
+    dispatch({type:"LOCATION_CHANGE"});
+    axios.get('/companies/'+id)
       .then((res) => {
         dispatch({type: "FETCH_COMPANY_FULFILLED", payload: res.data})
       })

@@ -53,7 +53,12 @@ export default function companyReducer(state={
         company: action.payload
       });
     }
-  }
 
+    //@@router/
+    case "LOCATION_CHANGE": {
+      return Object.assign({},state, {fetching: true});
+    }
+  } // end of switch cases
+  // console.log(`state is: ${JSON.stringify(state)}`);
   return state;
 }

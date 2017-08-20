@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import {fetchCompanyList, importCompanies} from '../actions/companyActions.js';
+import {fetchCompanyList, importCompanies, fetchACompanyLocChange} from '../actions/companyActions.js';
 // Fix - Uncaught ReferenceError: Link is not defined React
-import { Link } from 'react-router-dom';
+  import { Link } from 'react-router-dom';
 
 connect((store) => {
   console.log(`store is: ${store}`);
@@ -24,7 +24,10 @@ class CompanyList extends Component {
         <div className="panel panel-default">
           <div className="panel-heading">
             <h3 className="panel-title">
-              <Link to={`/companies/${company._id}`}>{company.name}
+              <Link to={`/testCode/companies/${company._id}`}    onClick={() => {
+                console.log(`link to: ${company._id}`);
+                this.props.fetchACompanyLocChange(company._id);
+              }}>{company.name}
               </Link>
             </h3>
           </div>
@@ -37,7 +40,11 @@ class CompanyList extends Component {
            <p>{company.phone}</p>
          </div>
          <div className="panel-footer">
-           <Link to ={`/companies/${company._id}/people`}>People who work here</Link>
+           <Link to ={`/testCode/companies/${company._id}/people`}
+                 onClick={() => {
+                console.log(`link to: ${company._id}`);
+                this.propsfetchACompanyLocChange(company._id);
+              }}>People who work here</Link>
          </div>
         </div>
       </li>);
@@ -49,14 +56,16 @@ class CompanyList extends Component {
       const {fetchingCompanies, companies} = this.props;
       if (!fetchingCompanies && companies.length === 0) {
         // always fetches after import
-        this.props.dispatch(importCompanies());
+        // this.props.dispatch(importCompanies());
+        this.props.importCompanies();
       }
     },100);
   }
 
   componentWillMount() {
     // see if CompanyList Database is not empty
-    this.props.dispatch(fetchCompanyList());
+    // this.props.dispatch(fetchCompanyList());
+    this.props.fetchCompanyList();
 
     // import Data - if empty
     this.importCompanyData();
@@ -69,7 +78,7 @@ class CompanyList extends Component {
       fetchingCompanies
       } = this.props;
 
-    console.log(`props: ${JSON.stringify(this.props)}`);
+    // console.log(`props: ${JSON.stringify(this.props)}`);
     // console.log(`params: ${data}`);
     // if (companies.length !== 0 && !fetchingCompanies)
     if(fetchingCompanies && companies.length === 0) {
@@ -94,15 +103,20 @@ class CompanyList extends Component {
 
 // Get apps state and pass it as props to CompanyList
 //      > whenever state changes, the CompanyList will automatically re-render
-function mapStateToProps(state) {
+function mapStateToProps(state, ownProps) {
   return {
     companies: state.companyList.companies,
-    // data: this.props.match.params,
     fetchedCompanies: state.companyList.fetched,
     fetchingCompanies: state.companyList.fetching
   };
 }
 
+const mapDispatchToProps = dispatch => bindActionCreators({
+  fetchCompanyList, importCompanies,
+  fetchACompanyLocChange
+}, dispatch)
+
+
 // return the smart Container - CompanyList
 //      > CompanyList is now aware of state and actions
-export default connect(mapStateToProps)(CompanyList);
+export default connect(mapStateToProps, mapDispatchToProps)(CompanyList);

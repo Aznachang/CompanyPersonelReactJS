@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import {fetchACompany} from '../actions/companyActions.js';
+import {fetchACompany, fetchACompanyLocChange} from '../actions/companyActions.js';
 import { Link } from 'react-router-dom';
 
 connect((store) => {
@@ -15,14 +15,14 @@ connect((store) => {
 class CompanyDetail extends Component {
 
   showCompanyDetails() {
-    const {company} = this.props;
+    const {company, companyID} = this.props;
     console.log(`Company Detailed INFO: ${JSON.stringify(company)}`);
     return (
-    <li key={company._id}>
+    <li key= {companyID}>
       <div className="panel panel-default">
         <div className="panel-heading">
           <h3 className="panel-title">
-           <Link to={`/companies/${company._id}`}>{company.name}
+           <Link to={`/testCode/companies/${company._id}/edit`}>{company.name}
            </Link>
           </h3>
         </div>
@@ -35,22 +35,24 @@ class CompanyDetail extends Component {
          <p>{company.phone}</p>
        </div>
        <div className="panel-footer">
-        <Link to ={`/companies/${company._id}/people`}>People who work here</Link>
+        <Link to ={`/testCode/companies/${company._id}/people`}>People who work here</Link>
        </div>
       </div>
     </li>);
   }
 
   componentWillMount() {
-    // console.log(`companyID: ${JSON.stringify(this.props.companyID)}`);
+    // console.log(`companyID: ${JSON.stringify(this.props.company._id)}`);
     console.log(`props: ${JSON.stringify(this.props)}`);
     // Fetch A Particular Company's Details
-    this.props.dispatch(fetchACompany());
+    this.props.fetchACompany(this.props.companyID);
   }
 
   render() {
     const {fetchingCompany, company} = this.props;
-    // console.log(`props: ${JSON.stringify(this.props)}`);
+    console.log(`props: ${JSON.stringify(this.props)}`);
+    //console.log(`props: ${JSON.stringify(fetchCompany)}`);
+    // console.log(this.props.companyID);
 
     if (!fetchingCompany && company._id === null) {
       return (<h2>Fetching Company Details...</h2>);
@@ -67,12 +69,15 @@ class CompanyDetail extends Component {
 
 function mapStateToProps(state, ownProps) {
   return {
-    //companyId: state.companyDetail[props.params._id],
-    // companyID: state.companyDetail[this.props.route._id],
-    companyID: state.companyList[ownProps.match.params._id],
+    companyID: state.companyDetail[ownProps.id],
     company: state.companyDetail.company,
     fetchingCompany: state.companyDetail.fetching
   };
 }
 
-export default connect(mapStateToProps)(CompanyDetail);
+const mapDispatchToProps = dispatch => bindActionCreators({
+  fetchACompany, fetchACompanyLocChange
+}, dispatch)
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(CompanyDetail);
