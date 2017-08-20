@@ -1,7 +1,8 @@
+import axios from "axios";
+
 export function addAnEmployee(employee) {
   return (dispatch) => {
-    dispatch({
-      type:"ADD_A_COMPANY",
+    dispatch({type:"ADD_A_COMPANY",
       payload: axios.post("/companies", company)
       .then((res) => {
         fetchCompanyList();
@@ -14,7 +15,7 @@ export function addAnEmployee(employee) {
 }
 export function importEmployees(id) {
   return (dispatch) => {
-    dispatch({type:"IMPORT_Employees"});
+    dispatch({type:"IMPORT_EMPLOYEES"});
     axios.get("/importPeopleForCompany/"+id)
       .then((res) => {
         dispatch({type: "IMPORT_COMPANIES_FULFILLED", payload: res.data})
@@ -40,6 +41,7 @@ export function fetchEmployees(id) {
   return (dispatch) => {
     dispatch({type:"FETCH_EMPLOYEES"});
     axios.get('/companies/'+id+'/people')
+    //axios.get("companies/59938b76e81b990f46629e6a/people")
       .then((res) => {
         dispatch({type: "FETCH_EMPLOYEES_FULFILLED", payload: res.data})
       })

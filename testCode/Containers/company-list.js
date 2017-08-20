@@ -46,7 +46,7 @@ class CompanyList extends Component {
            <Link to ={`/testCode/companies/${company._id}/people`}
                  onClick={() => {
                 console.log(`link to: ${company._id}`);
-                this.props.fetchEmployeesLocChange(company._id);
+                this.props.fetchACompanyLocChange(company._id);
               }}>People who work here</Link>
          </div>
         </div>

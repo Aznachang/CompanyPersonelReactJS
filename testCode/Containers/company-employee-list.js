@@ -1,14 +1,16 @@
 import React, {Component} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import {fetchEmployees, fetchACompanyLocChange} from '../actions/companyActions.js';
+/** ACTIONS **/
+import {fetchACompanyLocChange} from '../actions/companyActions.js';
+import {fetchEmployees, importEmployees} from '../actions/peopleActions.js';
+
 import { Link } from 'react-router-dom';
 
 connect((store) => {
-  console.log(`store is: ${store}`);
   return {
     //store.name_in_combineReducers.data_property_needed
-    employees: store.companyEmployeeList.companies,
+    employees: store.companyEmployeeList.employees,
     fetchedEmployees: store.companyEmployeeList.fetched,
     fetchingEmployees: store.companyEmployeeList.fetching,
   };
@@ -22,10 +24,12 @@ class CompanyEmployeeList extends Component {
         <div className="panel panel-default">
           <div className="panel-heading">
             <h3 className="panel-title">
-              <Link to={`/testCode/companies/${this.props.companyID}/edit`} onClick={() => {
-                console.log(`link to: ${this.props.companyID}`);
-                this.props.fetchACompanyLocChange(this.props.companyID);
-              }}>Company Employees
+              <Link to={`/testCode/companies/${this.props.companyID}/edit`}
+                onClick={() => {
+                  console.log(`Header link to: ${this.props.companyID}`);
+                  this.props.fetchACompanyLocChange(this.props.companyID);
+              }}>
+              Company Employees
               </Link>
             </h3>
           </div>
@@ -33,7 +37,13 @@ class CompanyEmployeeList extends Component {
           <ul>{employee.name}</ul>
          </div>
          <div className="panel-footer">
-           <Link to ={`/testCode/companies/${this.props.companyID}`}>Go Back To Company Details</Link>
+           <Link to ={`/testCode/companies/${this.props.companyID}`}
+             onClick={() => {
+               console.log(`Footer link to: ${this.props.companyID}`);
+               this.props.fetchACompanyLocChange(this.props.companyID);
+             }}>
+             Go Back To Company Details
+           </Link>
          </div>
         </div>
       </li>);
@@ -60,7 +70,8 @@ class CompanyEmployeeList extends Component {
     const {
       employees, // [{emp1}, {emp2}]
       fetchedEmployees,
-      fetchingEmployees
+      fetchingEmployees,
+      companyID
     } = this.props;
 
     if (fetchingEmployees && employees.length === 0) {
@@ -85,9 +96,9 @@ class CompanyEmployeeList extends Component {
 }
 
 // "state.activeUser" is set in reducers/index.js
-function mapStateToProps(state) {
+function mapStateToProps(state, ownProps) {
   return {
-    companyID: state.companyEmployeeList[ownProps.companyId],
+    companyID: state.companyList[ownProps.companyId],
     employees: state.companyEmployeeList.employees,
     fetchedEmployees: state.companyEmployeeList.fetched,
     fetchingEmployees: state.companyEmployeeList.fetching,
@@ -95,7 +106,8 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  fetchEmployees, fetchACompanyLocChange
+  fetchEmployees, fetchACompanyLocChange,
+  importEmployees
 }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(CompanyEmployeeList);

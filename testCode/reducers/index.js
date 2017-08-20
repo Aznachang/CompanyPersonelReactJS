@@ -6,15 +6,13 @@ import companyList from "./companyListReducer.js";
 import importCompanyList from "./importCompaniesReducer.js";
 import companyDetail from './companyReducer.js';
 import companyEmployeeList from "./companyPeopleListReducer.js";
-//import person from "./personReducer.js";
-//import company from "./companyReducer.js";
+import employee from "./personReducer.js";
 
 export default combineReducers({
   companyList,
   importCompanyList,
   companyDetail,
   companyEmployeeList,
-  // company,
-   //person
+  employee,
   routing: routerReducer
 });

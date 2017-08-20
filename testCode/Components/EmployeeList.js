@@ -1,10 +1,10 @@
 import React from 'react';
-import EmployeeList from '../Containers/company-employee-list.js';
+import CompanyEmployeeList from '../Containers/company-employee-list.js';
 import { Router, Route, Switch } from 'react-router-dom';
 
 const App = () => (
   <div>
-    <EmployeeList />
+    <CompanyEmployeeList />
   </div>
 );
 

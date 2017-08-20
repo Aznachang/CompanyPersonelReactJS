@@ -11,7 +11,7 @@ import Main from './Components/Main/Main.js';
 import CompanyDetail from './Components/CompanyDetail/CompanyDetail.js';
 import AddEmployeeForm from './Components/AddAnEmployee.js';
 import AddCompanyForm from './Components/AddACompany.js';
-import CompanyEmployeeList from './Components/EmployeeList.js'
+import ListOfEmployees from './Components/EmployeeList.js';
 
 class App extends Component {
   constructor(props) {
@@ -19,6 +19,7 @@ class App extends Component {
   }
   // <AddCompanyForm />
   // <AddPersonForm />
+   //<Route exact path='/testCode' component={Main}/>
 
   render() {
     return (
@@ -27,7 +28,7 @@ class App extends Component {
           <Switch>
           <Route exact path='/testCode' component={Main}/>
           <Route exact path='/testCode/companies/:companyId' component={CompanyDetail}/>
-          <Route exact path='/testCode/companies/:companyId/people' component={CompanyEmployeeList}/>
+          <Route exact path='/testCode/companies/:companyId/people' component={ListOfEmployees}/>
           </Switch>
         </div>
         <div className="col-sm-4">
