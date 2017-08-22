@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 /** ACTIONS **/
-import {fetchACompanyLocChange} from '../actions/companyActions.js';
+import {fetchACompany, fetchACompanyLocChange} from '../actions/companyActions.js';
 import {fetchEmployees, importEmployees} from '../actions/peopleActions.js';
 
 import { Link } from 'react-router-dom';
@@ -18,6 +18,8 @@ connect((store) => {
 
 class CompanyEmployeeList extends Component {
   getEmployeeListItems() {
+    //const {companyID} = this.props;
+    //console.log(`CCompanyEmpList-companyID: ${JSON.stringify(companyID)}`);
     return this.props.employees.map(employee => {
       return (
       <li key={employee._id}>
@@ -34,13 +36,13 @@ class CompanyEmployeeList extends Component {
             </h3>
           </div>
          <div className="panel-body">
-          <ul>{employee.name}</ul>
+           <ul>{employee.name}</ul>
          </div>
          <div className="panel-footer">
-           <Link to ={`/testCode/companies/${this.props.companyID}`}
+           <Link to ={`/testCode/companies/${this.props.empCompanyID}`}
              onClick={() => {
-               console.log(`Footer link to: ${this.props.companyID}`);
-               this.props.fetchACompanyLocChange(this.props.companyID);
+               console.log(`Footer link to: ${this.props.empCompanyID}`);
+               this.props.fetchACompanyLocChange(this.props.empCompanyID);
              }}>
              Go Back To Company Details
            </Link>
@@ -50,20 +52,30 @@ class CompanyEmployeeList extends Component {
     });
   }
 
-  importEmployees() {
+  importEmployees(empCompId) {
+    //console.log('importCompanies companyID: ' +empCompId);
+    const {fetchingEmployees, employees} = this.props;
     setTimeout( ()=> {
-      const {fetchingEmployees, employees} = this.props;
       if (!fetchingEmployees && employees.length === 0) {
         // always fetches after import
-        this.props.importEmployees();
+        this.props.importEmployees(empCompId);
       }
-    },100);
+    },50);
   }
 
   componentWillMount() {
-    this.props.fetchEmployees(this.props.companyID);
+
+    //this.props.fetchEmployees(this.props.companyID);
     // import Employee Data - if empty
-    this.importEmployees(this.props.companyID);
+    //this.importEmployees(this.props.companyID);
+    setTimeout( () => {
+    this.props.fetchEmployees(this.props.empCompanyID);
+
+    console.log('componentWillMount: '+ this.props.empCompanyID);
+    //console.log(`***CompanyEmpList-companyID: ${JSON.stringify(this.props)}`);
+
+    // import Employee Data - if empty
+    this.importEmployees(this.props.empCompanyID)},50);
   }
 
   render() {
@@ -71,7 +83,8 @@ class CompanyEmployeeList extends Component {
       employees, // [{emp1}, {emp2}]
       fetchedEmployees,
       fetchingEmployees,
-      companyID
+      companyID,
+      empCompanyID
     } = this.props;
 
     if (fetchingEmployees && employees.length === 0) {
@@ -98,7 +111,8 @@ class CompanyEmployeeList extends Component {
 // "state.activeUser" is set in reducers/index.js
 function mapStateToProps(state, ownProps) {
   return {
-    companyID: state.companyList[ownProps.companyId],
+    empCompanyID: state.companyEmployeeList.empCompanyId,
+    company: state.companyDetail.company,
     employees: state.companyEmployeeList.employees,
     fetchedEmployees: state.companyEmployeeList.fetched,
     fetchingEmployees: state.companyEmployeeList.fetching,

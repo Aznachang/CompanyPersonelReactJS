@@ -4295,7 +4295,7 @@ function importCompanies() {
     _axios2.default.get("/importCompanies").then(function (res) {
       dispatch({ type: "IMPORT_COMPANIES_FULFILLED", payload: res.data });
     })
-    // call fetch_Companies
+    // call fetch_Companies again
     .then(function () {
       dispatch({ type: "FETCH_COMPANIES" });
       _axios2.default.get("/companies").then(function (res) {
@@ -4313,8 +4313,9 @@ function importCompanies() {
 function fetchACompany(id) {
 
   return function (dispatch) {
+    console.log('**** action-fetchACompany-id: ' + id);
     dispatch({ type: "FETCH_COMPANY" });
-    // console.log(`companyId: ${id}`);
+    //console.log(`&&&^^^ companyId: ${id}`);
     _axios2.default.get('/companies/' + id).then(function (res) {
       dispatch({ type: "FETCH_COMPANY_FULFILLED", payload: res.data });
     }).catch(function (err) {
@@ -4325,6 +4326,7 @@ function fetchACompany(id) {
 
 function fetchACompanyLocChange(id) {
   return function (dispatch) {
+    console.log('%%%% action-fetchACompany-id: ' + id);
     dispatch({ type: "COMPANY_LOCATION_CHANGE" });
     _axios2.default.get('/companies/' + id).then(function (res) {
       dispatch({ type: "FETCH_COMPANY_FULFILLED", payload: res.data });
@@ -8557,12 +8559,13 @@ function importEmployees(id) {
   return function (dispatch) {
     dispatch({ type: "IMPORT_EMPLOYEES" });
     _axios2.default.get("/importPeopleForCompany/" + id).then(function (res) {
-      dispatch({ type: "IMPORT_COMPANIES_FULFILLED", payload: res.data });
+      dispatch({ type: "IMPORT_EMPLOYEES_FULFILLED", payload: res.data });
     })
-    // call fetch_Companies
+    //call fetch_Employees
     .then(function () {
       dispatch({ type: "FETCH_EMPLOYEES" });
       _axios2.default.get("/companies/" + id + "/people").then(function (res) {
+        //console.log('&&&& importEmp- fetchEmpFufilled'+ id);
         dispatch({ type: "FETCH_EMPLOYEES_FULFILLED", payload: res.data });
       }).catch(function (err) {
         dispatch({ type: "FETCH_EMPLOYEES_REJECTED", payload: err });
@@ -8575,11 +8578,10 @@ function importEmployees(id) {
 
 function fetchEmployees(id) {
   return function (dispatch) {
+    //console.log('&&&*** fetchEmp- fetchEmployees-id: '+id);
     dispatch({ type: "FETCH_EMPLOYEES" });
-    _axios2.default.get('/companies/' + id + '/people')
-    //axios.get("companies/59938b76e81b990f46629e6a/people")
-    .then(function (res) {
-      dispatch({ type: "FETCH_EMPLOYEES_FULFILLED", payload: res.data });
+    _axios2.default.get('/companies/' + id + '/people').then(function (res) {
+      dispatch({ type: "FETCH_EMPLOYEES_FULFILLED", payload: res.data, empCompanyId: id });
     }).catch(function (err) {
       dispatch({ type: "FETCH_EMPLOYEES_REJECTED", payload: err });
     });
@@ -8588,11 +8590,8 @@ function fetchEmployees(id) {
 
 function fetchEmployeesLocChange(id) {
   return function (dispatch) {
-    dispatch({ type: "EMPLOYEES_LOCATION_CHANGE" });
-    _axios2.default.get('/companies/' + id + '/people').then(function (res) {
-      dispatch({ type: "FETCH_EMPLOYEES_FULFILLED", payload: res.data });
-    }).catch(function (err) {
-      dispatch({ type: "FETCH_EMPLOYEES_REJECTED", payload: err });
+    dispatch({ type: "EMPLOYEES_LOCATION_CHANGE",
+      empCompanyId: id
     });
   };
 }
@@ -13966,8 +13965,8 @@ var CompanyDetail = function (_Component) {
       var _props = this.props,
           company = _props.company,
           companyID = _props.companyID;
+      //console.log(`In Company Detailed INFO: ${JSON.stringify(company)}`);
 
-      console.log('Company Detailed INFO: ' + JSON.stringify(company));
       return _react2.default.createElement(
         'li',
         { key: companyID },
@@ -14050,21 +14049,12 @@ var CompanyDetail = function (_Component) {
       );
     }
   }, {
-    key: 'componentWillMount',
-    value: function componentWillMount() {
-      // console.log(`companyID: ${JSON.stringify(this.props.company._id)}`);
-      console.log('props: ' + JSON.stringify(this.props));
-      // Fetch A Particular Company's Details
-      this.props.fetchACompany(this.props.companyID);
-    }
-  }, {
     key: 'render',
     value: function render() {
       var _props2 = this.props,
           fetchingCompany = _props2.fetchingCompany,
           company = _props2.company;
-
-      console.log('props: ' + JSON.stringify(this.props));
+      //console.log(`props: ${JSON.stringify(this.props)}`);
       //console.log(`props: ${JSON.stringify(fetchCompany)}`);
       // console.log(this.props.companyID);
 
@@ -14091,8 +14081,11 @@ var CompanyDetail = function (_Component) {
 }(_react.Component);
 
 function mapStateToProps(state, ownProps) {
+  //console.log(`%%%%%% ownProps: ${JSON.stringify(ownProps)}`);
+  //console.log(`%%%%%%--state: ${JSON.stringify(state)}`);
   return {
-    companyID: state.companyDetail[ownProps.companyId],
+    //companyID: state.companyDetail[ownProps.companyID],
+    //companyID: state.companyDetail.company._id,
     company: state.companyDetail.company,
     fetchingCompany: state.companyDetail.fetching
   };
@@ -31565,7 +31558,7 @@ var AddACompany = function (_Component) {
     key: 'componentWillMount',
     value: function componentWillMount() {
       // console.log(`companyID: ${JSON.stringify(this.props.company._id)}`);
-      console.log('props: ' + JSON.stringify(this.props));
+      //console.log(`props: ${JSON.stringify(this.props)}`);
       // Fetch A Particular Company's Details
       this.props.fetchACompany(this.props.companyID);
     }
@@ -31575,10 +31568,9 @@ var AddACompany = function (_Component) {
       var _props = this.props,
           fetchingCompany = _props.fetchingCompany,
           company = _props.company;
-
-      console.log('props: ' + JSON.stringify(this.props));
+      //console.log(`props: ${JSON.stringify(this.props)}`);
       //console.log(`props: ${JSON.stringify(fetchCompany)}`);
-      console.log(this.props.companyID);
+      //console.log(this.props.companyID);
 
       return _react2.default.createElement(
         'div',
@@ -31665,7 +31657,7 @@ var AddAnEmployee = function (_Component) {
     key: 'componentWillMount',
     value: function componentWillMount() {
       // console.log(`companyID: ${JSON.stringify(this.props.company._id)}`);
-      console.log('props: ' + JSON.stringify(this.props));
+      //console.log(`props: ${JSON.stringify(this.props)}`);
       // Fetch A Particular Company's Details
       this.props.fetchACompany(this.props.companyID);
     }
@@ -31675,10 +31667,9 @@ var AddAnEmployee = function (_Component) {
       var _props = this.props,
           fetchingCompany = _props.fetchingCompany,
           company = _props.company;
-
-      console.log('props: ' + JSON.stringify(this.props));
+      //console.log(`ad-an-employee-props: ${JSON.stringify(this.props)}`);
       //console.log(`props: ${JSON.stringify(fetchCompany)}`);
-      console.log(this.props.companyID);
+      //console.log(this.props.companyID);
 
       return _react2.default.createElement(
         'div',
@@ -31767,6 +31758,8 @@ var CompanyEmployeeList = function (_Component) {
     value: function getEmployeeListItems() {
       var _this2 = this;
 
+      //const {companyID} = this.props;
+      //console.log(`CCompanyEmpList-companyID: ${JSON.stringify(companyID)}`);
       return this.props.employees.map(function (employee) {
         return _react2.default.createElement(
           'li',
@@ -31805,10 +31798,10 @@ var CompanyEmployeeList = function (_Component) {
               { className: 'panel-footer' },
               _react2.default.createElement(
                 _reactRouterDom.Link,
-                { to: '/testCode/companies/' + _this2.props.companyID,
+                { to: '/testCode/companies/' + _this2.props.empCompanyID,
                   onClick: function onClick() {
-                    console.log('Footer link to: ' + _this2.props.companyID);
-                    _this2.props.fetchACompanyLocChange(_this2.props.companyID);
+                    console.log('Footer link to: ' + _this2.props.empCompanyID);
+                    _this2.props.fetchACompanyLocChange(_this2.props.empCompanyID);
                   } },
                 'Go Back To Company Details'
               )
@@ -31819,26 +31812,38 @@ var CompanyEmployeeList = function (_Component) {
     }
   }, {
     key: 'importEmployees',
-    value: function importEmployees() {
+    value: function importEmployees(empCompId) {
       var _this3 = this;
 
-      setTimeout(function () {
-        var _props = _this3.props,
-            fetchingEmployees = _props.fetchingEmployees,
-            employees = _props.employees;
+      //console.log('importCompanies companyID: ' +empCompId);
+      var _props = this.props,
+          fetchingEmployees = _props.fetchingEmployees,
+          employees = _props.employees;
 
+      setTimeout(function () {
         if (!fetchingEmployees && employees.length === 0) {
           // always fetches after import
-          _this3.props.importEmployees();
+          _this3.props.importEmployees(empCompId);
         }
-      }, 100);
+      }, 50);
     }
   }, {
     key: 'componentWillMount',
     value: function componentWillMount() {
-      this.props.fetchEmployees(this.props.companyID);
+      var _this4 = this;
+
+      //this.props.fetchEmployees(this.props.companyID);
       // import Employee Data - if empty
-      this.importEmployees(this.props.companyID);
+      //this.importEmployees(this.props.companyID);
+      setTimeout(function () {
+        _this4.props.fetchEmployees(_this4.props.empCompanyID);
+
+        console.log('componentWillMount: ' + _this4.props.empCompanyID);
+        //console.log(`***CompanyEmpList-companyID: ${JSON.stringify(this.props)}`);
+
+        // import Employee Data - if empty
+        _this4.importEmployees(_this4.props.empCompanyID);
+      }, 50);
     }
   }, {
     key: 'render',
@@ -31847,7 +31852,8 @@ var CompanyEmployeeList = function (_Component) {
           employees = _props2.employees,
           fetchedEmployees = _props2.fetchedEmployees,
           fetchingEmployees = _props2.fetchingEmployees,
-          companyID = _props2.companyID;
+          companyID = _props2.companyID,
+          empCompanyID = _props2.empCompanyID;
 
 
       if (fetchingEmployees && employees.length === 0) {
@@ -31887,7 +31893,8 @@ var CompanyEmployeeList = function (_Component) {
 
 function mapStateToProps(state, ownProps) {
   return {
-    companyID: state.companyList[ownProps.companyId],
+    empCompanyID: state.companyEmployeeList.empCompanyId,
+    company: state.companyDetail.company,
     employees: state.companyEmployeeList.employees,
     fetchedEmployees: state.companyEmployeeList.fetched,
     fetchingEmployees: state.companyEmployeeList.fetching
@@ -31983,7 +31990,7 @@ var CompanyList = function (_Component) {
                 _react2.default.createElement(
                   _reactRouterDom.Link,
                   { to: '/testCode/companies/' + company._id, onClick: function onClick() {
-                      console.log('link to: ' + company._id);
+                      console.log('***link to: ' + company._id);
                       _this2.props.fetchACompanyLocChange(company._id);
                     } },
                   company.name
@@ -32043,8 +32050,8 @@ var CompanyList = function (_Component) {
                 _reactRouterDom.Link,
                 { to: '/testCode/companies/' + company._id + '/people',
                   onClick: function onClick() {
-                    console.log('link to: ' + company._id);
-                    _this2.props.fetchACompanyLocChange(company._id);
+                    console.log('####link to: ' + company._id);
+                    _this2.props.fetchEmployeesLocChange(company._id);
                   } },
                 'People who work here'
               )
@@ -32058,27 +32065,32 @@ var CompanyList = function (_Component) {
     value: function importCompanyData() {
       var _this3 = this;
 
+      var _props = this.props,
+          fetchingCompanies = _props.fetchingCompanies,
+          companies = _props.companies;
+
       setTimeout(function () {
-        var _props = _this3.props,
-            fetchingCompanies = _props.fetchingCompanies,
-            companies = _props.companies;
 
         if (!fetchingCompanies && companies.length === 0) {
-          // always fetches after import
+          // inside importCompanies action, always fetches again after import
           // this.props.dispatch(importCompanies());
           _this3.props.importCompanies();
         }
-      }, 100);
+      }, 50);
     }
   }, {
     key: 'componentWillMount',
     value: function componentWillMount() {
+      var _this4 = this;
+
       // see if CompanyList Database is not empty
       // this.props.dispatch(fetchCompanyList());
-      this.props.fetchCompanyList();
+      setTimeout(function () {
+        _this4.props.fetchCompanyList();
 
-      // import Data - if empty
-      this.importCompanyData();
+        // import Data - if empty
+        _this4.importCompanyData();
+      }, 50);
     }
   }, {
     key: 'render',
@@ -32128,6 +32140,7 @@ var CompanyList = function (_Component) {
 // Get apps state and pass it as props to CompanyList
 //      > whenever state changes, the CompanyList will automatically re-render
 function mapStateToProps(state, ownProps) {
+  //console.log(`%%%%%%ownProps: ${JSON.stringify(ownProps)}`);
   return {
     companies: state.companyList.companies,
     fetchedCompanies: state.companyList.fetched,
@@ -32547,6 +32560,7 @@ exports.default = employeeListReducer;
 function employeeListReducer() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
     employees: [],
+    empCompanyId: null,
     fetching: false,
     fetched: false,
     error: null
@@ -32572,17 +32586,21 @@ function employeeListReducer() {
         return Object.assign({}, state, {
           fetching: false,
           fetched: true,
-          employees: action.payload
+          employees: action.payload,
+          empCompanyId: action.empCompanyId
         });
       }
     //@@router/
     case "EMPLOYEES_LOCATION_CHANGE":
       {
-        return Object.assign({}, state, { fetching: true });
+        console.log('@@@@ empCompanyId: ' + action.empCompanyId);
+        return Object.assign({}, state, { fetching: true,
+          empCompanyId: action.empCompanyId
+
+        });
       }
 
   } // end of switch cases
-
   return state;
 }
 

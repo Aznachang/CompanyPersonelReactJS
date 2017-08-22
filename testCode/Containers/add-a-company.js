@@ -19,16 +19,16 @@ class AddACompany extends Component {
 
   componentWillMount() {
     // console.log(`companyID: ${JSON.stringify(this.props.company._id)}`);
-    console.log(`props: ${JSON.stringify(this.props)}`);
+    //console.log(`props: ${JSON.stringify(this.props)}`);
     // Fetch A Particular Company's Details
     this.props.fetchACompany(this.props.companyID);
   }
 
   render() {
     const {fetchingCompany, company} = this.props;
-    console.log(`props: ${JSON.stringify(this.props)}`);
+    //console.log(`props: ${JSON.stringify(this.props)}`);
     //console.log(`props: ${JSON.stringify(fetchCompany)}`);
-    console.log(this.props.companyID);
+    //console.log(this.props.companyID);
 
     return (
       <div>

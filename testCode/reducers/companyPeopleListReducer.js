@@ -1,5 +1,6 @@
 export default function employeeListReducer(state={
     employees: [],
+    empCompanyId: null,
     fetching: false,
     fetched: false,
     error: null,
@@ -20,15 +21,19 @@ export default function employeeListReducer(state={
       return Object.assign({}, state, {
         fetching: false,
         fetched: true,
-        employees: action.payload
+        employees: action.payload,
+        empCompanyId: action.empCompanyId
       });
     }
     //@@router/
     case "EMPLOYEES_LOCATION_CHANGE": {
-      return Object.assign({},state, {fetching: true});
+      console.log('@@@@ empCompanyId: ' +action.empCompanyId);
+      return Object.assign({},state, {fetching: true,
+        empCompanyId: action.empCompanyId,
+
+      });
     }
 
   } // end of switch cases
-
   return state;
 }

@@ -18,13 +18,14 @@ export function importEmployees(id) {
     dispatch({type:"IMPORT_EMPLOYEES"});
     axios.get("/importPeopleForCompany/"+id)
       .then((res) => {
-        dispatch({type: "IMPORT_COMPANIES_FULFILLED", payload: res.data})
+        dispatch({type: "IMPORT_EMPLOYEES_FULFILLED", payload: res.data})
       })
-      // call fetch_Companies
+      //call fetch_Employees
       .then(() => {
         dispatch({type:"FETCH_EMPLOYEES"});
         axios.get("/companies/"+id+"/people")
           .then((res) => {
+            //console.log('&&&& importEmp- fetchEmpFufilled'+ id);
             dispatch({type: "FETCH_EMPLOYEES_FULFILLED", payload: res.data})
           })
           .catch((err) => {
@@ -39,11 +40,11 @@ export function importEmployees(id) {
 
 export function fetchEmployees(id) {
   return (dispatch) => {
+    //console.log('&&&*** fetchEmp- fetchEmployees-id: '+id);
     dispatch({type:"FETCH_EMPLOYEES"});
     axios.get('/companies/'+id+'/people')
-    //axios.get("companies/59938b76e81b990f46629e6a/people")
       .then((res) => {
-        dispatch({type: "FETCH_EMPLOYEES_FULFILLED", payload: res.data})
+        dispatch({type: "FETCH_EMPLOYEES_FULFILLED", payload: res.data, empCompanyId: id})
       })
       .catch((err) => {
         dispatch({type: "FETCH_EMPLOYEES_REJECTED", payload: err})
@@ -53,13 +54,8 @@ export function fetchEmployees(id) {
 
 export function fetchEmployeesLocChange(id) {
   return (dispatch) => {
-    dispatch({type:"EMPLOYEES_LOCATION_CHANGE"});
-    axios.get('/companies/'+id+'/people')
-      .then((res) => {
-        dispatch({type: "FETCH_EMPLOYEES_FULFILLED", payload: res.data})
-      })
-      .catch((err) => {
-        dispatch({type: "FETCH_EMPLOYEES_REJECTED", payload: err})
-      })
+    dispatch({type:"EMPLOYEES_LOCATION_CHANGE",
+      empCompanyId: id
+    });
   }
 }

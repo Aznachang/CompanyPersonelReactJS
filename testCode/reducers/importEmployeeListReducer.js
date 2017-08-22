@@ -8,18 +8,17 @@ export default function reducer(state={
   // All Action-Types for companyList!
   switch (action.type) {
     case "IMPORT_EMPLOYEES" : {
-      return {...state, fetching: true}
+      return Object.assign({}, fetching: true});
     }
     case "IMPORT_EMPLOYEES_REJECTED" : {
-      return {...state, fetching: false, error: action.payload}
+      return Object.assign({}, fetching: false, error: action.payload});
     }
     case "IMPORT_EMPLOYEES_FULFILLED": {
-      return {
-        ...state,
+      return Object.assign({},
         fetching: false,
         fetched: true,
         importedEmployees: action.payload
-      }
+      });
     }
   } // end of switch
 

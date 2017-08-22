@@ -28,7 +28,7 @@ class CompanyList extends Component {
           <div className="panel-heading">
             <h3 className="panel-title">
               <Link to={`/testCode/companies/${company._id}`}    onClick={() => {
-                console.log(`link to: ${company._id}`);
+                console.log(`***link to: ${company._id}`);
                 this.props.fetchACompanyLocChange(company._id);
               }}>{company.name}
               </Link>
@@ -45,8 +45,8 @@ class CompanyList extends Component {
          <div className="panel-footer">
            <Link to ={`/testCode/companies/${company._id}/people`}
                  onClick={() => {
-                console.log(`link to: ${company._id}`);
-                this.props.fetchACompanyLocChange(company._id);
+                console.log(`####link to: ${company._id}`);
+                this.props.fetchEmployeesLocChange(company._id);
               }}>People who work here</Link>
          </div>
         </div>
@@ -55,23 +55,25 @@ class CompanyList extends Component {
   }
 
   importCompanyData() {
+    const {fetchingCompanies, companies} = this.props;
     setTimeout( ()=> {
-      const {fetchingCompanies, companies} = this.props;
+
       if (!fetchingCompanies && companies.length === 0) {
-        // always fetches after import
+        // inside importCompanies action, always fetches again after import
         // this.props.dispatch(importCompanies());
         this.props.importCompanies();
       }
-    },100);
+    },50);
   }
 
   componentWillMount() {
     // see if CompanyList Database is not empty
     // this.props.dispatch(fetchCompanyList());
+    setTimeout( ()=> {
     this.props.fetchCompanyList();
 
     // import Data - if empty
-    this.importCompanyData();
+    this.importCompanyData()},50);
   }
 
   render() {
@@ -107,6 +109,7 @@ class CompanyList extends Component {
 // Get apps state and pass it as props to CompanyList
 //      > whenever state changes, the CompanyList will automatically re-render
 function mapStateToProps(state, ownProps) {
+  //console.log(`%%%%%%ownProps: ${JSON.stringify(ownProps)}`);
   return {
     companies: state.companyList.companies,
     fetchedCompanies: state.companyList.fetched,
@@ -116,7 +119,7 @@ function mapStateToProps(state, ownProps) {
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   fetchCompanyList, importCompanies,
-  fetchACompanyLocChange, fetchEmployeesLocChange
+  fetchACompanyLocChange,fetchEmployeesLocChange
 }, dispatch)
 
 
