@@ -17,9 +17,6 @@ class App extends Component {
   constructor(props) {
     super(props);
   }
-  // <AddCompanyForm />
-  // <AddPersonForm />
-   //<Route exact path='/testCode' component={Main}/>
 
   render() {
     return (

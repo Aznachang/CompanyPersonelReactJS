@@ -30,7 +30,8 @@ class CompanyList extends Component {
               <Link to={`/testCode/companies/${company._id}`}    onClick={() => {
                 console.log(`***link to: ${company._id}`);
                 this.props.fetchACompanyLocChange(company._id);
-              }}>{company.name}
+              }}
+              >{company.name}
               </Link>
             </h3>
           </div>
@@ -54,26 +55,17 @@ class CompanyList extends Component {
     });
   }
 
-  importCompanyData() {
-    const {fetchingCompanies, companies} = this.props;
-    setTimeout( ()=> {
-
-      if (!fetchingCompanies && companies.length === 0) {
-        // inside importCompanies action, always fetches again after import
-        // this.props.dispatch(importCompanies());
-        this.props.importCompanies();
-      }
-    },50);
-  }
-
   componentWillMount() {
-    // see if CompanyList Database is not empty
-    // this.props.dispatch(fetchCompanyList());
-    setTimeout( ()=> {
+    //first 'fetchCompanyList' to see if import company data is needed
     this.props.fetchCompanyList();
 
-    // import Data - if empty
-    this.importCompanyData()},50);
+    //setTimeout for fecthCompanyList to complete
+    setTimeout(() => {
+      const {fetchingCompanies, companies} = this.props;
+      if (!fetchingCompanies && companies.length === 0) {
+        this.props.importCompanies();
+      }
+    },100);
   }
 
   render() {
@@ -83,11 +75,8 @@ class CompanyList extends Component {
       fetchingCompanies
       } = this.props;
 
-    // console.log(`props: ${JSON.stringify(this.props)}`);
-    // console.log(`params: ${data}`);
-    // if (companies.length !== 0 && !fetchingCompanies)
-    if(fetchingCompanies && companies.length === 0) {
-      return (<h2>Fetching Data...</h2>);
+    if(fetchingCompanies) {
+      return (<div></div>);
     }
     if (fetchedCompanies) {
       if (companies.length === 0) {
@@ -108,8 +97,7 @@ class CompanyList extends Component {
 
 // Get apps state and pass it as props to CompanyList
 //      > whenever state changes, the CompanyList will automatically re-render
-function mapStateToProps(state, ownProps) {
-  //console.log(`%%%%%%ownProps: ${JSON.stringify(ownProps)}`);
+function mapStateToProps(state) {
   return {
     companies: state.companyList.companies,
     fetchedCompanies: state.companyList.fetched,
@@ -119,7 +107,8 @@ function mapStateToProps(state, ownProps) {
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   fetchCompanyList, importCompanies,
-  fetchACompanyLocChange,fetchEmployeesLocChange
+  fetchACompanyLocChange,
+  fetchEmployeesLocChange
 }, dispatch)
 
 

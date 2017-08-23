@@ -43,7 +43,6 @@ export function fetchACompany(id) {
   return (dispatch) => {
     console.log('**** action-fetchACompany-id: '+id);
     dispatch({type:"FETCH_COMPANY"});
-    //console.log(`&&&^^^ companyId: ${id}`);
     axios.get('/companies/'+id)
       .then((res) => {
         dispatch({type: "FETCH_COMPANY_FULFILLED", payload: res.data})

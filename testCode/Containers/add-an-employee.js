@@ -19,7 +19,7 @@ class AddAnEmployee extends Component {
     // console.log(`companyID: ${JSON.stringify(this.props.company._id)}`);
     //console.log(`props: ${JSON.stringify(this.props)}`);
     // Fetch A Particular Company's Details
-    this.props.fetchACompany(this.props.companyID);
+    // this.props.fetchACompany(this.props.companyID);
   }
 
   render() {

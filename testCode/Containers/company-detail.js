@@ -20,7 +20,6 @@ class CompanyDetail extends Component {
 
   showCompanyDetails() {
     const {company, companyID} = this.props;
-    //console.log(`In Company Detailed INFO: ${JSON.stringify(company)}`);
     return (
     <li key= {companyID}>
       <div className="panel panel-default">
@@ -54,10 +53,6 @@ class CompanyDetail extends Component {
 
   render() {
     const {fetchingCompany, company} = this.props;
-    //console.log(`props: ${JSON.stringify(this.props)}`);
-    //console.log(`props: ${JSON.stringify(fetchCompany)}`);
-    // console.log(this.props.companyID);
-
     if (!fetchingCompany && company._id === null) {
       return (<h2>Fetching Company Details...</h2>);
     }
@@ -72,11 +67,7 @@ class CompanyDetail extends Component {
 }
 
 function mapStateToProps(state, ownProps) {
-  //console.log(`%%%%%% ownProps: ${JSON.stringify(ownProps)}`);
-  //console.log(`%%%%%%--state: ${JSON.stringify(state)}`);
   return {
-    //companyID: state.companyDetail[ownProps.companyID],
-    //companyID: state.companyDetail.company._id,
     company: state.companyDetail.company,
     fetchingCompany: state.companyDetail.fetching
   };

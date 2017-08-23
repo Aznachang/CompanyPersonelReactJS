@@ -28,8 +28,9 @@ export default function employeeListReducer(state={
     //@@router/
     case "EMPLOYEES_LOCATION_CHANGE": {
       console.log('@@@@ empCompanyId: ' +action.empCompanyId);
-      return Object.assign({},state, {fetching: true,
-        empCompanyId: action.empCompanyId,
+      return Object.assign({},state,
+        //{fetching: true,
+        {empCompanyId: action.empCompanyId,
 
       });
     }

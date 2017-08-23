@@ -26,10 +26,10 @@ class CompanyEmployeeList extends Component {
         <div className="panel panel-default">
           <div className="panel-heading">
             <h3 className="panel-title">
-              <Link to={`/testCode/companies/${this.props.companyID}/edit`}
+              <Link to={`/testCode/companies/${this.props.empCompanyID}/edit`}
                 onClick={() => {
-                  console.log(`Header link to: ${this.props.companyID}`);
-                  this.props.fetchACompanyLocChange(this.props.companyID);
+                  console.log(`$$$ Header link to: ${this.props.empCompanyID}`);
+                  this.props.fetchACompanyLocChange(this.props.empCompanyID);
               }}>
               Company Employees
               </Link>
@@ -41,7 +41,7 @@ class CompanyEmployeeList extends Component {
          <div className="panel-footer">
            <Link to ={`/testCode/companies/${this.props.empCompanyID}`}
              onClick={() => {
-               console.log(`Footer link to: ${this.props.empCompanyID}`);
+               console.log(`### Footer link to: ${this.props.empCompanyID}`);
                this.props.fetchACompanyLocChange(this.props.empCompanyID);
              }}>
              Go Back To Company Details
@@ -52,30 +52,17 @@ class CompanyEmployeeList extends Component {
     });
   }
 
-  importEmployees(empCompId) {
-    //console.log('importCompanies companyID: ' +empCompId);
-    const {fetchingEmployees, employees} = this.props;
-    setTimeout( ()=> {
-      if (!fetchingEmployees && employees.length === 0) {
-        // always fetches after import
-        this.props.importEmployees(empCompId);
-      }
-    },50);
-  }
-
   componentWillMount() {
-
-    //this.props.fetchEmployees(this.props.companyID);
-    // import Employee Data - if empty
-    //this.importEmployees(this.props.companyID);
-    setTimeout( () => {
+    //first 'fetchEmployees' to see if import company data is needed
     this.props.fetchEmployees(this.props.empCompanyID);
 
-    console.log('componentWillMount: '+ this.props.empCompanyID);
-    //console.log(`***CompanyEmpList-companyID: ${JSON.stringify(this.props)}`);
-
-    // import Employee Data - if empty
-    this.importEmployees(this.props.empCompanyID)},50);
+    //setTimeout for fetchEmployees to complete
+    setTimeout(() => {
+      const {fetchingEmployees, employees} = this.props;
+      if (!fetchingEmployees && employees.length === 0) {
+        this.props.importEmployees(this.props.empCompanyID);
+      }
+    },100);
   }
 
   render() {
@@ -88,7 +75,7 @@ class CompanyEmployeeList extends Component {
     } = this.props;
 
     if (fetchingEmployees && employees.length === 0) {
-      return (<h2>Fetching Employees...</h2>);
+      return (<div></div>);
     }
 
     if (fetchedEmployees) {

@@ -56,9 +56,8 @@ export default function companyReducer(state={
 
     //@@router/
     case "COMPANY_LOCATION_CHANGE": {
-      return Object.assign({},state, {fetching: true});
+      return Object.assign({},state, {});//{fetching: true});
     }
   } // end of switch cases
-  // console.log(`state is: ${JSON.stringify(state)}`);
   return state;
 }

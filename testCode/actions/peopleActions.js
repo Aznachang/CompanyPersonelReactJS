@@ -25,7 +25,6 @@ export function importEmployees(id) {
         dispatch({type:"FETCH_EMPLOYEES"});
         axios.get("/companies/"+id+"/people")
           .then((res) => {
-            //console.log('&&&& importEmp- fetchEmpFufilled'+ id);
             dispatch({type: "FETCH_EMPLOYEES_FULFILLED", payload: res.data})
           })
           .catch((err) => {
@@ -40,7 +39,6 @@ export function importEmployees(id) {
 
 export function fetchEmployees(id) {
   return (dispatch) => {
-    //console.log('&&&*** fetchEmp- fetchEmployees-id: '+id);
     dispatch({type:"FETCH_EMPLOYEES"});
     axios.get('/companies/'+id+'/people')
       .then((res) => {
@@ -54,6 +52,7 @@ export function fetchEmployees(id) {
 
 export function fetchEmployeesLocChange(id) {
   return (dispatch) => {
+    //here we pass the id argument as empCompanyID and map it to props later
     dispatch({type:"EMPLOYEES_LOCATION_CHANGE",
       empCompanyId: id
     });
