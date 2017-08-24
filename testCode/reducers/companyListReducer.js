@@ -1,7 +1,11 @@
-export default function companyReducer(state={
+export default function companyListReducer(state={
+    /**** GET ****/
     companies: [],
     fetching: false,
     fetched: false,
+    /**** POST ****/
+    adding: false,
+    added: false,
     error: null,
   }, action) {
 
@@ -21,6 +25,23 @@ export default function companyReducer(state={
         fetching: false,
         fetched: true,
         companies: action.payload
+      });
+    }
+
+    /**** ADD A COMPANY ****/
+    case "ADD_A_COMPANY": {
+      return Object.assign({},state, {fetching: true, adding: true});
+    }
+    case "ADD_A_COMPANY_REJECTED": {
+      return Object.assign({},state, {fetching: false, adding: false, error: action.payload});
+    }
+    case "ADD_A_COMPANY_FULFILLED": {
+      return Object.assign({}, state, {
+        //fetching: false,
+        //fetched: true,
+        adding: false,
+        added: true,
+        company: action.payload,
       });
     }
   } // end of switch cases

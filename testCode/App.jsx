@@ -9,8 +9,8 @@ import axios from 'axios';
 /**** Components ****/
 import Main from './Components/Main/Main.js';
 import CompanyDetail from './Components/CompanyDetail/CompanyDetail.js';
-import AddEmployeeForm from './Components/AddAnEmployee.js';
-import AddCompanyForm from './Components/AddACompany.js';
+import AddEmployee from './Components/AddAnEmployee.js';
+import AddCompany from './Components/AddACompany.js';
 import ListOfEmployees from './Components/EmployeeList.js';
 
 class App extends Component {
@@ -29,8 +29,8 @@ class App extends Component {
           </Switch>
         </div>
         <div className="col-sm-4">
-          <AddCompanyForm />
-          <AddEmployeeForm />
+          <AddCompany />
+          <AddEmployee />
         </div>
       </div>
     )

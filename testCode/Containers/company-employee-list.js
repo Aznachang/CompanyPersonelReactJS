@@ -62,7 +62,7 @@ class CompanyEmployeeList extends Component {
       if (!fetchingEmployees && employees.length === 0) {
         this.props.importEmployees(this.props.empCompanyID);
       }
-    },100);
+    },50);
   }
 
   render() {

@@ -6,26 +6,32 @@ export default function companyReducer(state={
       revenue: null,
       phone: null
     },
+    // get
     fetching: false,
     fetched: false,
+    // post
+    adding: false,
+    added: false,
     error: null,
   }, action) {
 
   switch (action.type) {
-    /**** ADD A COMPANY ****/
-    case "ADD_A_COMPANY": {
-      return Object.assign({},state, {fetching: true});
-    }
-    case "ADD_A_COMPANY_REJECTED": {
-      return Object.assign({},state, {fetching: false, error: action.payload});
-    }
-    case "ADD_A_COMPANY_FULFILLED": {
-      return Object.assign({}, state, {
-        fetching: false,
-        fetched: true,
-        company: action.payload,
-      });
-    }
+    // /**** ADD A COMPANY ****/
+    // case "ADD_A_COMPANY": {
+    //   return Object.assign({},state, {fetching: true, adding: true});
+    // }
+    // case "ADD_A_COMPANY_REJECTED": {
+    //   return Object.assign({},state, {fetching: false, adding: false, error: action.payload});
+    // }
+    // case "ADD_A_COMPANY_FULFILLED": {
+    //   return Object.assign({}, state, {
+    //     fetching: false,
+    //     fetched: true,
+    //     adding: false,
+    //     added: true
+    //     company: action.payload,
+    //   });
+    // }
 
     /**** UPDATE A COMPANY'S DETAILS ****/
     case "UPDATE_COMPANY": {

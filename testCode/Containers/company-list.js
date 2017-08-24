@@ -65,7 +65,7 @@ class CompanyList extends Component {
       if (!fetchingCompanies && companies.length === 0) {
         this.props.importCompanies();
       }
-    },100);
+    },50);
   }
 
   render() {

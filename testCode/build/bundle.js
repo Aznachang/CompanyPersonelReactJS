@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 311);
+/******/ 	return __webpack_require__(__webpack_require__.s = 310);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -1753,7 +1753,7 @@ var CallbackQueue = __webpack_require__(87);
 var PooledClass = __webpack_require__(20);
 var ReactFeatureFlags = __webpack_require__(92);
 var ReactReconciler = __webpack_require__(25);
-var Transaction = __webpack_require__(40);
+var Transaction = __webpack_require__(39);
 
 var invariant = __webpack_require__(1);
 
@@ -2705,7 +2705,7 @@ var _assign = __webpack_require__(5);
 var ReactCurrentOwner = __webpack_require__(16);
 
 var warning = __webpack_require__(2);
-var canDefineProperty = __webpack_require__(43);
+var canDefineProperty = __webpack_require__(42);
 var hasOwnProperty = Object.prototype.hasOwnProperty;
 
 var REACT_ELEMENT_TYPE = __webpack_require__(117);
@@ -3139,7 +3139,7 @@ exports.connect = _connect2.default;
 
 
 var DOMNamespaces = __webpack_require__(53);
-var setInnerHTML = __webpack_require__(42);
+var setInnerHTML = __webpack_require__(41);
 
 var createMicrosoftUnsafeLocalFunction = __webpack_require__(60);
 var setTextContent = __webpack_require__(106);
@@ -3451,7 +3451,7 @@ var cloneElement = ReactElement.cloneElement;
 
 if (process.env.NODE_ENV !== 'production') {
   var lowPriorityWarning = __webpack_require__(70);
-  var canDefineProperty = __webpack_require__(43);
+  var canDefineProperty = __webpack_require__(42);
   var ReactElementValidator = __webpack_require__(118);
   var didWarnPropTypesDeprecated = false;
   createElement = ReactElementValidator.createElement;
@@ -3740,7 +3740,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 var _prodInvariant = __webpack_require__(3);
 
-var EventPluginRegistry = __webpack_require__(37);
+var EventPluginRegistry = __webpack_require__(36);
 var EventPluginUtils = __webpack_require__(54);
 var ReactErrorUtils = __webpack_require__(58);
 
@@ -4272,7 +4272,7 @@ exports.fetchACompany = fetchACompany;
 exports.fetchACompanyLocChange = fetchACompanyLocChange;
 exports.addACompany = addACompany;
 
-var _axios = __webpack_require__(35);
+var _axios = __webpack_require__(45);
 
 var _axios2 = _interopRequireDefault(_axios);
 
@@ -4295,7 +4295,7 @@ function importCompanies() {
     _axios2.default.get("/importCompanies").then(function (res) {
       dispatch({ type: "IMPORT_COMPANIES_FULFILLED", payload: res.data });
     })
-    // call fetch_Companies again
+    //call fetch_Companies again
     .then(function () {
       dispatch({ type: "FETCH_COMPANIES" });
       _axios2.default.get("/companies").then(function (res) {
@@ -4337,28 +4337,25 @@ function fetchACompanyLocChange(id) {
 
 function addACompany(company) {
   return function (dispatch) {
-    dispatch({
-      type: "ADD_A_COMPANY",
-      payload: _axios2.default.post("/companies", company).then(function (res) {
-        fetchCompanyList();
-      }).catch(function (err) {
-        dispatch({ type: "ADD_A_COMPANY_REJECTED", payload: err });
-      })
+    dispatch({ type: "ADD_A_COMPANY" });
+
+    _axios2.default.post("/companies", company).then(function (res) {
+      dispatch({ type: "ADD_A_COMPANY_FULFILLED", payload: res.data });
+    })
+    // call fetch_Companies again
+    .then(fetchCompanyList())
+
+    // .then((res) => {
+    //   fetchCompanyList();
+    // })
+    .catch(function (err) {
+      dispatch({ type: "ADD_A_COMPANY_REJECTED", payload: err });
     });
   };
 }
 
 /***/ }),
 /* 35 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-module.exports = __webpack_require__(128);
-
-/***/ }),
-/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4384,7 +4381,7 @@ module.exports = emptyObject;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 37 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4643,7 +4640,7 @@ module.exports = EventPluginRegistry;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 38 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4661,7 +4658,7 @@ module.exports = EventPluginRegistry;
 
 var _assign = __webpack_require__(5);
 
-var EventPluginRegistry = __webpack_require__(37);
+var EventPluginRegistry = __webpack_require__(36);
 var ReactEventEmitterMixin = __webpack_require__(208);
 var ViewportMetrics = __webpack_require__(98);
 
@@ -4972,7 +4969,7 @@ var ReactBrowserEventEmitter = _assign({}, ReactEventEmitterMixin, {
 module.exports = ReactBrowserEventEmitter;
 
 /***/ }),
-/* 39 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5049,7 +5046,7 @@ SyntheticUIEvent.augmentClass(SyntheticMouseEvent, MouseEventInterface);
 module.exports = SyntheticMouseEvent;
 
 /***/ }),
-/* 40 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5283,7 +5280,7 @@ module.exports = TransactionImpl;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 41 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5410,7 +5407,7 @@ function escapeTextContentForBrowser(text) {
 module.exports = escapeTextContentForBrowser;
 
 /***/ }),
-/* 42 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5513,7 +5510,7 @@ if (ExecutionEnvironment.canUseDOM) {
 module.exports = setInnerHTML;
 
 /***/ }),
-/* 43 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5545,7 +5542,7 @@ module.exports = canDefineProperty;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 44 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5871,7 +5868,7 @@ var createBrowserHistory = function createBrowserHistory() {
 exports.default = createBrowserHistory;
 
 /***/ }),
-/* 45 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5954,6 +5951,15 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.ConnectedRouter = _ConnectedRouter3.default;
 exports.routerMiddleware = _middleware2.default;
+
+/***/ }),
+/* 45 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = __webpack_require__(128);
 
 /***/ }),
 /* 46 */
@@ -6436,7 +6442,7 @@ var ReactDOMComponentTree = __webpack_require__(6);
 var ReactInstrumentation = __webpack_require__(13);
 
 var createMicrosoftUnsafeLocalFunction = __webpack_require__(60);
-var setInnerHTML = __webpack_require__(42);
+var setInnerHTML = __webpack_require__(41);
 var setTextContent = __webpack_require__(106);
 
 function getNodeAfter(parentNode, node) {
@@ -8537,7 +8543,7 @@ exports.importEmployees = importEmployees;
 exports.fetchEmployees = fetchEmployees;
 exports.fetchEmployeesLocChange = fetchEmployeesLocChange;
 
-var _axios = __webpack_require__(35);
+var _axios = __webpack_require__(45);
 
 var _axios2 = _interopRequireDefault(_axios);
 
@@ -8564,7 +8570,7 @@ function importEmployees(id) {
     .then(function () {
       dispatch({ type: "FETCH_EMPLOYEES" });
       _axios2.default.get("/companies/" + id + "/people").then(function (res) {
-        dispatch({ type: "FETCH_EMPLOYEES_FULFILLED", payload: res.data });
+        dispatch({ type: "FETCH_EMPLOYEES_FULFILLED", payload: res.data, empCompanyId: id });
       }).catch(function (err) {
         dispatch({ type: "FETCH_EMPLOYEES_REJECTED", payload: err });
       });
@@ -8607,25 +8613,25 @@ Object.defineProperty(exports, "__esModule", {
 
 var _redux = __webpack_require__(19);
 
-var _reactRouterRedux = __webpack_require__(45);
+var _reactRouterRedux = __webpack_require__(44);
 
-var _companyListReducer = __webpack_require__(312);
+var _companyListReducer = __webpack_require__(311);
 
 var _companyListReducer2 = _interopRequireDefault(_companyListReducer);
 
-var _importCompaniesReducer = __webpack_require__(315);
+var _importCompaniesReducer = __webpack_require__(314);
 
 var _importCompaniesReducer2 = _interopRequireDefault(_importCompaniesReducer);
 
-var _companyReducer = __webpack_require__(314);
+var _companyReducer = __webpack_require__(313);
 
 var _companyReducer2 = _interopRequireDefault(_companyReducer);
 
-var _companyPeopleListReducer = __webpack_require__(313);
+var _companyPeopleListReducer = __webpack_require__(312);
 
 var _companyPeopleListReducer2 = _interopRequireDefault(_companyPeopleListReducer);
 
-var _personReducer = __webpack_require__(316);
+var _personReducer = __webpack_require__(315);
 
 var _personReducer2 = _interopRequireDefault(_personReducer);
 
@@ -10718,7 +10724,7 @@ var _prodInvariant = __webpack_require__(3);
 var DOMLazyTree = __webpack_require__(24);
 var DOMProperty = __webpack_require__(18);
 var React = __webpack_require__(26);
-var ReactBrowserEventEmitter = __webpack_require__(38);
+var ReactBrowserEventEmitter = __webpack_require__(37);
 var ReactCurrentOwner = __webpack_require__(16);
 var ReactDOMComponentTree = __webpack_require__(6);
 var ReactDOMContainerInfo = __webpack_require__(191);
@@ -10731,10 +10737,10 @@ var ReactReconciler = __webpack_require__(25);
 var ReactUpdateQueue = __webpack_require__(59);
 var ReactUpdates = __webpack_require__(15);
 
-var emptyObject = __webpack_require__(36);
+var emptyObject = __webpack_require__(35);
 var instantiateReactComponent = __webpack_require__(104);
 var invariant = __webpack_require__(1);
-var setInnerHTML = __webpack_require__(42);
+var setInnerHTML = __webpack_require__(41);
 var shouldUpdateReactComponent = __webpack_require__(65);
 var warning = __webpack_require__(2);
 
@@ -11849,8 +11855,8 @@ module.exports = isTextInputElement;
 
 
 var ExecutionEnvironment = __webpack_require__(7);
-var escapeTextContentForBrowser = __webpack_require__(41);
-var setInnerHTML = __webpack_require__(42);
+var escapeTextContentForBrowser = __webpack_require__(40);
+var setInnerHTML = __webpack_require__(41);
 
 /**
  * Set the textContent property of a node, ensuring that whitespace is preserved
@@ -12990,8 +12996,8 @@ var _prodInvariant = __webpack_require__(27),
 
 var ReactNoopUpdateQueue = __webpack_require__(119);
 
-var canDefineProperty = __webpack_require__(43);
-var emptyObject = __webpack_require__(36);
+var canDefineProperty = __webpack_require__(42);
+var emptyObject = __webpack_require__(35);
 var invariant = __webpack_require__(1);
 var lowPriorityWarning = __webpack_require__(70);
 
@@ -13174,7 +13180,7 @@ var ReactElement = __webpack_require__(21);
 
 var checkReactTypeSpec = __webpack_require__(284);
 
-var canDefineProperty = __webpack_require__(43);
+var canDefineProperty = __webpack_require__(42);
 var getIteratorFn = __webpack_require__(120);
 var warning = __webpack_require__(2);
 var lowPriorityWarning = __webpack_require__(70);
@@ -14118,7 +14124,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouterDom = __webpack_require__(14);
 
-var _axios = __webpack_require__(35);
+var _axios = __webpack_require__(45);
 
 var _axios2 = _interopRequireDefault(_axios);
 
@@ -14213,9 +14219,9 @@ var _redux = __webpack_require__(19);
 
 var _reactRouter = __webpack_require__(9);
 
-var _reactRouterRedux = __webpack_require__(45);
+var _reactRouterRedux = __webpack_require__(44);
 
-var _createBrowserHistory = __webpack_require__(44);
+var _createBrowserHistory = __webpack_require__(43);
 
 var _createBrowserHistory2 = _interopRequireDefault(_createBrowserHistory);
 
@@ -15052,7 +15058,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 var _assign = __webpack_require__(5);
 
-var emptyObject = __webpack_require__(36);
+var emptyObject = __webpack_require__(35);
 var _invariant = __webpack_require__(1);
 
 if (process.env.NODE_ENV !== 'production') {
@@ -19125,7 +19131,7 @@ module.exports = DefaultEventPluginOrder;
 
 var EventPropagators = __webpack_require__(31);
 var ReactDOMComponentTree = __webpack_require__(6);
-var SyntheticMouseEvent = __webpack_require__(39);
+var SyntheticMouseEvent = __webpack_require__(38);
 
 var eventTypes = {
   mouseEnter: {
@@ -19777,7 +19783,7 @@ if (process.env.NODE_ENV !== 'production') {
   var checkReactTypeSpec = __webpack_require__(236);
 }
 
-var emptyObject = __webpack_require__(36);
+var emptyObject = __webpack_require__(35);
 var invariant = __webpack_require__(1);
 var shallowEqual = __webpack_require__(47);
 var shouldUpdateReactComponent = __webpack_require__(65);
@@ -20798,8 +20804,8 @@ var DOMNamespaces = __webpack_require__(53);
 var DOMProperty = __webpack_require__(18);
 var DOMPropertyOperations = __webpack_require__(88);
 var EventPluginHub = __webpack_require__(30);
-var EventPluginRegistry = __webpack_require__(37);
-var ReactBrowserEventEmitter = __webpack_require__(38);
+var EventPluginRegistry = __webpack_require__(36);
+var ReactBrowserEventEmitter = __webpack_require__(37);
 var ReactDOMComponentFlags = __webpack_require__(89);
 var ReactDOMComponentTree = __webpack_require__(6);
 var ReactDOMInput = __webpack_require__(195);
@@ -20811,7 +20817,7 @@ var ReactMultiChild = __webpack_require__(214);
 var ReactServerRenderingTransaction = __webpack_require__(219);
 
 var emptyFunction = __webpack_require__(12);
-var escapeTextContentForBrowser = __webpack_require__(41);
+var escapeTextContentForBrowser = __webpack_require__(40);
 var invariant = __webpack_require__(1);
 var isEventSupported = __webpack_require__(64);
 var shallowEqual = __webpack_require__(47);
@@ -22761,7 +22767,7 @@ var DOMChildrenOperations = __webpack_require__(52);
 var DOMLazyTree = __webpack_require__(24);
 var ReactDOMComponentTree = __webpack_require__(6);
 
-var escapeTextContentForBrowser = __webpack_require__(41);
+var escapeTextContentForBrowser = __webpack_require__(40);
 var invariant = __webpack_require__(1);
 var validateDOMNesting = __webpack_require__(66);
 
@@ -23231,7 +23237,7 @@ module.exports = {
 
 
 var DOMProperty = __webpack_require__(18);
-var EventPluginRegistry = __webpack_require__(37);
+var EventPluginRegistry = __webpack_require__(36);
 var ReactComponentTreeHook = __webpack_require__(10);
 
 var warning = __webpack_require__(2);
@@ -23720,7 +23726,7 @@ module.exports = ReactDebugTool;
 var _assign = __webpack_require__(5);
 
 var ReactUpdates = __webpack_require__(15);
-var Transaction = __webpack_require__(40);
+var Transaction = __webpack_require__(39);
 
 var emptyFunction = __webpack_require__(12);
 
@@ -24147,7 +24153,7 @@ var EventPluginHub = __webpack_require__(30);
 var EventPluginUtils = __webpack_require__(54);
 var ReactComponentEnvironment = __webpack_require__(57);
 var ReactEmptyComponent = __webpack_require__(91);
-var ReactBrowserEventEmitter = __webpack_require__(38);
+var ReactBrowserEventEmitter = __webpack_require__(37);
 var ReactHostComponent = __webpack_require__(93);
 var ReactUpdates = __webpack_require__(15);
 
@@ -24865,10 +24871,10 @@ var _assign = __webpack_require__(5);
 
 var CallbackQueue = __webpack_require__(87);
 var PooledClass = __webpack_require__(20);
-var ReactBrowserEventEmitter = __webpack_require__(38);
+var ReactBrowserEventEmitter = __webpack_require__(37);
 var ReactInputSelection = __webpack_require__(94);
 var ReactInstrumentation = __webpack_require__(13);
-var Transaction = __webpack_require__(40);
+var Transaction = __webpack_require__(39);
 var ReactUpdateQueue = __webpack_require__(59);
 
 /**
@@ -25144,7 +25150,7 @@ module.exports = ReactRef;
 var _assign = __webpack_require__(5);
 
 var PooledClass = __webpack_require__(20);
-var Transaction = __webpack_require__(40);
+var Transaction = __webpack_require__(39);
 var ReactInstrumentation = __webpack_require__(13);
 var ReactServerUpdateQueue = __webpack_require__(220);
 
@@ -25911,7 +25917,7 @@ var SyntheticClipboardEvent = __webpack_require__(226);
 var SyntheticEvent = __webpack_require__(17);
 var SyntheticFocusEvent = __webpack_require__(229);
 var SyntheticKeyboardEvent = __webpack_require__(231);
-var SyntheticMouseEvent = __webpack_require__(39);
+var SyntheticMouseEvent = __webpack_require__(38);
 var SyntheticDragEvent = __webpack_require__(228);
 var SyntheticTouchEvent = __webpack_require__(232);
 var SyntheticTransitionEvent = __webpack_require__(233);
@@ -26260,7 +26266,7 @@ module.exports = SyntheticCompositionEvent;
 
 
 
-var SyntheticMouseEvent = __webpack_require__(39);
+var SyntheticMouseEvent = __webpack_require__(38);
 
 /**
  * @interface DragEvent
@@ -26567,7 +26573,7 @@ module.exports = SyntheticTransitionEvent;
 
 
 
-var SyntheticMouseEvent = __webpack_require__(39);
+var SyntheticMouseEvent = __webpack_require__(38);
 
 /**
  * @interface WheelEvent
@@ -27350,7 +27356,7 @@ module.exports = getVendorPrefixedEventName;
 
 
 
-var escapeTextContentForBrowser = __webpack_require__(41);
+var escapeTextContentForBrowser = __webpack_require__(40);
 
 /**
  * Escapes attribute value to prevent scripting attacks.
@@ -28193,7 +28199,7 @@ var _propTypes = __webpack_require__(8);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _createBrowserHistory = __webpack_require__(44);
+var _createBrowserHistory = __webpack_require__(43);
 
 var _createBrowserHistory2 = _interopRequireDefault(_createBrowserHistory);
 
@@ -31508,10 +31514,6 @@ var _redux = __webpack_require__(19);
 
 var _reactRedux = __webpack_require__(23);
 
-var _addCompanyForm = __webpack_require__(309);
-
-var _addCompanyForm2 = _interopRequireDefault(_addCompanyForm);
-
 var _companyActions = __webpack_require__(34);
 
 var _reactRouterDom = __webpack_require__(14);
@@ -31523,12 +31525,16 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+// import AddCompanyForm from '../Forms/addCompanyForm.jsx';
 
+
+// BASED ON 'index.js' under 'reducers' folder
 (0, _reactRedux.connect)(function (store) {
   return {
     //store.name_in_combineReducers.data_property_needed
-    company: store.companyDetail.company,
-    fetchingCompany: store.companyDetail.fetching
+    // company: store.companyDetail.company,
+    // fetchingCompany: store.companyDetail.fetching,
+    addingCompany: store.companyList.adding
   };
 });
 
@@ -31542,27 +31548,119 @@ var AddACompany = function (_Component) {
   }
 
   _createClass(AddACompany, [{
-    key: 'componentWillMount',
-    value: function componentWillMount() {
-      // console.log(`companyID: ${JSON.stringify(this.props.company._id)}`);
-      //console.log(`props: ${JSON.stringify(this.props)}`);
-      // Fetch A Particular Company's Details
-      // this.props.fetchACompany(this.props.companyID);
+    key: 'createCompany',
+    value: function createCompany() {
+      var CompanyToAdd = {
+        'name': this.refs.name.value,
+        'address': this.refs.address.value,
+        'revenue': this.refs.revenue.value,
+        'phone': this.refs.phone.value
+      };
+      this.props.addACompany(CompanyToAdd);
     }
   }, {
     key: 'render',
     value: function render() {
-      var _props = this.props,
-          fetchingCompany = _props.fetchingCompany,
-          company = _props.company;
-      //console.log(`props: ${JSON.stringify(this.props)}`);
-      //console.log(`props: ${JSON.stringify(fetchCompany)}`);
-      //console.log(this.props.companyID);
+      var _this2 = this;
+
+      // const {addingCompany} = this.props;
 
       return _react2.default.createElement(
         'div',
         null,
-        _react2.default.createElement(_addCompanyForm2.default, null)
+        _react2.default.createElement(
+          'div',
+          { className: 'panel panel-default' },
+          _react2.default.createElement(
+            'div',
+            { className: 'panel-heading' },
+            _react2.default.createElement(
+              'h3',
+              { className: 'panel-title' },
+              'Create New Company'
+            )
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'panel-body' },
+            _react2.default.createElement(
+              'form',
+              { className: 'newCompanyForm', id: 'addCompanyForm' },
+              _react2.default.createElement(
+                'div',
+                { className: 'field' },
+                _react2.default.createElement(
+                  'div',
+                  null,
+                  _react2.default.createElement(
+                    'p',
+                    null,
+                    _react2.default.createElement(
+                      'b',
+                      null,
+                      'Name'
+                    )
+                  ),
+                  _react2.default.createElement('input', { className: 'col-sm-12 col-md-12', type: 'textbox', ref: 'name' })
+                ),
+                _react2.default.createElement(
+                  'div',
+                  null,
+                  _react2.default.createElement(
+                    'p',
+                    null,
+                    _react2.default.createElement(
+                      'b',
+                      null,
+                      'Address'
+                    )
+                  ),
+                  _react2.default.createElement('input', { className: 'col-sm-12 col-md-12', type: 'textbox', ref: 'address' })
+                ),
+                _react2.default.createElement(
+                  'div',
+                  null,
+                  _react2.default.createElement(
+                    'p',
+                    null,
+                    _react2.default.createElement(
+                      'b',
+                      null,
+                      'Revenue'
+                    )
+                  ),
+                  _react2.default.createElement('input', { className: 'col-sm-12 col-md-12', type: 'textbox', ref: 'revenue' })
+                ),
+                _react2.default.createElement(
+                  'div',
+                  null,
+                  _react2.default.createElement(
+                    'p',
+                    null,
+                    _react2.default.createElement(
+                      'b',
+                      null,
+                      'Phone'
+                    )
+                  ),
+                  _react2.default.createElement('input', { className: 'col-sm-12 col-md-12', type: 'textbox', ref: 'phone' })
+                )
+              ),
+              _react2.default.createElement(
+                'div',
+                null,
+                _react2.default.createElement(
+                  'p',
+                  null,
+                  _react2.default.createElement('input', { onClick: function onClick() {
+                      _this2.createCompany();
+                      // this.props.addACompany(CompanyToAdd);
+                    }, type: 'submit', value: 'ADD COMPANY' })
+                )
+              )
+            )
+          )
+        )
       );
     }
   }]);
@@ -31572,15 +31670,16 @@ var AddACompany = function (_Component) {
 
 function mapStateToProps(state, ownProps) {
   return {
-    companyID: state.companyDetail[ownProps.id],
-    company: state.companyDetail.company,
-    fetchingCompany: state.companyDetail.fetching
+    addingCompany: state.companyList.adding
+    // companyID: state.companyDetail[ownProps.id],
+    // company: state.companyDetail.company,
+    // fetchingCompany: state.companyDetail.fetching
   };
 }
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return (0, _redux.bindActionCreators)({
-    fetchACompany: _companyActions.fetchACompany, fetchACompanyLocChange: _companyActions.fetchACompanyLocChange, addACompany: _companyActions.addACompany
+    addACompany: _companyActions.addACompany
   }, dispatch);
 };
 
@@ -31609,7 +31708,7 @@ var _reactRedux = __webpack_require__(23);
 
 var _companyActions = __webpack_require__(34);
 
-var _addPersonForm = __webpack_require__(310);
+var _addPersonForm = __webpack_require__(309);
 
 var _addPersonForm2 = _interopRequireDefault(_addPersonForm);
 
@@ -31814,7 +31913,7 @@ var CompanyEmployeeList = function (_Component) {
         if (!fetchingEmployees && employees.length === 0) {
           _this3.props.importEmployees(_this3.props.empCompanyID);
         }
-      }, 100);
+      }, 50);
     }
   }, {
     key: 'render',
@@ -32045,7 +32144,7 @@ var CompanyList = function (_Component) {
         if (!fetchingCompanies && companies.length === 0) {
           _this3.props.importCompanies();
         }
-      }, 100);
+      }, 50);
     }
   }, {
     key: 'render',
@@ -32124,150 +32223,7 @@ var _react = __webpack_require__(4);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _axios = __webpack_require__(35);
-
-var _axios2 = _interopRequireDefault(_axios);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var addCompanyForm = function (_Component) {
-  _inherits(addCompanyForm, _Component);
-
-  function addCompanyForm(props) {
-    _classCallCheck(this, addCompanyForm);
-
-    return _possibleConstructorReturn(this, (addCompanyForm.__proto__ || Object.getPrototypeOf(addCompanyForm)).call(this, props));
-  }
-
-  _createClass(addCompanyForm, [{
-    key: 'render',
-    value: function render() {
-      return _react2.default.createElement(
-        'div',
-        null,
-        _react2.default.createElement(
-          'div',
-          { className: 'panel panel-default' },
-          _react2.default.createElement(
-            'div',
-            { className: 'panel-heading' },
-            _react2.default.createElement(
-              'h3',
-              { className: 'panel-title' },
-              'Create New Company'
-            )
-          ),
-          _react2.default.createElement(
-            'div',
-            { className: 'panel-body' },
-            _react2.default.createElement(
-              'form',
-              { className: 'newCompanyForm', id: 'addCompanyForm' },
-              _react2.default.createElement(
-                'div',
-                { className: 'field' },
-                _react2.default.createElement(
-                  'div',
-                  null,
-                  _react2.default.createElement(
-                    'p',
-                    null,
-                    _react2.default.createElement(
-                      'b',
-                      null,
-                      'Name'
-                    )
-                  ),
-                  _react2.default.createElement('input', { className: 'col-sm-12 col-md-12', type: 'textbox', required: true })
-                ),
-                _react2.default.createElement(
-                  'div',
-                  null,
-                  _react2.default.createElement(
-                    'p',
-                    null,
-                    _react2.default.createElement(
-                      'b',
-                      null,
-                      'Address'
-                    )
-                  ),
-                  _react2.default.createElement('input', { className: 'col-sm-12 col-md-12', required: true, type: 'textbox' })
-                ),
-                _react2.default.createElement(
-                  'div',
-                  null,
-                  _react2.default.createElement(
-                    'p',
-                    null,
-                    _react2.default.createElement(
-                      'b',
-                      null,
-                      'Revenue'
-                    )
-                  ),
-                  _react2.default.createElement('input', { className: 'col-sm-12 col-md-12', required: true, type: 'textbox' })
-                ),
-                _react2.default.createElement(
-                  'div',
-                  null,
-                  _react2.default.createElement(
-                    'p',
-                    null,
-                    _react2.default.createElement(
-                      'b',
-                      null,
-                      'Phone'
-                    )
-                  ),
-                  _react2.default.createElement('input', { className: 'col-sm-12 col-md-12', required: true, type: 'textbox' })
-                )
-              ),
-              _react2.default.createElement(
-                'div',
-                null,
-                _react2.default.createElement(
-                  'p',
-                  null,
-                  _react2.default.createElement('input', { onClick: this.props.addACompany, type: 'submit', value: 'Save' })
-                )
-              )
-            )
-          )
-        )
-      );
-    }
-  }]);
-
-  return addCompanyForm;
-}(_react.Component);
-
-exports.default = addCompanyForm;
-
-/***/ }),
-/* 310 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(4);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _axios = __webpack_require__(35);
+var _axios = __webpack_require__(45);
 
 var _axios2 = _interopRequireDefault(_axios);
 
@@ -32384,7 +32340,7 @@ var addPersonForm = function (_Component) {
 exports.default = addPersonForm;
 
 /***/ }),
-/* 311 */
+/* 310 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -32398,9 +32354,9 @@ var _reactDom = __webpack_require__(125);
 
 var _reactRedux = __webpack_require__(23);
 
-var _reactRouterRedux = __webpack_require__(45);
+var _reactRouterRedux = __webpack_require__(44);
 
-var _createBrowserHistory = __webpack_require__(44);
+var _createBrowserHistory = __webpack_require__(43);
 
 var _createBrowserHistory2 = _interopRequireDefault(_createBrowserHistory);
 
@@ -32447,7 +32403,7 @@ var history = (0, _createBrowserHistory2.default)();
 ), app);
 
 /***/ }),
-/* 312 */
+/* 311 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -32456,12 +32412,16 @@ var history = (0, _createBrowserHistory2.default)();
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = companyReducer;
-function companyReducer() {
+exports.default = companyListReducer;
+function companyListReducer() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
+    /**** GET ****/
     companies: [],
     fetching: false,
     fetched: false,
+    /**** POST ****/
+    adding: false,
+    added: false,
     error: null
   };
   var action = arguments[1];
@@ -32488,13 +32448,33 @@ function companyReducer() {
           companies: action.payload
         });
       }
+
+    /**** ADD A COMPANY ****/
+    case "ADD_A_COMPANY":
+      {
+        return Object.assign({}, state, { fetching: true, adding: true });
+      }
+    case "ADD_A_COMPANY_REJECTED":
+      {
+        return Object.assign({}, state, { fetching: false, adding: false, error: action.payload });
+      }
+    case "ADD_A_COMPANY_FULFILLED":
+      {
+        return Object.assign({}, state, {
+          //fetching: false,
+          //fetched: true,
+          adding: false,
+          added: true,
+          company: action.payload
+        });
+      }
   } // end of switch cases
 
   return state;
 }
 
 /***/ }),
-/* 313 */
+/* 312 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -32530,6 +32510,7 @@ function employeeListReducer() {
       }
     case "FETCH_EMPLOYEES_FULFILLED":
       {
+        console.log('### fetch_employees_fulfilled- empCompanyId: ' + action.empCompanyId);
         return Object.assign({}, state, {
           fetching: false,
           fetched: true,
@@ -32553,7 +32534,7 @@ function employeeListReducer() {
 }
 
 /***/ }),
-/* 314 */
+/* 313 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -32572,31 +32553,34 @@ function companyReducer() {
       revenue: null,
       phone: null
     },
+    // get
     fetching: false,
     fetched: false,
+    // post
+    adding: false,
+    added: false,
     error: null
   };
   var action = arguments[1];
 
 
   switch (action.type) {
-    /**** ADD A COMPANY ****/
-    case "ADD_A_COMPANY":
-      {
-        return Object.assign({}, state, { fetching: true });
-      }
-    case "ADD_A_COMPANY_REJECTED":
-      {
-        return Object.assign({}, state, { fetching: false, error: action.payload });
-      }
-    case "ADD_A_COMPANY_FULFILLED":
-      {
-        return Object.assign({}, state, {
-          fetching: false,
-          fetched: true,
-          company: action.payload
-        });
-      }
+    // /**** ADD A COMPANY ****/
+    // case "ADD_A_COMPANY": {
+    //   return Object.assign({},state, {fetching: true, adding: true});
+    // }
+    // case "ADD_A_COMPANY_REJECTED": {
+    //   return Object.assign({},state, {fetching: false, adding: false, error: action.payload});
+    // }
+    // case "ADD_A_COMPANY_FULFILLED": {
+    //   return Object.assign({}, state, {
+    //     fetching: false,
+    //     fetched: true,
+    //     adding: false,
+    //     added: true
+    //     company: action.payload,
+    //   });
+    // }
 
     /**** UPDATE A COMPANY'S DETAILS ****/
     case "UPDATE_COMPANY":
@@ -32639,7 +32623,7 @@ function companyReducer() {
 }
 
 /***/ }),
-/* 315 */
+/* 314 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -32686,7 +32670,7 @@ function reducer() {
 }
 
 /***/ }),
-/* 316 */
+/* 315 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

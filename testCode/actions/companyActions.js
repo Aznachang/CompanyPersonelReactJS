@@ -20,7 +20,7 @@ export function importCompanies() {
       .then((res) => {
         dispatch({type: "IMPORT_COMPANIES_FULFILLED", payload: res.data})
       })
-      // call fetch_Companies again
+      //call fetch_Companies again
       .then(() => {
         dispatch({type:"FETCH_COMPANIES"});
         axios.get("/companies")
@@ -69,15 +69,20 @@ export function fetchACompanyLocChange(id) {
 
 export function addACompany(company) {
   return (dispatch) => {
-    dispatch({
-      type:"ADD_A_COMPANY",
-      payload: axios.post("/companies", company)
+    dispatch({ type:"ADD_A_COMPANY"});
+
+    axios.post("/companies", company)
       .then((res) => {
-        fetchCompanyList();
+        dispatch({type: "ADD_A_COMPANY_FULFILLED", payload: res.data})
       })
+      // call fetch_Companies again
+      .then(fetchCompanyList())
+
+      // .then((res) => {
+      //   fetchCompanyList();
+      // })
       .catch((err) => {
         dispatch({type: "ADD_A_COMPANY_REJECTED", payload: err})
-      }),
-    });
+      })
   }
 }

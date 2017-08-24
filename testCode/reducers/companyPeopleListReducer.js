@@ -18,6 +18,7 @@ export default function employeeListReducer(state={
       });
     }
     case "FETCH_EMPLOYEES_FULFILLED": {
+      console.log('### fetch_employees_fulfilled- empCompanyId: ' +action.empCompanyId);
       return Object.assign({}, state, {
         fetching: false,
         fetched: true,

@@ -25,7 +25,7 @@ export function importEmployees(id) {
         dispatch({type:"FETCH_EMPLOYEES"});
         axios.get("/companies/"+id+"/people")
           .then((res) => {
-            dispatch({type: "FETCH_EMPLOYEES_FULFILLED", payload: res.data})
+            dispatch({type: "FETCH_EMPLOYEES_FULFILLED", payload: res.data, empCompanyId: id})
           })
           .catch((err) => {
             dispatch({type: "FETCH_EMPLOYEES_REJECTED", payload: err})
