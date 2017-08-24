@@ -8551,12 +8551,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function addAnEmployee(employee) {
   return function (dispatch) {
-    dispatch({ type: "ADD_A_COMPANY",
-      payload: _axios2.default.post("/companies", company).then(function (res) {
-        fetchCompanyList();
-      }).catch(function (err) {
-        dispatch({ type: "ADD_A_COMPANY_REJECTED", payload: err });
-      })
+    dispatch({ type: "ADD_AN_EMPLOYEE" });
+
+    _axios2.default.post("/person", employee).then(function (res) {
+      dispatch({ type: "ADD_AN_EMPLOYEE_FULFILLED", payload: res.data });
+    }).catch(function (err) {
+      dispatch({ type: "ADD_AN_EMPLOYEE_REJECTED", payload: err });
     });
   };
 }
@@ -31655,7 +31655,7 @@ var AddACompany = function (_Component) {
                   _react2.default.createElement('input', { onClick: function onClick() {
                       _this2.createCompany();
                       // this.props.addACompany(CompanyToAdd);
-                    }, type: 'submit', value: 'ADD COMPANY' })
+                    }, type: 'submit', value: 'Add Company' })
                 )
               )
             )
@@ -31708,9 +31708,7 @@ var _reactRedux = __webpack_require__(23);
 
 var _companyActions = __webpack_require__(34);
 
-var _addPersonForm = __webpack_require__(309);
-
-var _addPersonForm2 = _interopRequireDefault(_addPersonForm);
+var _peopleActions = __webpack_require__(72);
 
 var _reactRouterDom = __webpack_require__(14);
 
@@ -31721,12 +31719,16 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+// import AddEmployeeForm from '../Forms/addPersonForm.jsx';
+
 
 (0, _reactRedux.connect)(function (store) {
   return {
     //store.name_in_combineReducers.data_property_needed
-    company: store.companyDetail.company,
-    fetchingCompany: store.companyDetail.fetching
+    addingEmployee: store.companyEmployeeList.adding,
+    companies: store.companyList.companies,
+    fetchedCompanies: store.companyList.fetched,
+    fetchingCompanies: store.companyList.fetching
   };
 });
 
@@ -31740,27 +31742,152 @@ var AddAnEmployee = function (_Component) {
   }
 
   _createClass(AddAnEmployee, [{
+    key: 'createEmployee',
+    value: function createEmployee() {
+      var _this2 = this;
+
+      var companies = this.props.companies;
+
+      console.log('@createEmployee@ companyList: ' + JSON.stringify(companies));
+
+      var EmployeeToAdd = {
+        'name': this.refs.name.value,
+        'companyId': this.refs.companyId.value,
+        'email': this.refs.email.value
+      };
+
+      var company = companies.filter(function (company) {
+        return company.name === EmployeeToAdd.name;
+      });
+      EmployeeToAdd.companyId = company._id;
+
+      setTimeout(function () {
+        console.log('inside setTimeout -> addAnEmployee');
+        _this2.props.addAnEmployee(EmployeeToAdd);
+      }, 100);
+    }
+  }, {
     key: 'componentWillMount',
     value: function componentWillMount() {
-      // console.log(`companyID: ${JSON.stringify(this.props.company._id)}`);
-      //console.log(`props: ${JSON.stringify(this.props)}`);
-      // Fetch A Particular Company's Details
-      // this.props.fetchACompany(this.props.companyID);
+      this.props.fetchCompanyList();
     }
   }, {
     key: 'render',
     value: function render() {
+      var _this3 = this;
+
       var _props = this.props,
           fetchingCompany = _props.fetchingCompany,
-          company = _props.company;
-      //console.log(`ad-an-employee-props: ${JSON.stringify(this.props)}`);
-      //console.log(`props: ${JSON.stringify(fetchCompany)}`);
-      //console.log(this.props.companyID);
+          companies = _props.companies;
 
+
+      console.log('companyList: ' + JSON.stringify(companies));
       return _react2.default.createElement(
         'div',
         null,
-        _react2.default.createElement(_addPersonForm2.default, null)
+        _react2.default.createElement(
+          'div',
+          { className: 'panel panel-default' },
+          _react2.default.createElement(
+            'div',
+            { className: 'panel-heading' },
+            _react2.default.createElement(
+              'h3',
+              { className: 'panel-title' },
+              'Create New Employee'
+            )
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'panel-body' },
+            _react2.default.createElement(
+              'form',
+              { className: 'newCompanyForm', id: 'addCompanyForm' },
+              _react2.default.createElement(
+                'div',
+                { className: 'field' },
+                _react2.default.createElement(
+                  'div',
+                  null,
+                  _react2.default.createElement(
+                    'p',
+                    null,
+                    _react2.default.createElement(
+                      'b',
+                      null,
+                      'Name'
+                    )
+                  ),
+                  _react2.default.createElement('input', { className: 'col-sm-12 col-md-12', type: 'textbox', ref: 'name' })
+                ),
+                _react2.default.createElement(
+                  'div',
+                  null,
+                  _react2.default.createElement(
+                    'p',
+                    null,
+                    _react2.default.createElement(
+                      'b',
+                      null,
+                      'Email'
+                    )
+                  ),
+                  _react2.default.createElement('input', { className: 'col-sm-12 col-md-12', type: 'textbox', ref: 'email' })
+                ),
+                _react2.default.createElement(
+                  'div',
+                  null,
+                  _react2.default.createElement(
+                    'p',
+                    null,
+                    _react2.default.createElement(
+                      'b',
+                      null,
+                      'Company'
+                    )
+                  ),
+                  _react2.default.createElement(
+                    'select',
+                    null,
+                    _react2.default.createElement(
+                      'option',
+                      { ref: 'companyId' },
+                      'Xerox'
+                    ),
+                    _react2.default.createElement(
+                      'option',
+                      { ref: 'companyId' },
+                      'Kodak'
+                    ),
+                    _react2.default.createElement(
+                      'option',
+                      { ref: 'companyId' },
+                      'Google'
+                    ),
+                    _react2.default.createElement(
+                      'option',
+                      { ref: 'companyId' },
+                      'Amazon'
+                    ),
+                    _react2.default.createElement(
+                      'option',
+                      { ref: 'companyId' },
+                      'AMD'
+                    )
+                  )
+                )
+              ),
+              _react2.default.createElement(
+                'div',
+                null,
+                _react2.default.createElement('input', { onClick: function onClick() {
+                    _this3.createEmployee();
+                    // this.props.addACompany(CompanyToAdd);
+                  }, type: 'submit', value: 'Add Employee' })
+              )
+            )
+          )
+        )
       );
     }
   }]);
@@ -31770,15 +31897,17 @@ var AddAnEmployee = function (_Component) {
 
 function mapStateToProps(state, ownProps) {
   return {
-    companyID: state.companyDetail[ownProps.id],
-    company: state.companyDetail.company,
-    fetchingCompany: state.companyDetail.fetching
+    addingEmployee: state.companyEmployeeList.adding,
+    companies: state.companyList.companies,
+    fetchedCompanies: state.companyList.fetched,
+    fetchingCompanies: state.companyList.fetching
   };
 }
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return (0, _redux.bindActionCreators)({
-    fetchACompany: _companyActions.fetchACompany, fetchACompanyLocChange: _companyActions.fetchACompanyLocChange
+    fetchCompanyList: _companyActions.fetchCompanyList,
+    addAnEmployee: _peopleActions.addAnEmployee
   }, dispatch);
 };
 
@@ -32207,139 +32336,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(CompanyList);
 
 /***/ }),
-/* 309 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(4);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _axios = __webpack_require__(45);
-
-var _axios2 = _interopRequireDefault(_axios);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var addPersonForm = function (_Component) {
-  _inherits(addPersonForm, _Component);
-
-  function addPersonForm(props) {
-    _classCallCheck(this, addPersonForm);
-
-    return _possibleConstructorReturn(this, (addPersonForm.__proto__ || Object.getPrototypeOf(addPersonForm)).call(this, props));
-  }
-
-  _createClass(addPersonForm, [{
-    key: 'render',
-    value: function render() {
-      return _react2.default.createElement(
-        'div',
-        null,
-        _react2.default.createElement(
-          'div',
-          { className: 'panel panel-default' },
-          _react2.default.createElement(
-            'div',
-            { className: 'panel-heading' },
-            _react2.default.createElement(
-              'h3',
-              { className: 'panel-title' },
-              'Create New Person'
-            )
-          ),
-          _react2.default.createElement(
-            'div',
-            { className: 'panel-body' },
-            _react2.default.createElement(
-              'form',
-              { className: 'newCompanyForm', id: 'addCompanyForm' },
-              _react2.default.createElement(
-                'div',
-                { className: 'field' },
-                _react2.default.createElement(
-                  'div',
-                  null,
-                  _react2.default.createElement(
-                    'p',
-                    null,
-                    _react2.default.createElement(
-                      'b',
-                      null,
-                      'Name'
-                    )
-                  ),
-                  _react2.default.createElement('input', { className: 'col-sm-12 col-md-12', type: 'textbox', required: true })
-                ),
-                _react2.default.createElement(
-                  'div',
-                  null,
-                  _react2.default.createElement(
-                    'p',
-                    null,
-                    _react2.default.createElement(
-                      'b',
-                      null,
-                      'Email'
-                    )
-                  ),
-                  _react2.default.createElement('input', { className: 'col-sm-12 col-md-12', required: true, type: 'textbox' })
-                ),
-                _react2.default.createElement(
-                  'div',
-                  null,
-                  _react2.default.createElement(
-                    'p',
-                    null,
-                    _react2.default.createElement(
-                      'b',
-                      null,
-                      'Company '
-                    )
-                  ),
-                  _react2.default.createElement(
-                    'select',
-                    null,
-                    _react2.default.createElement(
-                      'option',
-                      null,
-                      'Ohayo'
-                    )
-                  )
-                )
-              ),
-              _react2.default.createElement(
-                'div',
-                null,
-                _react2.default.createElement('input', { type: 'submit', value: 'Save' })
-              )
-            )
-          )
-        )
-      );
-    }
-  }]);
-
-  return addPersonForm;
-}(_react.Component);
-
-exports.default = addPersonForm;
-
-/***/ }),
+/* 309 */,
 /* 310 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -32490,6 +32487,8 @@ function employeeListReducer() {
     empCompanyId: null,
     fetching: false,
     fetched: false,
+    adding: false,
+    added: false,
     error: null
   };
   var action = arguments[1];
@@ -32526,6 +32525,27 @@ function employeeListReducer() {
         //{fetching: true,
         { empCompanyId: action.empCompanyId
 
+        });
+      }
+
+    /**** ADD AN EMPLOYEE ****/
+    case "ADD_AN_EMPLOYEE":
+      {
+        return Object.assign({}, state, { adding: true });
+      }
+    case "ADD_AN_EMPLOYEE_REJECTED":
+      {
+        return Object.assign({}, state, {
+          adding: false,
+          error: action.payload
+        });
+      }
+    case "ADD_AN_EMPLOYEE_FULFILLED":
+      {
+        return Object.assign({}, state, {
+          adding: false,
+          added: true,
+          company: action.payload
         });
       }
 

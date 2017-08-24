@@ -60,7 +60,7 @@ class AddACompany extends Component {
                 <p><input  onClick={() => {
                   this.createCompany();
                 // this.props.addACompany(CompanyToAdd);
-              }} type="submit" value="ADD COMPANY" /></p>
+              }} type="submit" value="Add Company" /></p>
               </div>
             </form>
           </div>

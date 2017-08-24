@@ -1,36 +1,90 @@
 import React, {Component} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import {fetchACompany, fetchACompanyLocChange} from '../actions/companyActions.js';
-import AddEmployeeForm from '../Forms/addPersonForm.jsx';
+import { fetchCompanyList } from '../actions/companyActions.js';
+import { addAnEmployee } from '../actions/peopleActions.js';
+// import AddEmployeeForm from '../Forms/addPersonForm.jsx';
 import { Link } from 'react-router-dom';
 
 connect((store) => {
   return {
     //store.name_in_combineReducers.data_property_needed
-    company: store.companyDetail.company,
-    fetchingCompany: store.companyDetail.fetching
+    addingEmployee: store.companyEmployeeList.adding,
+    companies: store.companyList.companies,
+    fetchedCompanies: store.companyList.fetched,
+    fetchingCompanies: store.companyList.fetching,
   };
 });
 
 class AddAnEmployee extends Component {
 
+  createEmployee() {
+
+    const { companies } = this.props;
+    console.log('@createEmployee@ companyList: ' + JSON.stringify(companies));
+
+    const EmployeeToAdd = {
+      'name': this.refs.name.value,
+      'companyId': this.refs.companyId.value,
+      'email': this.refs.email.value,
+    };
+
+    let company = companies.filter(company=>company.name === EmployeeToAdd.name);
+    EmployeeToAdd.companyId = company._id;
+
+    setTimeout(() => {
+      console.log('inside setTimeout -> addAnEmployee');
+      this.props.addAnEmployee(EmployeeToAdd);
+    }, 100);
+  }
+
   componentWillMount() {
-    // console.log(`companyID: ${JSON.stringify(this.props.company._id)}`);
-    //console.log(`props: ${JSON.stringify(this.props)}`);
-    // Fetch A Particular Company's Details
-    // this.props.fetchACompany(this.props.companyID);
+    this.props.fetchCompanyList();
   }
 
   render() {
-    const {fetchingCompany, company} = this.props;
-    //console.log(`ad-an-employee-props: ${JSON.stringify(this.props)}`);
-    //console.log(`props: ${JSON.stringify(fetchCompany)}`);
-    //console.log(this.props.companyID);
+    const {fetchingCompany, companies} = this.props;
 
+    console.log('companyList: ' + JSON.stringify(companies));
     return (
       <div>
-        <AddEmployeeForm />
+        <div className="panel panel-default">
+          <div className="panel-heading">
+            <h3 className="panel-title">Create New Employee</h3>
+          </div>
+          <div className="panel-body">
+            <form className='newCompanyForm' id='addCompanyForm'>
+              <div className='field'>
+                <div>
+                  <p><b>Name</b></p>
+                  <input className="col-sm-12 col-md-12" type="textbox" ref='name' />
+                </div>
+                <div>
+                  <p><b>Email</b></p>
+                  <input className="col-sm-12 col-md-12" type="textbox" ref='email' />
+                </div>
+                <div>
+                  <p><b>Company</b></p>
+                  <select>
+                    <option ref='companyId'>Xerox</option>
+                    <option ref='companyId'>Kodak</option>
+                    <option ref='companyId'>Google</option>
+                    <option ref='companyId'>Amazon</option>
+                    <option ref='companyId'>AMD</option>
+                  </select>
+                </div>
+
+              </div>
+
+              <div>
+                <input onClick={() => {
+                  this.createEmployee();
+                // this.props.addACompany(CompanyToAdd);
+              }} type="submit" value="Add Employee" />
+              </div>
+            </form>
+          </div>
+        </div>
       </div>
     );
   }
@@ -38,14 +92,16 @@ class AddAnEmployee extends Component {
 
 function mapStateToProps(state, ownProps) {
   return {
-    companyID: state.companyDetail[ownProps.id],
-    company: state.companyDetail.company,
-    fetchingCompany: state.companyDetail.fetching
+    addingEmployee: state.companyEmployeeList.adding,
+    companies: state.companyList.companies,
+    fetchedCompanies: state.companyList.fetched,
+    fetchingCompanies: state.companyList.fetching,
   };
 }
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  fetchACompany, fetchACompanyLocChange
+  fetchCompanyList,
+  addAnEmployee
 }, dispatch)
 
 

@@ -2,15 +2,15 @@ import axios from "axios";
 
 export function addAnEmployee(employee) {
   return (dispatch) => {
-    dispatch({type:"ADD_A_COMPANY",
-      payload: axios.post("/companies", company)
+    dispatch({type:"ADD_AN_EMPLOYEE"});
+
+     axios.post("/person", employee)
       .then((res) => {
-        fetchCompanyList();
+        dispatch({type: "ADD_AN_EMPLOYEE_FULFILLED", payload: res.data})
       })
       .catch((err) => {
-        dispatch({type: "ADD_A_COMPANY_REJECTED", payload: err})
-      }),
-    });
+        dispatch({type: "ADD_AN_EMPLOYEE_REJECTED", payload: err})
+      })
   }
 }
 export function importEmployees(id) {

@@ -3,6 +3,8 @@ export default function employeeListReducer(state={
     empCompanyId: null,
     fetching: false,
     fetched: false,
+    adding: false,
+    added: false,
     error: null,
   }, action) {
 
@@ -33,6 +35,24 @@ export default function employeeListReducer(state={
         //{fetching: true,
         {empCompanyId: action.empCompanyId,
 
+      });
+    }
+
+    /**** ADD AN EMPLOYEE ****/
+    case "ADD_AN_EMPLOYEE": {
+      return Object.assign({},state, {adding: true});
+    }
+    case "ADD_AN_EMPLOYEE_REJECTED": {
+      return Object.assign({},state, {
+        adding: false,
+        error: action.payload
+      });
+    }
+    case "ADD_AN_EMPLOYEE_FULFILLED": {
+      return Object.assign({}, state, {
+        adding: false,
+        added: true,
+        company: action.payload,
       });
     }
 
