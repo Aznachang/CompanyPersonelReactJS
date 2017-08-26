@@ -1,5 +1,5 @@
-# CompanyPersonel
-ReactJS - Maintain Company Personel
+# CompanyPersonel (ReactJS/Redux)
+ReactJS with Redux - Maintain Company Personel
 
 Features:
 1. Home Page - Display Companies
